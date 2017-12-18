@@ -1,0 +1,260 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "15.-16.12.2017"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Korrelation
+## Hintergrund
+Oft ist es interessant zu fragen, ob zwei Variablen eine gegenseitige Abhängigkeit zeigen. Man möchte also wissen, ob sich die beiden Variablen ähnlich verhalten oder nicht - wenn die eine Variable zunimmt, nimmt dann die andere Variable auch zu (oder ab)? Die Korrelation ist ein einfaches und populäres Maß um diese Fragestellung zu beantworten.
+
+Folgende Beispiele von der Website [Spurious Correlations](http://www.tylervigen.com/spurious-correlations), welche zwei Variablen in einer Grafik darstellen, illustrieren die Gefahr der fehlerhaften Interpretation von Korrelationen. Im ersten Beispiel werden die Ausgaben für den Bereich Wissenschaft, Raumfahrt und Technik der USA im Zeitraum 1999-2009 dargestellt. Gleichzeitig werden die Anzahl der Selbstmorde durch Hängen, Strangulieren und Erstickung im selben Zeitraum gezeigt. Man sieht, dass beide Kurven einen sehr ähnlichen Verlauf haben, und der Korrelationskoeffizient (dazu später mehr) ist mit $r=0.998$ extrem hoch.
+
+![Beispiel 1](spurious1.png)
+
+Das zweite Beispiel zeigt den Zusammenhang zwischen der Anzahl an Leuten, die in einen Pool gefallen und ertrunken sind und der Anzahl an Filmen mit Nicolas Cage im Zeitraum 1999-2009. Auch hier kann man einen schönen Zusammenhang erkennen, welcher einen recht hohen Korrelationskoeffizienten von $r=0.666$ aufweist.
+
+![Beispiel 2](spurious2.png)
+
+Diese Beispiele sollen verdeutlichen, dass Korrelation nicht automatisch einen kausalen Zusammenhang darstellt ("correlation is not causation").
+
+## Produkt-Moment-Korrelation (Pearson-Korrelation)
+Die Produkt-Moment-Korrelation $r$ (auch Pearson-Korrelation genannt) ist ein Maß für den Grad des *linearen* Zusammenhangs zweier intervallskalierter Variablen. Die Korrelation nimmt Werte zwischen -1 und 1 an und wird aus den Varianzen und der Kovarianz beider Variablen berechnet.
+
+Die Varianz einer Variable $x$ ist wie folgt definiert:
+$$\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})^2$$
+Hier ist $\bar{x}$ der Mittelwert über alle $N$ Werte (welche als $x_i$ bezeichnet werden), also
+$$\bar{x} = \frac{1}{N} \sum_{i=1}^N x_i.$$
+
+Alternativ kann man die Varianz auch so schreiben:
+$$\mathrm{Var}(x) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(x_i - \bar{x})$$
+Die Varianz beschreibt, wie stark die Datenpunkte um den Mittelwert variieren. Dementsprechend ist die Kovarianz zwischen zwei Variablen $x$ und $y$ definiert als
+$$\mathrm{Cov}(x, y) = \frac{1}{N-1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y}).$$
+
+Die Kovarianz beschreibt, wie stark die beiden Variablen gemeinsam um den jeweiligen Mittelwert variieren. Eine positive Kovarianz bedeutet, dass beide Variablen gleichsinnig variieren (d.h. wenn eine Variable größer als der Mittelwert ist, dann ist die andere auch größer). Umgekehrt bedeutet eine negative Kovarianz, dass beide Variablen gegensinnig variieren (ist eine Variable größer als der Mittelwert, dann ist die andere Variable kleiner).
+
+Die Kovarianz ist kein standardisiertes Maß, d.h. man kann nicht einfach zwei Kovarianzen aus unterschiedlichen Messreihen miteinander vergleichen. Die Pearson-Korrelation standardisiert nun die Kovarianz mit den Varianzen der einzelnen Variablen, so dass die Korrelation im Wertebereich zwischen -1 und 1 liegt:
+$$r = \frac{\mathrm{Cov}(x, y)}{\sqrt{\mathrm{Var}(x) \mathrm{Var}(y)}}$$
+
+### Signifikanz
+Meist wird nach der Berechnung der Korrelation ein Test durchgeführt, welcher prüft, ob die erhaltene Korrelation signifikant von der Nullhypothese ("es existiert keine Korrelation", also $r=0$) abweicht. Da die Stichprobenverteilung der Korrelation keine Normalverteilung aufweist, kann man den Wert von $r$ mit Hilfe der [Fisher-Transformation](https://en.wikipedia.org/wiki/Fisher_transformation) in eine Normalverteilung umwandeln. Der Mittelwert beträgt dann
+$$z_r = \frac{1}{2} \ln \frac{1 + r}{1 - r} = \text{arctanh}(r)$$
+und der Standardfehler ist
+$$\mathrm{SE}(z_r) = \frac{1}{\sqrt{N - 3}}.$$
+Unter der Nullhypothese ($r = 0$) kann man den erhaltenen Wert von $z_r$ durch den Standardfehler dividieren und das Ergebnis dann mit Werten aus einer Tabelle der Standardnormalverteilung vergleichen. So erhält man den $p$-Wert (siehe auch [hier](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#Using_the_Fisher_transformation)).
+
+Betrachten wir dazu ein Beispiel zur Veranschaulichung der Berechnung des $p$-Wertes sowie des Konfidenzintervalls für eine gegebene Pearson-Korrelation. Gegeben sei eine Korrelation $r = 0.25$ berechnet aus einer Stichprobe mit dem Umfang $N = 40$:
+
+```{r}
+r <- 0.25
+N <- 40
+```
+
+Weiters geben wir ein Signifikanzniveau von $\alpha = 0.05$ vor:
+
+```{r}
+alpha <- 0.05
+```
+
+Wir möchten nun wissen, ob die Korrelation $r$ mit dem gegebenen Signifikanzniveau signifikant unterschiedlich von 0 ist. Dazu berechnen wir den $p$-Wert und das Konfidenzintervall. Um dies tun zu können, müssen wir zuerst die Fisher-Transformation von $r$ berechnen:
+
+```{r}
+z_r <- atanh(r)
+z_r
+```
+
+Jetzt können wir den Standardfehler berechnen:
+```{r}
+se_z <- 1 / sqrt(N - 3)
+se_z
+```
+
+Wir standardisieren nun $z_r$, d.h. wir dividieren durch den Standardfehler, sodass der resultierende Wert $z$ standardnormalverteilt ist, d.h. Mittelwert 0 (Nullhypothese) und Standardabweichung 1 hat. Dies ermöglicht es uns, in einer Standardnormalverteilungstabelle die Wahrscheinlichkeit herauszusuchen, dass der erhaltene Wert (oder ein größerer) unter der Nullhypothese auftreten würde. Diese Wahrscheinlichkeit nennt man $p$-Wert.
+
+```{r}
+z <- z_r / se_z
+z
+```
+
+Da wir keine gerichtete Hypothese haben, führen wir einen zweiseitigen Test durch, d.h. wir verdoppeln den Wert aus der Tabelle. Wenn man nicht in einer Tabelle nachschlagen will, kann die Funktion `pnorm` diese Berechnungen durchführen:
+
+```{r}
+p <- 2 * (1 - pnorm(z))
+p
+```
+
+Dieser $p$-Wert ist größer als 0.05, d.h. die Nullhypothese kann nicht verworfen werden. Das Konfidenzintervall um $z_r$ erhält man, indem man zum gegebenen Wert $z_r$ das Produkt aus dem Signifikanzniveau entsprechenden Quantil (ca. 1.96 für $\alpha = 0.05$) mit dem Standardfehler addiert bzw. subtrahiert. Die Funktion `qnorm` gibt dieses Quantil zurück:
+
+```{r}
+cl_z <- z_r - qnorm(1 - alpha/2) * se_z
+cu_z <- z_r + qnorm(1 - alpha/2) * se_z
+c(cl_z, z_r, cu_z)
+```
+
+Man beachte, dass es sich bei allen drei Werten um Fisher-transformierte Werte handelt. Möchte man ein Konfidenzintervall um die ursprüngliche Korrelation $r$ angeben, so muss man diese drei Werte noch rücktransformieren:
+
+```{r}
+cl_r <- tanh(cl_z)
+cu_r <- tanh(cu_z)
+print(c(cl_r, r, cu_r))
+```
+
+Die Tatsache, dass die Korrelation $r=0.25$ bei einer Stichprobe von $N=40$ nicht signifikant ist ($p=0.12$) kann man auch daran erkennen, dass das 95%-Konfidenzintervall den Wert 0 enthält.
+
+## Spearman Rangkorrelationskoeffizient
+Im Gegensatz zur Pearson-Korrelation misst der Spearman Rangkorrelationskoeffizient $\rho$ nicht nur lineare Zusammenhänge zwischen zwei Variablen, sondern der Zusammenhang kann eine beliebige monotone Funktion sein. Die beiden Variablen müssen auch nicht intervallskaliert sein, d.h. so kann man auch ordinalskalierte Daten miteinander korrelieren.
+
+Im Prinzip berechnet man die Spearman-Korrelation, indem man die Daten $x$ und $y$ vorher in Ränge konvertiert und dann die Pearson-Korrelation berechnet. Zur Berechnung kann folgende vereinfachte Formel verwendet werden:
+$$\rho = 1 - \frac{6 \sum d_i^2}{N \cdot (N^2 - 1)}$$
+Hier ist $d_i$ die Differenz der Ränge einer Beobachtung.
+
+## Kendall Rangkorrelationskoeffizient
+Bei kleinen Stichproben und einer relativ großer Anzahl an gleichen Rängen liefert oft der Kendall Rangkorrelationskoeffizient $\tau$ bessere Ergebnisse. Hier werden nicht die Differenzen zwischen den Rängen betrachtet (also die Abstände der Ränge zwischen beiden Variablen), sondern ob es Unterschiede in den Rängen zwischen Datenpaaren gibt oder nicht.
+
+## Korrelationen mit R berechnen
+Korrelationskoeffizienten kann man mit den folgenden drei Funktionen berechnen: `cor`, `cor.test` und `rcorr`. Die ersten beiden Funktionen sind Teil von R, die Funktion `rcorr` muss mit dem `Hmisc`-Paket geladen werden.
+
+```{r message=F}
+library(Hmisc)
+```
+
+Die drei Funktionen haben unterschiedliche Features, welche in nachfolgender Tabelle zusammengefasst sind.
+
+|            | Pearson | Spearman | Kendall | $p$-Werte | CI | Multiple |
+|:-----------|:-------:|:--------:|:-------:|:---------:|:--:|:--------:|
+| `cor`      | x       | x        | x       |           |    | x        |
+| `cor.test` | x       | x        | x       | x         | x  |          |
+| `rcorr`    | x       | x        |         | x         |    | x        |
+
+### Funktion `cor`
+Die Funktion `cor` ruft man wie folgt auf:
+
+```{r eval=FALSE}
+cor(x, y, method="pearson")
+```
+
+Hier übergibt man zwei Variablen und spezifiziert, welche Korrelation berechnet werden soll (standardmäßig wird die Pearson-Korrelation berechnet). Wenn `x` ein Data Frame mit mindestens zwei Spalten ist, kann man `y` weglassen - dann wird automatisch die Korrelation zwischen allen Spalten von `x` berechnet.
+
+### Funktion `cor.test`
+Der Aufruf der Funktion `cor.test` ist sehr ähnlich:
+
+```{r eval=FALSE}
+cor.test(x, y, alternative="t", method="pearson", conf.level=0.95)
+```
+
+Hier kann man die Form der Alternativhypothese (`two-sided`, `greater`, `less`) sowie das Konfidenzniveau angeben. Diese Funktion kann nur mit genau zwei Variablen umgehen (im Gegensatz zu den anderen beiden Funktionen, welche automatisch alle Paare von mehreren Variablen bilden können).
+
+### Funktion `rcorr`
+Die Funktion `rcorr` verwendet man wie folgt:
+
+```{r eval=FALSE}
+rcorr(x, y, type="pearson")
+```
+
+Hier ist zu beachten, dass die Daten in einer Matrix vorliegen müssen. Weiters ist es wie bei `cor` möglich, nur das Argument `x` anzugeben (wenn dieses eine Matrix mit mindestens zwei Spalten ist).
+
+### Beispiel
+Am besten können die Funktionsweisen der drei Funktionen anhand eines Beispiels veranschaulicht werden. Dazu laden wir einen (fiktiven) Datensatz über Prüfungsangst und speichern diesen in der Variable `exam` ab:
+
+```{r message=FALSE}
+library(readr)
+exam <- read_tsv("exam.dat")
+exam
+```
+
+Es ist hilfreich, die Daten zuerst einmal grafisch darzustellen. Für den Zusammenhang zwischen zwei Variablen bietet sich ein Scatterplot (inklusive Regressionsgerade) an.
+
+```{r, fig.height=4, fig.width=4}
+library(ggplot2)
+ggplot(exam, aes(Revise, Exam)) + geom_point() + geom_smooth(method=lm)
+ggplot(exam, aes(Anxiety, Exam)) + geom_point() + geom_smooth(method=lm)
+ggplot(exam, aes(Revise, Anxiety)) + geom_point() + geom_smooth(method=lm)
+```
+
+Bei mehr als zwei Variablen (wie in diesem Beispiel) kann man die Funktion `ggpairs` aus dem Paket `GGally` (ein Paket, welches `ggplot2` um einige praktische Funktionen erweitert) verwenden, um alle paarweisen Plots darzustellen:
+
+```{r, fig.height=6, fig.width=6, message=FALSE}
+library(GGally)
+ggpairs(exam, columns=1:3, diag=list(continuous="barDiag"))
+```
+
+Hier sieht man außerdem bereits die Korrelationen zwischen allen Paaren.
+
+#### Pearson-Korrelation
+Nun berechnen wir die Pearson-Korrelationen zwischen den drei Variablen `Exam`, `Anxiety` und `Revise`:
+
+```{r}
+cor(exam[, c("Exam", "Anxiety", "Revise")])
+```
+
+Man kann aus dieser Korrelationsmatrix direkt die einzelnen Koeffizienten für alle Variablenpaare ablesen. Die Diagonale beinhaltet die Korrelationen der Variablen mit sich selbst und besteht daher aus lauter Werten die exakt gleich 1 sind. Außerdem ist es egal, ob man die Korrelationen in dem Dreieck unter der Diagonale oder über der Diagonale abliest, da die Korrelationsmatrix symmetrisch ist.
+
+Möchte man jedoch auch $p$-Werte, muss man die Funktion `rcorr` verwenden. Diese Funktion erwartet die Daten jedoch nicht als Data Frame, sondern als Matrix. Daher müssen die Daten beim Aufruf der Funktion in eine Matrix umgewandelt werden:
+
+```{r}
+rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]))
+```
+
+Zusätzlich zur Korrelationsmatrix bekommt man auch die $p$-Werte geliefert. In diesem Beispiel sind alle Korrelationen signifikant, da die $p$-Werte sehr klein sind (gerundet Null).
+
+Wenn man auch Konfidenzintervalle haben möchte, muss man die Funktion `cor.test` verwenden. Diese Funktion unterstützt aber nur zwei Variablen, d.h. bei mehreren Variablen muss man die Funktion mehrmals aufrufen um alle paarweisen Korrelationen zu erhalten.
+
+```{r}
+cor.test(exam$Anxiety, exam$Exam)
+```
+
+#### Spearman Rangkorrelationskoeffizient
+Für die Beispieldaten können wir analog auch die Spearman-Korrelation bestimmen:
+
+```{r}
+cor(exam[, c("Exam", "Anxiety", "Revise")], method="spearman")
+rcorr(as.matrix(exam[, c("Exam", "Anxiety", "Revise")]), type="spearman")
+cor.test(exam$Revise, exam$Exam, method="spearman")
+```
+
+#### Kendall Rangkorrelationskoeffizient
+Die Funktion `cor.test` gibt eine Warnung aus, dass der berechnete `p`-Wert nicht exakt ist, da die Daten gleiche Ränge beinhalten. In solchen Fällen ist daher der Kendall-Korrelationskoeffizient die bessere Wahl:
+
+```{r}
+cor.test(exam$Revise, exam$Exam, method="kendall")
+```
+
+## Übungen
+### Übung 1
+Für diese Übung werden Sie Daten aus folgendem Artikel verwenden und ausgewählte Ergebnisse selbst nachrechnen und überprüfen: Tomas Chamorro-Premuzic, Adrian Furnham, Andrew N. Christopher, Jeanette Garwood, G. Neil Martin. [Birds of a feather: Students' preferences for lecturers' personalities as predicted by their own personality and learning approaches](http://dx.doi.org/10.1016/j.paid.2007.10.032). Personality and Individual Differences, 44(4), 965-976, 2008.
+
+Tabelle 3 auf Seite 972 in diesem Artikel ist für uns interessant. Berechnen Sie selbst die Korrelationen zwischen den Persönlichkeitsmerkmalen N, E, O, A und C der Studenten und der Lehrenden mit den Daten in der Datei `birds.csv` (die Sie von http://bit.ly/r_example_data herunterladen können). Vergleichen Sie die von Ihnen berechneten 25 Werte mit den Werten aus der Tabelle. Stimmen Ihre Ergebnisse mit den publizierten Daten überein? Berechnen Sie sowohl Korrelationen als auch Signifikanzen und geben Sie etwaige Abweichungen zum Paper an.
+
+### Übung 2
+Verwenden Sie die Beispieldaten `mtcars` und analysieren Sie den Zusammenhang zwischen den Variablen `mpg`, `disp` und `hp`. Stellen Sie den Zusammenhang zwischen den Variablenpaaren grafisch dar, und berechnen Sie danach Pearson- und Spearman-Korrelationen!
+
+### Übung 3
+In der Datei `pm10.csv` (die Sie von http://bit.ly/r_example_data herunterladen können) finden Sie die monatlichen Feinstaubwerte PM10 von zwei Messstationen in Graz im Zeitraum Februar 2006 bis Mai 2016. Führen Sie folgende Analysen durch:
+
+- Erstellen Sie eine Liniengrafik, in der Sie den Verlauf der PM10-Konzentration von beiden Messstationen über die Zeit darstellen.
+- Erstellen Sie einen Scatterplot, der den Zusammenhang zwischen den beiden Messstationen darstellt.
+
+Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzinterval sowie $p$-Wert.
+
+*Anmerkung 1:* Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um.
+
+*Anmerkung 2:* Für die Erstellung der ersten Grafik sollten Sie die Daten vorher ins Long-Format umwandeln:
+
+```{r eval=FALSE}
+library(reshape2)
+pm10_long <- melt(pm10, id.vars="Datum", variable.name="Ort", value.name="pm10")
+```
+
+Danach können Sie die Grafik mit der Variable `pm10_long` erstellen.
+
+*Anmerkung 3:* Wenn Sie die Funktion `cor` zur Berechnung der Korrelation zwischen den beiden Variablen verwenden möchten, können Sie fehlende Werte in jeder der beiden Variablen mit dem Argument `use="complete.obs"` ausschließen.

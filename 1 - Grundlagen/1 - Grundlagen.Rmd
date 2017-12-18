@@ -1,0 +1,183 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "15.-16.12.2017"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Grundlagen
+## Inhalt
+In dieser Veranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Sie müssen dafür keinerlei Vorwissen mitbringen - die einzige Voraussetzung ist Interesse an den Themen Statistik, Datenanalyse und Programmieren. Am Ende dieser Veranstaltung werden Sie unter anderem folgende Dinge gelernt haben:
+
+- Eine R-Umgebung installieren und warten
+- Wichtige Datenstrukturen in R (Vektoren, Matrizen, Data Frames)
+- Importieren von Daten aus verschiedenen Dateiformaten
+- Berechnung diverser deskriptiver Statistiken
+- Erstellung von statistischen Grafiken
+- Berechnung von Korrelationen
+- Vergleichen von Mittelwerten
+
+Aufgrund der begrenzten Zeit ist es nicht möglich, alle für Sie vielleicht relevanten statistischen Verfahren abzudecken (wie zum Beispiel lineare Modelle, Varianzanalysen, lineare gemischte Modelle, Strukturgleichungsmodelle, und so weiter). Sie werden aber durch ein umfassendes Basiswissen selbst die Werkzeuge in die Hand bekommen, sich solche spezifischeren Methoden in R selbst anzueignen.
+
+## Überblick über R
+### Was ist R?
+R ist eine Programmierumgebung für statistische Datenanalyse, Berechnungen und Grafiken. Wichtige Eigenschaften von R kann man mit folgenden Punkten zusammenfassen:
+
+- Open Source (freie Software)
+- Plattformübergreifend (funktioniert auf Windows, macOS, Linux)
+- Relativ einfach zu erlernen
+- Einfaches Arbeiten mit Vektoren, Matrizen, Tabellen und Listen
+- Riesige Anzahl an Zusatzpaketen
+- Umfangreiche Hilfe und Dokumentation
+- Große und hilfsbereite Community
+- Sehr gut geeignet für reproduzierbare Datenanalysen
+
+### Verbreitung von R
+Der [TIOBE-Index](http://www.tiobe.com/tiobe_index) ist ein Maß für die Popularität von Programmiersprachen. Im September 2017 sah die Reihung laut diesem Index wie folgt aus:
+
+ Platz Sprache    Index
+------ --------  ------
+     1 Java      12.69%  
+     2 C          7.38%  
+     3 C++        5.57%   
+     4 C#         4.78%   
+     5 Python     2.98%   
+     6 PHP        2.21%   
+   ...
+    11 R          1.82% 
+    16 MATLAB     1.63%   
+   ...
+    21 SAS        1.37%
+   ...
+    47 Julia      0.44%
+   ...
+    98 SPSS       -
+    99 Stata      -
+
+Dieser Index sagt nichts über die Qualität einer Programmiersprache aus (sofern man das überhaupt beurteilen kann). Er ist aber ein Maß für die Aktivität der Community, also allen Personen die die Programmiersprache verwenden. Dies ist durchaus ein sehr wichtiger Faktor, denn je größer und aktiver die Community einer Sprache ist, desto einfacher wird man existierende Lösungen zu Problemen finden bzw. desto schneller wird man eine Antwort auf ein noch ungelöstes Problem bekommen.
+
+R ist eine Programmiersprache speziell für statistische Analysen. Laut dem TIOBE-Index ist R somit die populärste statistische Programmierumgebung, weit vor SPSS und Stata (S, S-PLUS und Statistica kommen in den Top 100 nicht vor).
+
+Programmiersprachen, die sich für wissenschaftliche Einsatzzwecke besonders gut eignen sind vor allem Python, R, MATLAB und Julia. Von diesen vier sind [Python](https://www.python.org/) und R im Moment besonders populär und ergänzen sich teilweise auch sehr gut. [MATLAB](https://www.mathworks.com/products/matlab.html) ist eine proprietäre und teure Plattform, die immer mehr an Bedeutung zu verlieren scheint. [Julia](https://julialang.org/) ist eine noch sehr junge Programmiersprache, welche die Vorteile von Python und R kombinieren will - im Moment wird sie aber (noch) sehr selten eingesetzt.
+
+Ein anderer Index für die Popularität von Programmiersprachen wird von [IEEE Spectrum](https://spectrum.ieee.org/computing/software/the-2017-top-programming-languages) erstellt. Im Jahr 2017 waren die ersten sechs Plätze in diesem Ranking:
+
+1. Python
+2. C
+3. Java
+4. C++
+5. C#
+6. R
+
+### Wie sieht R-Code aus?
+R bedient man, indem man Befehle in der sogenannten Konsole oder in einem Script eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS über eine grafische Oberfläche durchgeführt. Dies ist keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile. Insbesondere wird die Datenanalyse dadurch reproduzierbar. Typische Ein- und Ausgaben in R sehen beispielsweise wie folgt aus:
+
+```{R}
+x <- c(1, 18, 12, 3, 8, 22, 12, 4, 13, 21, 27, 1)
+mean(x)
+sd(x)
+set.seed(1)
+y <- -0.1 * x + rnorm(12, mean=-10, sd=4)
+cor.test(x, y)
+plot(x, y, pch=20)
+```
+
+Im Laufe dieser Veranstaltung werden wir auf die einzelnen Bestandteile dieses Codes eingehen.
+
+## Installation
+### R
+Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" - "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 3.4.3).
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("R_logo.png")
+```
+
+### RStudio
+R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche (GUI[^1]). Obwohl man mit der mitgelieferten GUI relativ komfortabel arbeiten kann (vor allem unter macOS), hat sich dennoch die alternative Oberfläche [RStudio](https://www.rstudio.com/) als De-Facto-Standard durchgesetzt. RStudio ist eine reine GUI, d.h. es wird eine installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 1.1.383).
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("RStudio_logo.png")
+```
+
+[^1]: Graphical User Interface
+
+## Erste Schritte
+### Starten von R
+Um R zu verwenden, startet man entweder die mitgelieferte grafische Oberfläche oder RStudio - unter Windows z.B. aus dem Startmenü, unter macOS aus den Anwendungen oder per Spotlight. Wir werden in dieser Veranstaltung ausschließlich RStudio verwenden.
+
+### Verwendung als Taschenrechner
+R kann man als umfangreichen Taschenrechner verwenden. Die Eingabe von Rechenoperationen ist intuitiv, ein sogenannter Prompt (`>`) in der Konsole signalisiert, dass R bereit für Eingaben ist. Nach Eingeben eines Befehls und Bestätigen mit der Eingabetaste wird das Ergebnis der Berechnung ausgegeben (ignorieren wir vorerst die Zahlen in eckigen Klammern, die vor jeder Ausgabe stehen). Die Grundrechenarten funktionieren wie erwartet:
+
+```{r}
+13 + 7
+```
+
+```{r}
+1001 - 93
+```
+
+```{r}
+81 * 76
+```
+
+```{r}
+1563 / 43
+```
+
+Für eine Ganzzahl-Division verwendet man den Operator `%/%`:
+
+```{r}
+1563 %/% 43
+```
+
+Den Rest einer Division erhält man mit ```%%```:
+```{r}
+1563 %% 43
+```
+
+Potenzieren kann man mit ```^``` bzw. ```**```:
+```{r}
+16**2
+```
+
+```{r}
+16^2
+```
+
+R kennt selbstverständlich auch die korrekten Vorrangsregeln bei Verkettung von mehreren Operationen:
+
+```{r}
+(13 + 6) * 8 - 12**2 / (2.5 + 1.6)
+```
+
+Die Quadratwurzel berechnet man mit `sqrt`:
+
+```{r}
+sqrt(144)
+```
+
+Bitte beachten Sie, dass R die *englische* Zahlenschreibweise mit einem Punkt (`.`) als Dezimaltrennzeichen verwendet und nicht das im deutschen Sprachraum übliche Komma (`,`). Kommazahlen müssen daher immer mit einem Punkt eingegeben werden, ganz egal welche Sprache in Ihrem Betriebssystem eingestellt ist.
+
+## Übungen
+### Übung 1
+Installieren Sie die neuesten Versionen von R und RStudio auf Ihrem Rechner. Starten Sie dann RStudio und suchen Sie nach einer Möglichkeit, die Versionsnummern sowohl von R als auch von RStudio anzuzeigen (dies ist wichtig, weil die erste Frage bei Problemen normalerweise ist: "Verwenden Sie die aktuellsten Versionen?").
+
+### Übung 2
+Berechnen Sie mit R das Ergebnis der Division $619 : 65$. Berechnen Sie außerdem das ganzzahlige Ergebnis und den Rest.
+
+### Übung 3
+Gegeben seien folgende Messwerte: 11, 27, 15, 10, 32, 18, 25, 22, 29, 11. Berechnen Sie deren Mittelwert $\bar{x}$. Verwenden Sie dafür keine fertigen Funktionen, sondern nur Grundrechenarten.
+
+### Übung 4
+Berechnen Sie in R das Ergebnis des folgenden Ausdrucks (achten Sie auf die richtige Klammersetzung):
+
+$$\sqrt 2 \cdot \frac{(5^3 - 2) \cdot \sqrt{18}}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$

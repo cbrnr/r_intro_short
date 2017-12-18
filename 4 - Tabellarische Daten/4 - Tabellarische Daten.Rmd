@@ -1,0 +1,266 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "15.-16.12.2017"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Tabellarische Daten
+Vektoren werden in R verwendet, um eindimensionale Daten abzubilden. Häufig sind Daten aber zweidimensional strukturiert, also in Form einer Tabelle. Für tabellarische Daten gibt es in R zwei gängige Datentypen, nämlich Matrizen (Einzahl Matrix) und sogenannte Data Frames. Matrizen können genau wie Vektoren nur Elemente eines einzigen Datentyps enthalten (sie sind also homogene Datentypen). Im Gegensatz dazu können Data Frames unterschiedliche Datentypen enthalten (jede Spalte kann ein anderer Datentyp sein).
+
+## Matrizen
+### Zusammenhang mit Vektoren
+Matrizen sind eigentlich Vektoren mit einem speziellen Dimensionsattribut, welches man mit der Funktion `dim` abfragen und setzen kann.
+```{r}
+v <- 1:20
+v
+dim(v)
+length(v)
+```
+
+Ein Vektor hat kein Dimensionsattribut, daher wird hier `NULL` angezeigt (sehr wohl hat ein Vektor aber eine Länge, was der Anzahl der Elemente entspricht).
+
+Nun kann man für einen Vektor das Dimensionsattribut auf die gewünschte Anzahl an Zeilen und Spalten setzen (das Produkt von Zeilen und Spalten muss mit der Gesamtanzahl an Elementen im Vektor übereinstimmen):
+
+```{r}
+dim(v) <- c(4, 5)  # 4 Zeilen, 5 Spalten
+dim(v)
+attributes(v)
+v
+class(v)
+```
+
+Dieses Beispiel zeigt, dass sich die zugrundeliegenden Daten nicht ändern - sie werden jediglich anders dargestellt bzw. interpretiert.
+
+### Erstellen von Matrizen
+Eine Matrix kann nicht nur aus einem bereits vorhandenen Vektor, sondern direkt mit der Funktion `matrix` erzeugt werden:
+
+```{r}
+m <- matrix(1:20, 4, 5)
+m
+```
+
+Das erste Argument sind die Daten (ein Vektor), die man in die Matrix schreiben möchte. Das zweite Argument ist die Anzahl der Zeilen, und das dritte Argument ist die Anzahl der Spalten der Matrix. Wie man sieht, werden die Daten spaltenweise in der Matrix angeordnet. Möchte man die Daten zeilenweise anordnen, kann man das Argument `byrow=TRUE` setzen, also im Beispiel:
+
+```{r}
+matrix(1:20, 4, 5, byrow=TRUE)
+```
+
+### Benennen von Zeilen und Spalten
+So wie man einen Vektor mit benannten Elementen erstellen kann, kann man in einer Matrix Zeilen- und Spaltennamen vergeben:
+
+```{r}
+rownames(m) <- c(21, 13, 37, 45)
+colnames(m) <- c("A", "B", "C", "D", "E")
+m
+```
+
+### Indizieren
+Das Herausgreifen einzelner Elemente funktioniert im Prinzip wie bei Vektoren. Der Hauptunterschied ist, dass man bei Matrizen zwei Indizes angibt: der erste entspricht den Zeilen und der zweite entspricht den Spalten. Wenn der erste Index weggelassen wird, werden alle Zeilen herausgegriffen. Wenn der zweite Index weggelassen wird, werden alle Spalten herausgegriffen. Zu beachten ist jedoch, dass das zur Trennung beider Indizes verwendete Komma verwendet werden sollte - auch wenn ein Index weggelassen wird. Die folgenden Beispiele illustrieren dies anschaulich.
+
+```{r}
+m[1, 4]  # 1. Zeile, 4. Spalte
+m[, 3]  # 3. Spalte
+m[3,]  # 3. Zeile
+m[c(2, 4),]  # 2. und 4. Zeile
+m[c(1, 3), c(1, 2, 5)]
+m[, "C"]  # Spalte C
+m[m[, "A"] > 2,]  # Zeilen, in denen die Spalte A > 2 ist
+```
+
+### Zwang (Coercion)
+Wenn man jetzt z.B. eine neue Spalte vom Typ `character` hinzufügen möchte, dann funktioniert das mit einer Matrix nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Strings umgewandelt.
+
+```{r}
+subjects <- c("Hans", "Birgit", "Ferdinand", "Johanna")
+cbind(subjects, m)
+```
+
+Anhand dieses Beispiels sieht man auch eine weitere Möglichkeit, wie man Matrizen erstellen bzw. erweitern kann. Die Funktion `cbind` hängt Vektoren (oder Matrizen) spaltenweise zusammen, während analog dazu die Funktion `rbind` Objekte zeilenweise zusammenfügt. 
+
+### Rechnen mit Matrizen
+Genau wie bei Vektoren werden Rechenoperationen mit Matrizen elementweise durchgeführt. Zusätzlich gibt es noch zwei praktische Funktionen, mit denen man die Zeilen- bzw. Spaltensummen einer Matrix berechnen kann: `rowSums` und `colSums`.
+
+```{r}
+rowSums(m)
+colSums(m)
+```
+
+Eine Matrix ist, wie man anhand der obigen Beispiele erkennt, eigentlich nur für rein numerische Daten geeignet. Oft will man aber auch nicht-numerische Spalten wie z.B. Namen oder Gruppenzugehörigkeit hinzufügen - dies funktioniert wie oben gezeigt mit Matrizen praktisch nicht.
+
+## Data Frames
+Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen beinhalten (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichenketten beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die Spalten in einem Data Frame daher als Vektoren vorstellen.
+
+### Erstellen von Data Frames
+Mit der Funktion `data.frame` kann man ein Data Frame aus Vektoren und/oder Matrizen erzeugen:
+```{r}
+df <- data.frame(subjects, m)
+df
+```
+
+Wie bei Matrizen kann man mit der Funktion `colnames` die Spaltennamen lesen bzw. setzen.
+
+```{r}
+colnames(df)
+colnames(df) <- c("patient", "age", "weight", "bp", "rating", "test")
+df
+```
+
+Oft möchte man ein Data Frame spaltenweise aus einzelnen Vektoren zusammensetzten. Auch dies ist mit der Funktion `data.frame` einfach möglich:
+
+```{r}
+data.frame(x=1:5, value=c("X", "c1", "V", "RR", "7G"), id=c(12, 18, 19, 3, 8))
+```
+
+Hier ist hervorzuheben, dass die Spaltennamen automatisch auf den Argumentnamen gesetzt werden (die man frei wählen kann, siehe dazu `?data.frame`).
+
+### Anzeigen von Data Frames
+Eine schnelle Übersicht über ein Data Frame bekommt man mit den Befehlen `str`, `head` und `tail`. Die Funktion `str` stellt die Struktur eines Objektes knapp zusammengefasst dar:
+
+```{r}
+str(df)
+```
+
+Hier sieht man, dass der Datentyp der Spalte `patient` nicht wie vielleicht erwartet `character` ist, sondern `factor` (wir könnten diese Spalte aber mit der Funktion `as.character` in den gewünschten Datentyp umwandeln).
+
+Die Funktion `head` gibt die ersten sechs Zeilen am Bildschirm aus, während `tail` die letzten sechs Zeilen ausgibt. Es gibt mit dem Argument `n` auch die Möglichkeit, die Anzahl der angezeigten Zeilen anzupassen. Diese Funktionen sind praktisch bei Data Frames mit sehr vielen Zeilen.
+
+```{r}
+l <- data.frame(a=rnorm(5000), b=rpois(5000, 2), x=rep(letters, length.out=5000))
+head(l)
+tail(l, n=4)
+str(l)
+```
+
+### Indizieren
+Auf einzelne Spalten eines Data Frames kann man schnell mit `$` gefolgt vom Spaltennamen zugreifen:
+```{r}
+df$patient
+df$rating
+```
+
+Diese Schreibweise kann man auch anwenden, wenn man dem Data Frame eine neue Spalte hinzufügen will. Dazu gibt man einen Spaltennamen an, der noch nicht vorhanden ist:
+```{r}
+df$new <- c("yes", "no", "no", "yes")
+df
+```
+
+Alternativ kann man wie bei Matrizen auch `rbind` bzw. `cbind` zum Hinzufügen neuer Zeilen bzw. Spalten benutzen.
+
+Eine Spalte aus einem Data Frame löschen kann man, indem man der Spalte den Wert `NULL` zuweist:
+
+```{r}
+df$new <- NULL
+df
+```
+
+Wir könnenauch einzelne Spalten in einen anderen Datentyp umwandeln - z.B. können wir die `patient`-Spalte vom Typ `factor` in den Typ `character` konvertieren, indem wir diese Spalte mit neuen Werten überschreiben:
+```{r}
+df$patient <- as.character(df$patient)
+str(df)
+```
+
+Zeilen und Spalten kann man auch per Indizierung mit eckigen Klammern herausgreifen. Dies funktioniert wie bei Matrizen. Die erste Zahl in den eckigen Klammern steht für die Zeile, die zweite Zahl für die Spalte. Wenn ein Index weggelassen wird, werden alle Zeilen bzw. Spalten herausgenommen.
+```{r}
+df[1,]
+df[2:3,]
+```
+
+Spalten können somit mit dem zweiten Index indiziert werden.
+```{r}
+df[, 1]
+df[, 4]
+```
+
+Spalten (oder auch Zeilen) kann man anstelle ihrer Indizes auch mit ihren Namen ansprechen:
+```{r}
+df[, "patient"]
+df[, "bp"]
+```
+
+So kann auch gezielt ein bestimmter Bereich herausgegriffen werden:
+```{r}
+df[1:2, c(1, 3:4)]
+```
+
+Eine andere Möglichkeit bestimmte Zeilen auszuwählen bietet die Funktion `subset`:
+```{r}
+subset(df, weight < 7)
+```
+
+Diese Funktion funktioniert mit Vektoren, Matrizen und Data Frames und es ist manchmal übersichtlicher, anstelle von eckigen Klammern die Funktion `subset` zu benutzen.
+
+## Alternative: Tibbles
+
+Mit den Bordmitteln von R (d.h. mit den eingebauten Datentypen wie Data Frames sowie dazugehörigen Funktionen) kann man hervorragend Daten analysieren. Manchmal sind diese Konstrukte aber umständlich zu verwenden, und daher bietet sich die in letzter Zeit immer populärer werdende Paketsammlung namens [Tidyverse](https://www.tidyverse.org/) an, diverse Dinge zu modernisieren bzw. zu vereinfachen. Man installiert alle notwendigen Pakete aus dem Tidyverse mit dem Paket `tidyverse`. Darin enthalten ist das Paket `tibble`, welches eine moderne Alternative zu Data Frames darstellt. Insbesondere ist die Konvertierung/Erstellung von Tibbles nachvollziehbarer, und die Darstellung von Tibbles am Bildschirm ist wesentlich übersichtlicher. Überall wo man Data Frames verwenden kann, kann man auch Tibbles benutzen (Tibbles sind eigentlich nichts anderes als erweiterte Data Frames).
+
+Bevor man Tibbles verwenden kann, muss man entweder `tibble` oder `tidyverse` aktivieren. Letzteres aktiviert gleich alle Pakete aus dem Tidyverse.
+
+```{r}
+library(tibble)
+```
+
+Mit dem Befehl `tibble` kann man nun ein neues Tibble erstellen, ganz analog zur Funktion `data.frame`.
+
+```{r}
+t <- tibble(subjects=c("Hans", "Birgit", "Ferdinand", "Johanna"), A=1:4, B=5:8, C=9:12, D=13:16, E=17:20)
+t
+```
+
+Wenn man ein Tibble am Bildschirm ausgibt, werden für jede Spalte automatisch die Datentypen angeführt. Eine weitere Verbesserung gegenüber Data Frames ist, dass Spalten mit Character-Vektoren nicht automatisch in Faktoren konvertiert werden, sondern Character-Spalten bleiben. Man erspart sich in diesen Fällen die Umwandlung mittels `as.character`.
+
+Bei längeren Tabellen zeigt sich ein weiterer Vorteil von Tibbles. Gibt man große Tibbles am Bildschirm aus, wird die Darstellung automatisch so angepasst, dass nicht alle Daten ausgegeben werden, sondern nur so viel wie möglich um noch einen guten Überblick über die Daten zu gewährleisten. Dies sieht man beispielsweise am Datensatz `iris`, welcher als Data Frame automatisch in R vorhanden ist:
+
+```{r}
+iris
+```
+
+Diese Darstellung von allen Zeilen ist alles andere als übersichtlich, deswegen lässt man sich hier am besten eine Zusammenfassung mittels `str`, `head` oder `tail` ausgeben. Bei Tibbles ist das nicht notwendig. Die Funktion `as_tibble` wandelt vorhandene Data Frames in Tibbles um.
+
+```{r}
+iris_tibble <- as_tibble(iris)
+iris_tibble
+```
+
+## Übungen
+### Übung 1
+Erstellen Sie einen Vektor `u` mit den ganzen Zahlen von 50 bis 99 und einen Vektor `v` mit den ganzen Zahlen von 0 bis -49. Wandeln Sie dann beide Vektoren in Matrizen mit jeweils 10 Zeilen um. Fügen Sie anschließend `u` und `v` (in dieser Reihenfolge) spaltenweise zusammen und speichern Sie das Ergebnis in der Variable `r` ab. Geben Sie dann `r` am Bildschirm aus. Welche Klasse hat das Objekt `r`?
+
+### Übung 2
+Beantworten Sie folgende Fragen zur Matrix `r` aus Übung 1:
+
+- Welche Dimension hat `r`?
+- Wie viele Elemente beinhaltet `r` insgesamt?
+- Wie lautet das Element in der 7. Zeile und 9. Spalte?
+- Wie lauten die Zeilenmittelwerte bzw. die Spaltenmittelwerte?
+- Wie lautet der Mittelwert der Elemente in den Zeilen 3-7 und Spalten 4-6?
+
+### Übung 3
+Erstellen Sie ein Data Frame `df` mit 10 Zeilen und 2 Spalten wie folgt:
+
+- Die erste Spalte soll `name` heißen und die Werte Ben, Emma, Luis, Mia, Paul, Hanna, Lukas, Sophia, Jonas und Emilia beinhalten.
+- Die zweite Spalte `gender` soll das Geschlecht der Personen beinhalten, d.h. entweder den Buchstaben `m` oder `f`.
+- Die dritte Spalte `value` soll 10 zufällige Zahlen zwischen 1 und 100 beinhalten.
+
+Geben Sie abschließend `df` am Bildschirm aus. Welche Datentypen haben die drei Spalten?
+
+### Übung 4
+Erstellen Sie ein Tibble mit den Spalten wie in Übung 3 beschrieben (verwenden Sie dazu die Funktion `tibble` aus dem Paket `tibble`). Speichern Sie dieses Tibble in der Variable `t` ab und geben Sie es am Bildschirm aus. Unterscheiden sich die Spaltentypen des Tibbles von jenen des Data Frames?
+
+### Übung 5
+Wandeln Sie das in Übung 3 erstelle Data Frame `df` in ein Tibble um.
+
+### Übung 6
+Erstellen Sie ein neues Data Frame `df_f`, welches die Zeilen aller weiblichen Personen aus `df` enthält, und geben Sie dieses am Bildschirm aus. *Hinweis:* Verwenden Sie für die notwendige Vergleichsoperation in der Funktion `subset` oder in den eckigen Indizierungsklammern den richtigen Vergleichsoperator `==` (und nicht `=`).
+
+### Übung 7
+Wie können Sie im eben erstellten Data Frame `df_f` auf die erste Spalte `name` zugreifen? Geben Sie drei Möglichkeiten an!

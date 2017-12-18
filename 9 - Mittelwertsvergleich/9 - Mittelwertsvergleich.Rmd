@@ -1,0 +1,234 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "15.-16.12.2017"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Mittelwertsvergleich
+Nicht nur die Beziehungen zwischen zwei (oder mehreren) Variablen sind in Studien interessant (welche man beispielsweise mit Korrelationen beschreiben kann). Oft ist man auch an mittleren Unterschieden zwischen zwei (oder mehreren) Gruppen interessiert.
+
+Im Gegensatz zu korrelativen Studiendesigns kann man mit experimentellen Studiendesigns auch auf Kausalität rückschließen. In experimentellen Designs ist man daher oft an Mittelwertsunterschieden interessiert, welche auf eine konkrete Behandlung zurückzuführen sind.
+
+Prinzipiell unterscheidet man bei experimentellen Designs zwischen abhängigen und unabhängigen Designs. In unabhängigen Designs sind die Individuen in den einzelnen Gruppen voneinander unabhängig (z.B. verschiedene Personen). In abhängigen Designs sind die Individuen zwar innerhalb der Gruppen unabhängig, aber zwischen den Gruppen besteht eine Abhängigkeit (z.B. befinden sich dieselben Personen in mehreren Gruppen). Abhängige Designs berücksichtigen individuelle Unterschiede, die für die Behandlung nicht relevant sind, und können daher kleinere Unterschiede besser detektieren als unabhängige Designs. Dies lässt sich an einem Beispiel veranschaulichen.
+
+In einem (fiktiven) Versuch wurde die Angst vor Spinnen auf einer Skala von 0 bis 100 gemessen (größere Werte stehen für höhere Angst). Es wurden 24 Personen in zwei Gruppen untersucht (also 12 Personen pro Gruppe). Einer Gruppe wurden Fotos von Spinnen gezeigt, der anderen Gruppe wurden echte Spinnen gezeigt. Wir beginnen mit dem Laden der Daten:
+
+```{r message=FALSE}
+library(readr)
+spider <- read_tsv("spider.dat")
+spider
+```
+
+## Unabhängige Stichproben
+Die Daten in `spider` liegen im Long-Format vor, d.h. dieses Format würde gut für ein unabhängiges Design passen, da sich jede Person in einer eigenen Zeile befindet. Stellen wir nun die Mittelwerte beider Gruppen in einer Balkengrafik gegenüber. Die Fehlerbalken stellen die 95%-Konfidenzintervalle dar. Der nachfolgende Code verwendet das Paket `dplyr` aus dem Tidyverse, welches sich ausgezeichnet zur Datenmanipulation eignet. Leider fehlt die Zeit in dieser Veranstaltung, dieses Paket genauer zu besprechen. Wichtig ist hier aber ohnehin die resultierende Grafik, die man auch ohne Hintergründe zum Code interpretieren kann.
+
+```{r message=FALSE}
+library(dplyr)
+spider.stats <- spider %>%
+    group_by(Group) %>%
+    summarize(N=length(Anxiety),
+              mean=mean(Anxiety),
+              sd=sd(Anxiety),
+              se=sd/sqrt(N),
+              ci=se*qt(0.975, N-1))
+
+library(ggplot2)
+ggplot(spider.stats, aes(Group, mean)) +
+    geom_bar(stat="identity", width=0.5, fill="white", color="black") +
+    geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=0.05) +
+    xlab("") + 
+    ylab("Anxiety") +
+    scale_y_continuous(limits=c(0, 60)) +
+    ggtitle("Unabhängiges Design")
+```
+
+Man erkennt, dass die Konfidenzintervalle stark überlappen, d.h. der Unterschied zwischen den beiden Mittelwerten ist wahrscheinlich nicht signifikant.
+
+## Abhängige Stichproben
+Wenn die beiden Gruppen abhängig wären (also beispielsweise aus einem Design mit Messwiederholung, in welchem jede der 12 Personen in beiden Gruppen war), dann bringt man die Daten zuerst am besten ins Wide-Format.
+
+```{r message=FALSE}
+library(reshape2)
+spider_w <- dcast(cbind(id=rep(1:12), spider), id ~ Group)
+spider_w$id <- NULL
+names(spider_w) <- c("picture", "real")
+spider_w <- as_tibble(spider_w)
+spider_w
+```
+
+Anschließend berechnen wir angepasste Werte, welche die individuellen Unterschiede der Personen berücksichtigen. Dazu fügen wir zunächst eine Spalte mit der mittleren Angst jeder Person hinzu.
+
+```{r}
+spider_w$mean <- rowMeans(spider_w)
+spider_w
+```
+
+Nun berechnen wir die Differenz der Personenmittelwerte zum Gesamtmittelwert aller Daten - dies ist der Korrekturfaktor für Designs mit Messwiederholung.
+
+```{r}
+spider_w$adj <- mean(c(spider_w$picture, spider_w$real)) - spider_w$mean
+spider_w
+```
+
+Damit können wir die einzelnen Angstwerte pro Person korrigieren.
+
+```{r}
+spider_w$picture.adj <- spider_w$picture + spider_w$adj
+spider_w$real.adj <- spider_w$real + spider_w$adj
+```
+
+Dadurch haben wir erreicht, dass die korrigierten Werte nun für alle Personen denselben Mittelwert ergeben, d.h. personenspezifische Unterschiede werden berücksichtigt und nur der Unterschied zwischen den Gruppen wird untersucht:
+
+```{r}
+rowMeans(spider_w[, c("picture.adj", "real.adj")])
+```
+
+Die Daten sehen nun so aus:
+```{r}
+spider_w
+```
+
+Die angepassten Werte können wir wieder in einem Bar-Chart mit Konfidenzintervallen darstellen.
+
+```{r}
+spider_w.stats <- data.frame(Group=c("Picture", "Real Spider"),
+                             N=c(length(spider_w$picture.adj), length(spider_w$real.adj)),
+                             mean=c(mean(spider_w$picture.adj), mean(spider_w$real.adj)),
+                             sd=c(sd(spider_w$picture.adj), sd(spider_w$real.adj)))
+spider_w.stats <- spider_w.stats %>%
+    mutate(se=sd/sqrt(N), ci=qt(0.975, N-1)*se)
+
+ggplot(spider_w.stats, aes(Group, mean)) +
+    geom_bar(stat="identity", width=0.5, fill="white", color="black") +
+    geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci), width=0.05) +
+    xlab("") + 
+    ylab("Anxiety") +
+    scale_y_continuous(limits=c(0, 60)) +
+    ggtitle("Abhängiges Design")
+```
+
+Aus der Grafik ist ersichtlich, dass die Mittelwerte (Höhe der Balken) gleich wie im unabhängigen Design sind. Die Konfidenzintervalle sind jedoch aufgrund des abhängigen Designs wesentlich kleiner geworden. In diesem Beispiel überlappen sie jetzt nicht mehr, was auf einen signifikanten Unterschied zwischen den Gruppenmittelwerten schließen lässt.
+
+## Der _t_-Test
+Der _t_-Test wird verwendet, um die Mittelwerte zweier Gruppen miteinander zu vergleichen. Hier gibt es zwei Varianten, nämlich einen _t_-Test für abhängige Gruppen und einen für unabhängige Gruppen. Ersteren nennt man auch gepaarten oder abhängigen _t_-Test, letzteren nennt man unabhängigen _t_-Test.
+
+Die _t_-Statistik ist wie viele Statistiken aufgebaut: sie setzt die Varianz, die erklärt werden kann in Beziehung zur Varianz, die nicht erklärt werden kann. Im Falle des _t_-Tests ist das statistische Modell der Unterschied der beiden Mittelwerte minus der erwarteten Differenz, und der Fehler wird durch den Standardfehler der Mittelwertsdifferenz geschätzt.
+
+$$t = \frac{\text{Beobachtete Differenz} - \text{Erwartete Differenz}}{\text{Standardfehler der Differenz}}$$
+
+Die Differenz bezieht sich immer auf die Differenz zwischen den Mittelwerten. Die erwartete Differenz (unter der Annahme der Nullhypothese) ist in den meisten Fällen gleich Null. Die Vorgehensweise beim Testen ist also wie folgt:
+
+* Zwei Stichproben werden erhoben und deren Mittelwerte berechnet. Die beiden Mittelwerte können sich wenig oder stark unterscheiden.
+* Wenn die Stichproben aus derselben Population stammen, sollten die Mittelwerte ungefähr gleich sein. Dies ist die Annahme der Nullhypothese (es gibt keinen Unterschied). Große Differenzen können in seltenen Fällen zufällig auftreten.
+* Wir vergleichen den beobachteten Unterschied mit dem erwarteten Unterschied, und wir verwenden den Standardfehler als Maß für die Variabilität der Stichprobenmittelwerte.
+* Wenn der beobachtete Unterschied größer als der erwartete ist, kann das zwei Gründe haben:
+    - Es gibt keinen Unterschied und der beobachtete Unterschied ist zufällig aufgetreten, d.h. die beiden Stichproben sind nicht repräsentativ für ihre Population.
+    - Die beiden Stichproben kommen aus unterschiedlichen Populationen, d.h. beide Stichproben sind repräsentativ für ihre Population.
+* Je größer der Unterschied bzw. die _t_-Statistik, desto wahrscheinlicher wird der zweite Fall (d.h. ein tatsächlicher Effekt).
+
+
+## Unabhängiger _t_-Test in R
+Die $t$-Statistik lässt sich also folgendermaßen anschreiben:
+
+$$t = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{\text{Standardfehler}}$$
+
+Die Nullhypothese besagt dass $\mu_1 = \mu_2$, daher vereinfacht sich die Gleichung zu:
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\text{Standardfehler}}$$
+
+Der Standardfehler der Differenz beider Gruppen ist bei gleicher Gruppengröße wie folgt definiert:
+
+$$\text{SE} = \sqrt{\frac{s_1^2}{N} + \frac{s_2^2}{N}}$$
+
+Daher lautet die Gleichung für den _t_-Test:
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{N} + \frac{s_2^2}{N}}}$$
+
+Wenn die beiden Gruppen unterschiedlich viele Personen enthalten (also $N_1$ bzw. $N_2$), muss man den Standardfehler über die gepoolte Varianz berechnen.
+
+$$s_p^2 = \frac{(N_1 - 1) s_1^2 + (N_2 - 1) s_2^2}{N_1 + N_2 - 2}$$
+
+Daraus ergibt sich dann für den _t_-Test mit $N_1 + N_2 - 2$ Freiheitsgraden:
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_p^2}{N_1} + \frac{s_p^2}{N_2}}}$$
+
+In R kann man _t_-Tests mit der Funktion `t.test` durchführen. Abhängig von der Form der Daten ist der Aufruf unterschiedlich. Liegen die Daten im Long-Format vor, dann ruft man die Funktion mit einer Formel als Argument auf:
+
+```{r}
+model <- t.test(Anxiety ~ Group, data=spider)
+model
+```
+
+Ausgegeben wird der Wert der _t_-Statistik, die Freiheitsgrade (standardmäßig korrigiert nach Welch, was die Voraussetzung der Varianzhomogenität überflüssig macht), sowie der _p_-Wert. Weiters gibt es noch das 95%-Konfidenzintervall für die _t_-Statistik sowie die Gruppenmittelwerte.
+
+Liegen die Daten im Wide-Format vor (oder in zwei getrennten Vektoren), dann ruft man die Funktion `t.test` so auf:
+
+```{r}
+model <- t.test(spider_w$picture, spider_w$real)
+model
+```
+
+Das Ergebnis ist aber immer dasselbe, egal wie die Funktion aufgerufen wird. Der Unterschied zwischen den Gruppenmittelwerten ist nicht signifikant.
+
+Die Effektgröße kann man aus dem Wert von $t$ in $r$ umrechnen:
+
+$$r = \sqrt{\frac{t^2}{t^2 + \text{df}}}$$
+
+Im Beispiel ist die Effektgröße $r$ also:
+
+```{r}
+t <- model$statistic[[1]]
+df <- model$parameter[[1]]
+r <- sqrt(t^2 / (t^2 + df))
+round(r, 3)
+```
+
+## Abhängiger _t_-Test in R
+Der abhängige (oder gepaarte) _t_-Test funktioniert ebenso, sieht sich aber die Mittelwerte der einzelnen Differenzen an anstelle der Differenz der Mittelwerte:
+
+$$t = \frac{\bar{D}}{s_D / \sqrt{N}}$$
+
+Für den abhängigen _t_-Test verwendet man wieder die Funktion `t.test` und setzt übergibt das Argument `paired=TRUE`. Wieder gibt es zwei Möglichkeiten des Aufrufs, je nachdem, in welchem Format die Daten vorliegen.
+
+```{r}
+model <- t.test(Anxiety ~ Group, data=spider, paired=TRUE)
+model
+```
+
+```{r}
+model <- t.test(spider_w$picture, spider_w$real, paired=TRUE)
+model
+```
+
+Das Ergebnis ist diesmal signifikant mit $p=0.03098$. Dies entspricht unseren Überlegungen mit den unterschiedlich großen Konfidenzintervallen von abhängigen und unabhängigen Versuchsdesigns. Abhängige Designs können also kleinere Unterschiede detektieren.
+
+Die Effektgröße kann man wieder aus $t$ mit der Formel oben in $r$ umwandeln.
+
+```{r}
+t <- model$statistic[[1]]
+df <- model$parameter[[1]]
+r <- sqrt(t^2 / (t^2 + df))
+round(r, 3)
+```
+
+Es handelt sich also in diesem Fall um einen großen Effekt.
+
+## Übungen
+### Übung 1
+Vergleichen Sie im `iris`-Datensatz, ob sich die vier Merkmale zwischen den Spezies Virginica und Versicolor unterscheiden. Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient $r$) für jeden der vier Tests.
+
+### Übung 2
+Überprüfen Sie, ob sich die Anzahl der zusätzlichen Schlafzeit zwischen den beiden Gruppen im Datensatz `sleep` signifikant voneinander unterscheidet.
+
+### Übung 3
+Laden Sie den Datensatz `immer` aus dem Paket `MASS`. Berechnen Sie ein 99%-Konfidenzintervall für den Unterschied des durchschnittlichen Gerstenertrages zwischen den beiden Jahren. Ist dieser Unterschied signifikant?
