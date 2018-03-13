@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "15.-16.12.2017"
+date: "16.-17.2.2018"
 output:
   html_document:
     fig_caption: no
@@ -16,7 +16,7 @@ opts_chunk$set(comment=NA)
 
 # Vektoren
 ## Erstellen von Vektoren
-Der atomare Datentyp in R ist der Vektor. Ein Vektor besteht aus einem oder mehreren Elementen. Demnach ist also auch eine einfache Zahl tatsächlich ein Vektor (mit einem Element). Ein Vektor mit mehreren Elementen wird mit dem Befehl `c` erzeugt (steht für combine oder concatenate).
+Der atomare Datentyp in R ist der Vektor. Ein Vektor besteht aus einem oder mehreren Elementen. Demnach ist also auch eine einfache Zahl in Wirklichkeit ein Vektor (mit einem Element). Ein Vektor mit mehreren Elementen wird mit dem Befehl `c` erzeugt (steht für combine oder concatenate).
 
 ```{r}
 y <- c(1, 2, 3.1415, -100)
@@ -52,20 +52,17 @@ Numerische Vektoren sind vom Typ `numeric` und beinhalten ausschließlich Zahlen
 
 ```{r}
 c(2, 13, 15, 17)
+```
+
+Mit der Funktion `class` können Sie den Typ (die Klasse) eines Objektes (welches man als Argument an die Funktion übergibt) bestimmen:
+```{r}
 class(2)
 z <- c(1.11, 2.33)
 class(z)
 ```
 
-Es gibt außerdem spezielle numerische Vektoren, welche nur aus Ganzzahlen bestehen (`integer`). In der Praxis werden diese aber eher selten eingesetzt.
-
-```{r}
-2L
-class(2L)
-```
-
 ### Logische Vektoren
-Logische Vektoren bestehen aus den Werten `TRUE` oder `FALSE`. Sie sind vom Typ `logical`. In R kann man den Typ eines Vektors mit dem Befehl `class` herausfinden:
+Logische Vektoren bestehen aus den Werten `TRUE` oder `FALSE`. Sie sind vom Typ `logical`.
 
 ```{r}
 class(TRUE)
@@ -102,7 +99,7 @@ class(s)
 class("Hello!")
 ```
 
-Die Funktion `length` gibt die Länge des Vektors aus und nicht die Anzahl der Zeichen einer Zeichenkette. Dafür kann man die Funktion `nchar` verwenden.
+Die Funktion `length` gibt wie erwartet die Länge des Vektors aus und nicht die Anzahl der Zeichen einer Zeichenkette. Dafür kann man die Funktion `nchar` verwenden.
 
 ```{r}
 length('Hello!')
@@ -160,7 +157,7 @@ y
 y * 100 + 2
 ```
 
-Es gibt die üblichen Operatoren `+`, `-`, `*`, und `/` für die Addition, Subtraktion, Multiplikation und Division. Das Zeichen `^` oder `**` steht für "hoch" (berechnet also die Potenz von einer Basis zum Exponenten). Der Operator `%/%` berechnet die ganzzahlige Division und `%%` berechnet den Rest. Weitere praktische Funktionen sind `abs` für den Betrag und `sqrt` für die Quadratwurzel einer Zahl. Die Funktionen `log` bzw. `exp` berechnen den (natürlichen) Logarithmus bzw. die Exponentialfunktion.
+Wie wir bereits wissen, gibt es die üblichen Operatoren `+`, `-`, `*`, und `/` für die Addition, Subtraktion, Multiplikation und Division. Das Zeichen `^` oder `**` steht für "hoch" (berechnet also die Potenz von einer Basis zum Exponenten). Der Operator `%/%` berechnet die ganzzahlige Division und `%%` berechnet den Rest. Weitere praktische Funktionen sind `abs` für den Betrag und `sqrt` für die Quadratwurzel einer Zahl. Die Funktionen `log` bzw. `exp` berechnen den (natürlichen) Logarithmus bzw. die Exponentialfunktion.
 
 ### Recycling
 Wenn zwei Vektoren unterschiedlich lang sind, dann wiederholt R die Werte des kürzeren Vektors, sodass es gleich viele Elemente gibt wie beim längeren Vektor. Man bezeichnet dies als Recycling. Dies ist z.B. auch schon der Fall, wenn man einen Vektor mit vier Elementen mit einem Skalar (Vektor mit einem Element) multipliziert, wie im folgenden Beispiel.
@@ -288,7 +285,7 @@ is.nan(NA)
 Berechnen Sie die Fläche sowie den Umfang eines Kreises mit dem Radius 5 (erzeugen Sie dafür eine Variable `r`). Speichern Sie die Ergebnisse in Variablen `a` bzw. `u` ab. Wie lauten die Werte beider Variablen?
 
 ### Übung 2
-Erstellen Sie einen Vektor `x` mit den Elementen 4, 18, -7, 16, 4, 29, 8 und -44. Geben Sie `x` am Bildschirm aus. Erstellen Sie danach einen Vektor `y`, welcher die quadrierten Elemente aus `x` enthält (nutzen Sie dazu die Eigenschaft, dass R Rechenoperationen elementweise durchführt). Geben Sie `y` am Bildschirm aus. Zum Schluss erstellen Sie einen Vektor `z`, indem Sie `x` und `y` aneinander hängen. Geben Sie `z` am Bildschirm aus. Mit welchem Befehl können Sie die Anzahl der Elemente in `z` bestimmen?
+Erstellen Sie einen Vektor `x` mit den Elementen 4, 18, -7, 16, 4, 29, 8 und -44. Geben Sie `x` am Bildschirm aus. Erstellen Sie danach einen Vektor `y`, welcher die quadrierten Elemente aus `x` enthält (nutzen Sie dazu die Eigenschaft, dass R Rechenoperationen elementweise durchführt). Geben Sie `y` am Bildschirm aus. Zum Schluss erstellen Sie einen Vektor `z`, indem Sie `x` und `y` aneinanderhängen. Geben Sie `z` am Bildschirm aus. Mit welchem Befehl können Sie die Anzahl der Elemente in `z` bestimmen?
 
 ### Übung 3
 Gegeben sei folgender Vektor:
@@ -329,4 +326,4 @@ Gegeben seien folgende Standardabweichungen von verschiedenen Variablen:
 
 `std <- c(1, 2.22, 11.3, 7.8, 3.4, 6)`
 
-Wie können Sie daraus die Varianzen berechnen?
+Wie können Sie daraus die Varianzen berechnen? Wie können Sie daraus den Standardfehler berechnen?

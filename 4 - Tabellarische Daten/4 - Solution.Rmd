@@ -1,0 +1,111 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "16.-17.2.2018"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Tabellarische Daten
+
+## Übungen
+### Übung 1
+Erstellen Sie einen Vektor `u` mit den ganzen Zahlen von 50 bis 99 und einen Vektor `v` mit den ganzen Zahlen von 0 bis -49. Wandeln Sie dann beide Vektoren in Matrizen mit jeweils 10 Zeilen um. Fügen Sie anschließend `u` und `v` (in dieser Reihenfolge) spaltenweise zusammen und speichern Sie das Ergebnis in der Variable `r` ab. Geben Sie dann `r` am Bildschirm aus. Welche Klasse hat das Objekt `r`?
+
+```{r}
+u <- 50:99
+v <- 0:-49
+dim(u) <- c(10, 5)
+dim(v) <- c(10, 5)
+r <- cbind(u, v)
+r
+class(r)
+```
+
+
+### Übung 2
+Beantworten Sie folgende Fragen zur Matrix `r` aus Übung 1:
+
+- Welche Dimension hat `r`?
+- Wie viele Elemente beinhaltet `r` insgesamt?
+- Wie lautet das Element in der 7. Zeile und 9. Spalte?
+- Wie lauten die Zeilenmittelwerte bzw. die Spaltenmittelwerte?
+- Wie lautet der Mittelwert der Elemente in den Zeilen 3-7 und Spalten 4-6?
+
+```{r}
+dim(r)
+length(r)
+r[7, 9]
+rowMeans(r)
+colMeans(r)
+mean(r[3:7, 4:6])
+```
+
+
+### Übung 3
+Erstellen Sie ein Data Frame `df` mit 10 Zeilen und 2 Spalten wie folgt:
+
+- Die erste Spalte soll `name` heißen und die Werte Ben, Emma, Luis, Mia, Paul, Hanna, Lukas, Sophia, Jonas und Emilia beinhalten.
+- Die zweite Spalte `gender` soll das Geschlecht der Personen beinhalten, d.h. entweder den Buchstaben `m` oder `f`.
+- Die dritte Spalte `value` soll 10 zufällige Zahlen zwischen 1 und 100 beinhalten.
+
+Geben Sie abschließend `df` am Bildschirm aus. Welche Datentypen haben die drei Spalten?
+
+```{r}
+df <- data.frame(name=c("Ben", "Emma", "Luis", "Mia", "Paul", "Hanna", "Lukas", "Sophia", "Jonas", "Emilia"),
+                 gender=rep(c("m", "f"), 5),
+                 value=c(54, 2, 99, 86, 64, 21, 46, 71, 8, 17))
+df
+str(df)
+```
+
+
+### Übung 4
+Erstellen Sie ein Tibble mit den Spalten wie in Übung 3 beschrieben (verwenden Sie dazu die Funktion `tibble` aus dem Paket `tibble`). Speichern Sie dieses Tibble in der Variable `tf` ab und geben Sie es am Bildschirm aus. Unterscheiden sich die Spaltentypen des Tibbles von jenen des Data Frames?
+
+```{r}
+library(tibble)
+tf <- tibble(name=c("Ben", "Emma", "Luis", "Mia", "Paul", "Hanna", "Lukas", "Sophia", "Jonas", "Emilia"),
+             gender=rep(c("m", "f"), 5),
+             value=c(54, 2, 99, 86, 64, 21, 46, 71, 8, 17))
+tf
+```
+
+Die ersten zwei Spalten sind nicht wie bei `df` vom Typ `factor`, sondern vom Typ `character`.
+
+### Übung 5
+Wandeln Sie das in Übung 3 erstelle Data Frame `df` in ein Tibble um.
+
+```{r}
+df1 <- as_tibble(df)
+```
+
+
+### Übung 6
+Erstellen Sie ein neues Data Frame `df_f`, welches die Zeilen aller weiblichen Personen aus `df` enthält, und geben Sie dieses am Bildschirm aus. *Hinweis:* Verwenden Sie für die notwendige Vergleichsoperation in der Funktion `subset` oder in den eckigen Indizierungsklammern den richtigen Vergleichsoperator `==` (und nicht `=`).
+
+```{r}
+df_f <- df[df$gender == "f",]
+# oder:
+df_f <- subset(df, gender == "f")
+df_f
+```
+
+
+### Übung 7
+Wie können Sie im eben erstellten Data Frame `df_f` auf die erste Spalte `name` zugreifen? Geben Sie drei Möglichkeiten an!
+
+```{r}
+df_f$name
+df_f[, "name"]
+df_f[, 1]
+```
+

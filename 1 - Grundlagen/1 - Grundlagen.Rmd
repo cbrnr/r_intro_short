@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "15.-16.12.2017"
+date: "16.-17.2.2018"
 output:
   html_document:
     fig_caption: no
@@ -16,24 +16,25 @@ opts_chunk$set(comment=NA)
 
 # Grundlagen
 ## Inhalt
-In dieser Veranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Sie müssen dafür keinerlei Vorwissen mitbringen - die einzige Voraussetzung ist Interesse an den Themen Statistik, Datenanalyse und Programmieren. Am Ende dieser Veranstaltung werden Sie unter anderem folgende Dinge gelernt haben:
+In dieser Veranstaltung werden Sie das Statistikpaket [R](https://www.r-project.org/) kennenlernen. Sie müssen dafür keinerlei Vorwissen mitbringen - die einzige Voraussetzung ist Interesse an den Themen Statistik, Datenanalyse und Programmieren. Folgende Themen werden behandelt:
 
-- Eine R-Umgebung installieren und warten
-- Wichtige Datenstrukturen in R (Vektoren, Matrizen, Data Frames)
+- Installieren und Warten einer R-Umgebung
+- Wichtige Datenstrukturen (Vektoren, Matrizen, Data Frames)
 - Importieren von Daten aus verschiedenen Dateiformaten
-- Berechnung diverser deskriptiver Statistiken
-- Erstellung von statistischen Grafiken
-- Berechnung von Korrelationen
+- Berechnen diverser deskriptiver Statistiken
+- Erstellen von statistischen Grafiken
+- Berechnen von Korrelationen
 - Vergleichen von Mittelwerten
 
 Aufgrund der begrenzten Zeit ist es nicht möglich, alle für Sie vielleicht relevanten statistischen Verfahren abzudecken (wie zum Beispiel lineare Modelle, Varianzanalysen, lineare gemischte Modelle, Strukturgleichungsmodelle, und so weiter). Sie werden aber durch ein umfassendes Basiswissen selbst die Werkzeuge in die Hand bekommen, sich solche spezifischeren Methoden in R selbst anzueignen.
 
 ## Überblick über R
 ### Was ist R?
-R ist eine Programmierumgebung für statistische Datenanalyse, Berechnungen und Grafiken. Wichtige Eigenschaften von R kann man mit folgenden Punkten zusammenfassen:
+R ist eine Programmierumgebung für statistische Datenanalysen, Berechnungen und Grafiken. Wichtige Eigenschaften von R kann man mit folgenden Punkten zusammenfassen:
 
 - Open Source (freie Software)
-- Plattformübergreifend (funktioniert auf Windows, macOS, Linux)
+- Plattformübergreifend (läuft auf Windows, macOS, Linux)
+- Populär im Bereich Datenverarbeitung und Statistik
 - Relativ einfach zu erlernen
 - Einfaches Arbeiten mit Vektoren, Matrizen, Tabellen und Listen
 - Riesige Anzahl an Zusatzpaketen
@@ -41,45 +42,8 @@ R ist eine Programmierumgebung für statistische Datenanalyse, Berechnungen und 
 - Große und hilfsbereite Community
 - Sehr gut geeignet für reproduzierbare Datenanalysen
 
-### Verbreitung von R
-Der [TIOBE-Index](http://www.tiobe.com/tiobe_index) ist ein Maß für die Popularität von Programmiersprachen. Im September 2017 sah die Reihung laut diesem Index wie folgt aus:
-
- Platz Sprache    Index
------- --------  ------
-     1 Java      12.69%  
-     2 C          7.38%  
-     3 C++        5.57%   
-     4 C#         4.78%   
-     5 Python     2.98%   
-     6 PHP        2.21%   
-   ...
-    11 R          1.82% 
-    16 MATLAB     1.63%   
-   ...
-    21 SAS        1.37%
-   ...
-    47 Julia      0.44%
-   ...
-    98 SPSS       -
-    99 Stata      -
-
-Dieser Index sagt nichts über die Qualität einer Programmiersprache aus (sofern man das überhaupt beurteilen kann). Er ist aber ein Maß für die Aktivität der Community, also allen Personen die die Programmiersprache verwenden. Dies ist durchaus ein sehr wichtiger Faktor, denn je größer und aktiver die Community einer Sprache ist, desto einfacher wird man existierende Lösungen zu Problemen finden bzw. desto schneller wird man eine Antwort auf ein noch ungelöstes Problem bekommen.
-
-R ist eine Programmiersprache speziell für statistische Analysen. Laut dem TIOBE-Index ist R somit die populärste statistische Programmierumgebung, weit vor SPSS und Stata (S, S-PLUS und Statistica kommen in den Top 100 nicht vor).
-
-Programmiersprachen, die sich für wissenschaftliche Einsatzzwecke besonders gut eignen sind vor allem Python, R, MATLAB und Julia. Von diesen vier sind [Python](https://www.python.org/) und R im Moment besonders populär und ergänzen sich teilweise auch sehr gut. [MATLAB](https://www.mathworks.com/products/matlab.html) ist eine proprietäre und teure Plattform, die immer mehr an Bedeutung zu verlieren scheint. [Julia](https://julialang.org/) ist eine noch sehr junge Programmiersprache, welche die Vorteile von Python und R kombinieren will - im Moment wird sie aber (noch) sehr selten eingesetzt.
-
-Ein anderer Index für die Popularität von Programmiersprachen wird von [IEEE Spectrum](https://spectrum.ieee.org/computing/software/the-2017-top-programming-languages) erstellt. Im Jahr 2017 waren die ersten sechs Plätze in diesem Ranking:
-
-1. Python
-2. C
-3. Java
-4. C++
-5. C#
-6. R
-
 ### Wie sieht R-Code aus?
-R bedient man, indem man Befehle in der sogenannten Konsole oder in einem Script eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS über eine grafische Oberfläche durchgeführt. Dies ist keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile. Insbesondere wird die Datenanalyse dadurch reproduzierbar. Typische Ein- und Ausgaben in R sehen beispielsweise wie folgt aus:
+R bedient man, indem man Befehle in der sogenannten Console oder in einem Script eingibt. Statistische Berechnungen werden daher nicht wie z.B. in SPSS über eine grafische Oberfläche durchgeführt. Dies ist keineswegs ein Nachteil, sondern hat ganz im Gegenteil mehrere Vorteile. Insbesondere wird die Datenanalyse dadurch reproduzierbar und wiederverwendbar. Typische Ein- und Ausgaben in R sehen beispielsweise wie folgt aus:
 
 ```{R}
 x <- c(1, 18, 12, 3, 8, 22, 12, 4, 13, 21, 27, 1)
@@ -102,7 +66,7 @@ knitr::include_graphics("R_logo.png")
 ```
 
 ### RStudio
-R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche (GUI[^1]). Obwohl man mit der mitgelieferten GUI relativ komfortabel arbeiten kann (vor allem unter macOS), hat sich dennoch die alternative Oberfläche [RStudio](https://www.rstudio.com/) als De-Facto-Standard durchgesetzt. RStudio ist eine reine GUI, d.h. es wird eine installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 1.1.383).
+R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche (GUI[^1]). Obwohl man mit der mitgelieferten GUI relativ komfortabel arbeiten kann (vor allem unter macOS), hat sich dennoch die alternative Oberfläche [RStudio](https://www.rstudio.com/) als De-Facto-Standard durchgesetzt. RStudio ist eine reine GUI, d.h. es wird eine installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 1.1.423).
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("RStudio_logo.png")
@@ -165,7 +129,7 @@ Die Quadratwurzel berechnet man mit `sqrt`:
 sqrt(144)
 ```
 
-Bitte beachten Sie, dass R die *englische* Zahlenschreibweise mit einem Punkt (`.`) als Dezimaltrennzeichen verwendet und nicht das im deutschen Sprachraum übliche Komma (`,`). Kommazahlen müssen daher immer mit einem Punkt eingegeben werden, ganz egal welche Sprache in Ihrem Betriebssystem eingestellt ist.
+Bitte beachten Sie, dass R die *englische* Zahlenschreibweise mit einem Punkt (`.`) als Dezimaltrennzeichen verwendet und nicht das im deutschen Sprachraum übliche Komma (`,`). Kommazahlen müssen daher immer mit einem Punkt eingegeben werden, ganz egal welche Sprache im Betriebssystem eingestellt ist.
 
 ## Übungen
 ### Übung 1

@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "15.-16.12.2017"
+date: "16.-17.2.2018"
 output:
   html_document:
     fig_caption: no
@@ -51,7 +51,7 @@ Alternativ kann man, wenn sich die Variablen in einem Data Frame befinden, die F
 qplot(date, Ozone, data=airquality)
 ```
 
-Mit dem zusätzlichen Argument `geom="line"` kann werden die Daten durch eine Linie verbunden:
+Mit dem zusätzlichen Argument `geom="line"` werden die Daten durch eine Linie verbunden:
 ```{r, fig.height=4, fig.width=4, warning=FALSE}
 qplot(date, Ozone, data=airquality, geom="line")
 ```
@@ -62,7 +62,7 @@ Dementsprechend kann man zwei beliebige Variablen gegeneinander auftragen und ma
 qplot(Wind, Ozone, data=airquality)
 ```
 
-Wenn man einen Faktor übergibt (und das `y`-Argument weglässt), erhält man eine Balkengrafik:
+Wenn man einen Faktor übergibt (und das `y`-Argument weglässt), erhält man eine Balkengrafik mit den absoluten Häufigkeiten für jede Faktorstufe:
 
 ```{r, fig.height=4, fig.width=4, warning=FALSE}
 qplot(factor(Month), data=airquality)
@@ -217,24 +217,21 @@ ggplot(airquality, aes(factor(Month), Ozone)) +
 
 ## Übungen
 ### Übung 1
-Laden Sie den in R integrierten Datensatz `iris` und erstellen Sie einen Scatterplot der Variablen `Sepal.Length` auf der x-Achse und `Petal.Length` auf der y-Achse. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
+Laden Sie den in R integrierten Datensatz `iris` und erstellen Sie einen Scatterplot der Variablen `Sepal.Length` auf der x-Achse und `Petal.Length` auf der y-Achse. Stellen Sie die Punkte der drei Spezies in unterschiedlichen Farben dar. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
 
 ### Übung 2
-Erstellen Sie den Scatterplot aus Übung 1 noch einmal, aber stellen Sie diesmal die Punkte der drei Spezies in unterschiedlichen Farben dar. Fügen Sie außerdem eine entsprechende Legende hinzu.
+Verwenden Sie wieder den Datensatz `iris` und erstellen Sie eine Grafik, die einen Boxplot der Sepal Length für jede Species (also insgesamt drei Boxplots) zeigt.
 
 ### Übung 3
-Verwenden Sie wieder den Datensatz `iris` und erstellen Sie eine Grafik, die drei Boxplots der Sepal Length (für alle drei Species) zeigt.
-
-### Übung 4
 Laden Sie den in R integrierten Datensatz `Orange` und stellen Sie die Abhängigkeit des Stammumfanges `circumference` (y-Achse) vom Alter `age` (x-Achse) grafisch dar. Stellen Sie die Daten als Punkte dar und verbinden Sie außerdem die Daten eines jeden Baumes (d.h. Sie sollten dann 5 Linien gleichzeitig darstellen, am besten in unterschiedlichen Farben indem Sie das Mapping `color=Tree` verwenden).
 
-### Übung 5
+### Übung 4
 Verwenden Sie den Datensatz `mpg`, welcher automatisch mit `ggplot2` geladen wird. Wie hängt der Hubraum `displ` mit dem Kraftstoffverbrauch `hwy` zusammen? Beantworten Sie diese Frage mit einem Scatterplot und überlagerter Regressionsgerade.
 
-### Übung 6
+### Übung 5
 Verwenden Sie den Datensatz `mpg` und erstellen Sie einen Boxplot, in dem Sie den Kraftstoffverbrauch in Liter pro 100 Kilometer (l/100km) der Zylinderanzahl gegenüberstellen. *Hinweis:* Erstellen Sie eine neue Spalte `l100km` im Data Frame `mpg`, die den Kraftstoffverbrauch in l/100km aus der Spalte `hwy` (in Meilen pro Gallone, MPG) berechnet. Sie erhalten diesen Verbrauch mit folgender Formel:
 
 $$\text{Verbrauch (in l/100km)} = \frac{235}{\text{Verbrauch (in MPG)}}$$
 
-### Übung 7
-Welches Problem hat die Grafik, die Sie in Übung 5 erstellt haben? Wie können Sie dieses Problem mit `ggplot2` umgehen? *Hinweis:* Sehen Sie sich die Werte der `displ`-Spalte an. In diesem Zusammenhang könnte `geom_jitter` hilfreich sein.
+### Übung 6
+Welches Problem hat die Grafik, die Sie in Übung 4 erstellt haben? Wie können Sie dieses Problem mit `ggplot2` umgehen? *Hinweis:* Sehen Sie sich die Werte der `displ`-Spalte an. In diesem Zusammenhang könnte `geom_jitter` hilfreich sein.

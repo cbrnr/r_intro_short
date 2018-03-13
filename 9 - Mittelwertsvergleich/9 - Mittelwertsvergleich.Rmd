@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "15.-16.12.2017"
+date: "16.-17.2.2018"
 output:
   html_document:
     fig_caption: no

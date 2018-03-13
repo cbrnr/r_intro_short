@@ -1,0 +1,70 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "16.-17.2.2018"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Mittelwertsvergleich
+
+## Übungen
+### Übung 1
+Vergleichen Sie im `iris`-Datensatz, ob sich die vier Merkmale zwischen den Spezies Virginica und Versicolor unterscheiden. Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient $r$) für jeden der vier Tests.
+
+```{r}
+names(iris)
+t1 <- t.test(Sepal.Length ~ Species, subset(iris, Species != "setosa"))
+t <- t1$statistic[[1]]
+df <- t1$parameter[[1]]
+r <- sqrt(t^2 / (t^2 + df))
+t1
+r
+
+t2 <- t.test(Sepal.Width ~ Species, subset(iris, Species != "setosa"))
+t <- t2$statistic[[1]]
+df <- t2$parameter[[1]]
+r <- sqrt(t^2 / (t^2 + df))
+t2
+r
+
+t3 <- t.test(Petal.Length ~ Species, subset(iris, Species != "setosa"))
+t <- t3$statistic[[1]]
+df <- t3$parameter[[1]]
+r <- sqrt(t^2 / (t^2 + df))
+t3
+r
+
+t4 <- t.test(Petal.Width ~ Species, subset(iris, Species != "setosa"))
+t <- t4$statistic[[1]]
+df <- t4$parameter[[1]]
+r <- sqrt(t^2 / (t^2 + df))
+t4
+r
+```
+
+
+### Übung 2
+Überprüfen Sie, ob sich die Anzahl der zusätzlichen Schlafzeit zwischen den beiden Gruppen im Datensatz `sleep` signifikant voneinander unterscheidet.
+
+```{r}
+t.test(extra ~ group, data=sleep, paired=TRUE)
+```
+
+
+### Übung 3
+Laden Sie den Datensatz `immer` aus dem Paket `MASS`. Berechnen Sie ein 99%-Konfidenzintervall für den Unterschied des durchschnittlichen Gerstenertrages zwischen den beiden Jahren. Ist dieser Unterschied signifikant?
+
+```{r}
+library(MASS)
+t.test(immer$Y1, immer$Y2, paired=TRUE, conf.level=0.99)
+```
+

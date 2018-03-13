@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "15.-16.12.2017"
+date: "16.-17.2.2018"
 output:
   html_document:
     fig_caption: no
@@ -101,7 +101,7 @@ Eine Matrix ist, wie man anhand der obigen Beispiele erkennt, eigentlich nur fü
 Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen beinhalten (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichenketten beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die Spalten in einem Data Frame daher als Vektoren vorstellen.
 
 ### Erstellen von Data Frames
-Mit der Funktion `data.frame` kann man ein Data Frame aus Vektoren und/oder Matrizen erzeugen:
+Mit der Funktion `data.frame` kann man ein Data Frame aus Vektoren und/oder Matrizen erzeugen (die einzelnen Argumente werden wie mit `cbind` spaltenweise zusammengehängt):
 ```{r}
 df <- data.frame(subjects, m)
 df
@@ -115,16 +115,16 @@ colnames(df) <- c("patient", "age", "weight", "bp", "rating", "test")
 df
 ```
 
-Oft möchte man ein Data Frame spaltenweise aus einzelnen Vektoren zusammensetzten. Auch dies ist mit der Funktion `data.frame` einfach möglich:
+Oft möchte man ein Data Frame spaltenweise aus einzelnen Vektoren zusammensetzen. Auch dies ist mit der Funktion `data.frame` einfach möglich:
 
 ```{r}
-data.frame(x=1:5, value=c("X", "c1", "V", "RR", "7G"), id=c(12, 18, 19, 3, 8))
+data.frame(x=1:5, id=c("X", "c1", "V", "RR", "7G"), value=c(12, 18, 19, 3, 8))
 ```
 
-Hier ist hervorzuheben, dass die Spaltennamen automatisch auf den Argumentnamen gesetzt werden (die man frei wählen kann, siehe dazu `?data.frame`).
+Hier ist hervorzuheben, dass die Spaltennamen automatisch auf den Argumentnamen gesetzt werden.
 
 ### Anzeigen von Data Frames
-Eine schnelle Übersicht über ein Data Frame bekommt man mit den Befehlen `str`, `head` und `tail`. Die Funktion `str` stellt die Struktur eines Objektes knapp zusammengefasst dar:
+Eine schnelle Übersicht über ein Data Frame bekommt man mit den Funktionen `str`, `head` und `tail`. Die Funktion `str` stellt die Struktur eines Objektes knapp zusammengefasst dar:
 
 ```{r}
 str(df)
@@ -132,7 +132,7 @@ str(df)
 
 Hier sieht man, dass der Datentyp der Spalte `patient` nicht wie vielleicht erwartet `character` ist, sondern `factor` (wir könnten diese Spalte aber mit der Funktion `as.character` in den gewünschten Datentyp umwandeln).
 
-Die Funktion `head` gibt die ersten sechs Zeilen am Bildschirm aus, während `tail` die letzten sechs Zeilen ausgibt. Es gibt mit dem Argument `n` auch die Möglichkeit, die Anzahl der angezeigten Zeilen anzupassen. Diese Funktionen sind praktisch bei Data Frames mit sehr vielen Zeilen.
+Die Funktion `head` gibt die ersten sechs Zeilen am Bildschirm aus, während `tail` die letzten sechs Zeilen ausgibt. Es gibt mit dem Argument `n` auch die Möglichkeit, die Anzahl der angezeigten Zeilen anzupassen.
 
 ```{r}
 l <- data.frame(a=rnorm(5000), b=rpois(5000, 2), x=rep(letters, length.out=5000))
@@ -156,20 +156,20 @@ df
 
 Alternativ kann man wie bei Matrizen auch `rbind` bzw. `cbind` zum Hinzufügen neuer Zeilen bzw. Spalten benutzen.
 
-Eine Spalte aus einem Data Frame löschen kann man, indem man der Spalte den Wert `NULL` zuweist:
+Eine Spalte aus einem Data Frame kann man löschen, indem man der Spalte den Wert `NULL` zuweist:
 
 ```{r}
 df$new <- NULL
 df
 ```
 
-Wir könnenauch einzelne Spalten in einen anderen Datentyp umwandeln - z.B. können wir die `patient`-Spalte vom Typ `factor` in den Typ `character` konvertieren, indem wir diese Spalte mit neuen Werten überschreiben:
+Wir können auch einzelne Spalten in einen anderen Datentyp umwandeln - z.B. können wir die `patient`-Spalte vom Typ `factor` in den Typ `character` konvertieren, indem wir diese Spalte mit neuen Werten überschreiben:
 ```{r}
 df$patient <- as.character(df$patient)
 str(df)
 ```
 
-Zeilen und Spalten kann man auch per Indizierung mit eckigen Klammern herausgreifen. Dies funktioniert wie bei Matrizen. Die erste Zahl in den eckigen Klammern steht für die Zeile, die zweite Zahl für die Spalte. Wenn ein Index weggelassen wird, werden alle Zeilen bzw. Spalten herausgenommen.
+Zeilen und Spalten kann man auch per Indizierung mit eckigen Klammern herausgreifen. Dies funktioniert wie bei Matrizen. Die erste Zahl in den eckigen Klammern steht für die Zeile, die zweite Zahl für die Spalte. Wenn ein Index weggelassen wird, werden alle Zeilen bzw. Spalten herausgegriffen.
 ```{r}
 df[1,]
 df[2:3,]
@@ -201,7 +201,7 @@ Diese Funktion funktioniert mit Vektoren, Matrizen und Data Frames und es ist ma
 
 ## Alternative: Tibbles
 
-Mit den Bordmitteln von R (d.h. mit den eingebauten Datentypen wie Data Frames sowie dazugehörigen Funktionen) kann man hervorragend Daten analysieren. Manchmal sind diese Konstrukte aber umständlich zu verwenden, und daher bietet sich die in letzter Zeit immer populärer werdende Paketsammlung namens [Tidyverse](https://www.tidyverse.org/) an, diverse Dinge zu modernisieren bzw. zu vereinfachen. Man installiert alle notwendigen Pakete aus dem Tidyverse mit dem Paket `tidyverse`. Darin enthalten ist das Paket `tibble`, welches eine moderne Alternative zu Data Frames darstellt. Insbesondere ist die Konvertierung/Erstellung von Tibbles nachvollziehbarer, und die Darstellung von Tibbles am Bildschirm ist wesentlich übersichtlicher. Überall wo man Data Frames verwenden kann, kann man auch Tibbles benutzen (Tibbles sind eigentlich nichts anderes als erweiterte Data Frames).
+Mit den Bordmitteln von R (d.h. mit den eingebauten Datentypen wie Data Frames sowie dazugehörigen Funktionen) kann man hervorragend Daten analysieren. Manchmal sind diese Konstrukte aber umständlich zu verwenden, und daher bietet sich die in letzter Zeit immer populärer werdende Paketsammlung namens [Tidyverse](https://www.tidyverse.org/) an, diverse Dinge zu modernisieren bzw. zu vereinfachen. Man installiert alle notwendigen Pakete aus dem Tidyverse mit dem Paket `tidyverse`. Darin enthalten ist das Paket `tibble`, welches eine moderne Alternative zu Data Frames darstellt. Insbesondere ist die Konvertierung/Erstellung von Tibbles nachvollziehbarer, und die Darstellung von Tibbles am Bildschirm ist wesentlich übersichtlicher. Überall wo man Data Frames verwenden kann, kann man auch Tibbles benutzen (Tibbles sind eigentlich nichts anderes als erweiterte/verbesserte  Data Frames).
 
 Bevor man Tibbles verwenden kann, muss man entweder `tibble` oder `tidyverse` aktivieren. Letzteres aktiviert gleich alle Pakete aus dem Tidyverse.
 
@@ -254,7 +254,7 @@ Erstellen Sie ein Data Frame `df` mit 10 Zeilen und 2 Spalten wie folgt:
 Geben Sie abschließend `df` am Bildschirm aus. Welche Datentypen haben die drei Spalten?
 
 ### Übung 4
-Erstellen Sie ein Tibble mit den Spalten wie in Übung 3 beschrieben (verwenden Sie dazu die Funktion `tibble` aus dem Paket `tibble`). Speichern Sie dieses Tibble in der Variable `t` ab und geben Sie es am Bildschirm aus. Unterscheiden sich die Spaltentypen des Tibbles von jenen des Data Frames?
+Erstellen Sie ein Tibble mit den Spalten wie in Übung 3 beschrieben (verwenden Sie dazu die Funktion `tibble` aus dem Paket `tibble`). Speichern Sie dieses Tibble in der Variable `tf` ab und geben Sie es am Bildschirm aus. Unterscheiden sich die Spaltentypen des Tibbles von jenen des Data Frames?
 
 ### Übung 5
 Wandeln Sie das in Übung 3 erstelle Data Frame `df` in ein Tibble um.

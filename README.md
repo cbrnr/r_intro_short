@@ -1,7 +1,7 @@
 Introduction to R
 =================
 
-This repository contains links to RMarkdown documents for my lecture "Introduction to R".
+This repository contains links to R Markdown documents for my workshop "Introduction to R".
 
 - [1 - Basics](http://rpubs.com/cbrnr/R_1)
 - [2 - The R Environment](http://rpubs.com/cbrnr/R_2)

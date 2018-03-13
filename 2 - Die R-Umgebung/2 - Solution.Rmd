@@ -1,0 +1,74 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "16.-17.2.2018"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Die R-Umgebung
+
+## Übungen
+### Übung 1
+Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` - welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser beiden Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
+
+Man installiert Pakete mit `install.packages`, d.h. für die drei Pakete sind folgende Befehle auszuführen: `install.packages("tidyverse")`, `install.packages("Hmisc")` und `install.packages("psych")`. Anschließend kann man mit `library` die gewünschten Pakete aktivieren, also hier:
+
+```{r eval=FALSE}
+library(tidyverse)
+library(Hmisc)
+library(psych)
+```
+
+Die Versionsnummern von Paketen kann man entweder der Packages-Liste in RStudio entnehmen (standardmäßig im Bereich rechts unten), oder man verwendet die Funktion `packageVersion` dafür:
+
+```{r}
+packageVersion("tidyverse")
+packageVersion("Hmisc")
+packageVersion("psych")
+```
+
+### Übung 2
+Zeigen Sie die Hilfe zum Befehl `help` an. Welche zwei Möglichkeiten haben Sie dafür?
+
+```{r}
+help(help)
+?help
+```
+
+### Übung 3
+Erstellen Sie in RStudio ein einfaches Script mit dem Namen `my_first_script.R`. Fügen Sie folgende Elemente in dieses Script ein:
+
+- Eine Kommentarzeile mit dem Inhalt "Übung 3"
+- Aktivieren des Pakets `psych`
+- Berechnung des Mittelwerts der Zahlen 45, 66, 37, 54, 17 und 22 (nur mit Grundrechenarten)
+
+Das fertige Script sollte also aus drei Zeilen bestehen (Sie könnten und sollten zur Erhöhung der Übersichtlichkeit aber zusätzliche leere Zeilen einfügen).
+
+```{r eval=FALSE}
+# Übung 3
+
+library(psych)
+
+(45 + 66 + 37 + 54 + 17 + 22) / 6
+```
+
+### Übung 4
+Installieren Sie das Paket `swirl`. Aktivieren Sie anschließend dieses Paket. Installieren Sie dann mit dem Befehl `install_from_swirl("Open Intro")` einen einführenden Kurs über statistische Grundbegriffe. Danach starten Sie das Lernprogramm mit der Funktion `swirl()`.
+
+Nach einigen Informationen über die Verwendung von `swirl` können Sie einen Kurs auswählen - wählen Sie "Open Intro". Es gibt nur eine Lektion namens "Overview of Statistics" - wählen Sie diese Lektion aus und schließen Sie diese Lektion komplett ab (die Dauer beträgt ungefähr 30 Minuten).
+
+```{r eval=FALSE}
+install.packages("swirl")
+library(swirl)
+install_from_swirl("Open Intro")
+swirl()
+```

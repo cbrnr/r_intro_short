@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "15.-16.12.2017"
+date: "16.-17.2.2018"
 output:
   html_document:
     fig_caption: no
@@ -119,7 +119,7 @@ $$\rho = 1 - \frac{6 \sum d_i^2}{N \cdot (N^2 - 1)}$$
 Hier ist $d_i$ die Differenz der Ränge einer Beobachtung.
 
 ## Kendall Rangkorrelationskoeffizient
-Bei kleinen Stichproben und einer relativ großer Anzahl an gleichen Rängen liefert oft der Kendall Rangkorrelationskoeffizient $\tau$ bessere Ergebnisse. Hier werden nicht die Differenzen zwischen den Rängen betrachtet (also die Abstände der Ränge zwischen beiden Variablen), sondern ob es Unterschiede in den Rängen zwischen Datenpaaren gibt oder nicht.
+Bei kleinen Stichproben und einer relativ großen Anzahl an gleichen Rängen liefert der Kendall Rangkorrelationskoeffizient $\tau$ oft bessere Ergebnisse. Hier werden nicht die Differenzen zwischen den Rängen betrachtet (also die Abstände der Ränge zwischen beiden Variablen), sondern nur ob es Unterschiede in den Rängen zwischen Datenpaaren gibt oder nicht.
 
 ## Korrelationen mit R berechnen
 Korrelationskoeffizienten kann man mit den folgenden drei Funktionen berechnen: `cor`, `cor.test` und `rcorr`. Die ersten beiden Funktionen sind Teil von R, die Funktion `rcorr` muss mit dem `Hmisc`-Paket geladen werden.
@@ -164,7 +164,7 @@ rcorr(x, y, type="pearson")
 Hier ist zu beachten, dass die Daten in einer Matrix vorliegen müssen. Weiters ist es wie bei `cor` möglich, nur das Argument `x` anzugeben (wenn dieses eine Matrix mit mindestens zwei Spalten ist).
 
 ### Beispiel
-Am besten können die Funktionsweisen der drei Funktionen anhand eines Beispiels veranschaulicht werden. Dazu laden wir einen (fiktiven) Datensatz über Prüfungsangst und speichern diesen in der Variable `exam` ab:
+Am besten können die Funktionsweisen der drei Funktionen anhand eines Beispiels veranschaulicht werden. Dazu laden wir einen Datensatz über Prüfungsangst und speichern diesen in der Variable `exam` ab:
 
 ```{r message=FALSE}
 library(readr)
@@ -231,7 +231,7 @@ cor.test(exam$Revise, exam$Exam, method="kendall")
 
 ## Übungen
 ### Übung 1
-Für diese Übung werden Sie Daten aus folgendem Artikel verwenden und ausgewählte Ergebnisse selbst nachrechnen und überprüfen: Tomas Chamorro-Premuzic, Adrian Furnham, Andrew N. Christopher, Jeanette Garwood, G. Neil Martin. [Birds of a feather: Students' preferences for lecturers' personalities as predicted by their own personality and learning approaches](http://dx.doi.org/10.1016/j.paid.2007.10.032). Personality and Individual Differences, 44(4), 965-976, 2008.
+Für diese Übung werden Sie Daten aus folgendem Artikel verwenden und ausgewählte Ergebnisse selbst nachrechnen und überprüfen: T. Chamorro-Premuzic, A. Furnham, A. N. Christopher, J. Garwood, G. N. Martin. [Birds of a feather: Students' preferences for lecturers' personalities as predicted by their own personality and learning approaches](http://dx.doi.org/10.1016/j.paid.2007.10.032). Personality and Individual Differences, 44(4), 965-976, 2008.
 
 Tabelle 3 auf Seite 972 in diesem Artikel ist für uns interessant. Berechnen Sie selbst die Korrelationen zwischen den Persönlichkeitsmerkmalen N, E, O, A und C der Studenten und der Lehrenden mit den Daten in der Datei `birds.csv` (die Sie von http://bit.ly/r_example_data herunterladen können). Vergleichen Sie die von Ihnen berechneten 25 Werte mit den Werten aus der Tabelle. Stimmen Ihre Ergebnisse mit den publizierten Daten überein? Berechnen Sie sowohl Korrelationen als auch Signifikanzen und geben Sie etwaige Abweichungen zum Paper an.
 
@@ -244,9 +244,9 @@ In der Datei `pm10.csv` (die Sie von http://bit.ly/r_example_data herunterladen 
 - Erstellen Sie eine Liniengrafik, in der Sie den Verlauf der PM10-Konzentration von beiden Messstationen über die Zeit darstellen.
 - Erstellen Sie einen Scatterplot, der den Zusammenhang zwischen den beiden Messstationen darstellt.
 
-Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzinterval sowie $p$-Wert.
+Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzintervall und $p$-Wert.
 
-*Anmerkung 1:* Wandeln Sie die Spalte `Datum` nach dem Einlesen in einen Datums-Typ um.
+*Anmerkung 1:* Wandeln Sie die Spalte `Datum` nach dem Einlesen mittels `as.Date` in einen Datums-Typ um.
 
 *Anmerkung 2:* Für die Erstellung der ersten Grafik sollten Sie die Daten vorher ins Long-Format umwandeln:
 

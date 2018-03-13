@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "15.-16.12.2017"
+date: "16.-17.2.2018"
 output:
   html_document:
     fig_caption: no
@@ -15,7 +15,7 @@ opts_chunk$set(comment=NA)
 ```
 
 # Deskriptive Statistiken
-Wenn man die Daten im gewünschten Format in R geladen hat (d.h. wenn diese in einem Data Frame oder Tibble vorhanden sind, im gewünschten Wide- oder Long-Format vorliegen, und alle Variablen den passenden Datentyp haben), kann man mit der statistischen Analyse beginnen. Der erste Schritt ist meist, sich einen Überblick über die Daten zu verschaffen.
+Wenn man die Daten im gewünschten Format in R geladen hat (d.h. wenn diese in einem Data Frame oder Tibble vorhanden sind, im gewünschten Wide- oder Long-Format vorliegen, und alle Variablen den passenden Datentyp haben), kann man mit der statistischen Analyse beginnen. Der erste Schritt ist meist, sich mittels desktriptiven Statistiken einen Überblick über die Daten zu verschaffen.
 
 Als Beispiel lesen wir wieder die Daten aus der letzten Übung in ein Data Frame bzw. Tibble ein.
 
@@ -52,7 +52,7 @@ Dies müsste man nun für jede interessierende Spalte wiederholen, was relativ m
 sapply(df[, -c(1, 2)], mean)
 ```
 
-So kann man jede beliebige Funktion auf alle Spalten gleichzeitig anwenden.
+So kann man jede beliebige Funktion auf mehrere Spalten gleichzeitig anwenden.
 
 Es gibt aber auch spezielle Funktionen, welche mehrere statistische Kenngrößen für alle Spalten eines Data Frames berechnen. Im Folgenden gehen wir näher auf drei dieser Funktionen ein, nämlich `summary`, `describe` und `stat.desc`.
 
@@ -152,7 +152,7 @@ Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maxi
 - Wenden Sie die Funktion `stat.desc` aus dem Paket `pastecs` auf die Daten an (runden Sie die Ergebnisse auf eine Nachkommastelle).
 
 ### Übung 2
-Einer der bekanntesten Datensätze im Bereich Machine Learning ist der Iris-Datensatz von R.~A.~Fisher. Er beschreibt drei verschiedene Spezies einer Iris-Pflanze. Die Daten sind standardmäßig in R im Data Frame `iris` verfügbar.
+Einer der bekanntesten Datensätze im Bereich Machine Learning ist der Iris-Datensatz von R. A. Fisher. Er beschreibt drei verschiedene Spezies einer Iris-Pflanze. Die Daten sind standardmäßig in R im Data Frame `iris` verfügbar.
 
 - Wie viele Pflanzen gibt es in dem Datensatz?
 - Wie viele Merkmale wurden pro Pflanze erhoben?

@@ -1,0 +1,131 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "16.-17.2.2018"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Vektoren
+
+## Übungen
+### Übung 1
+Berechnen Sie die Fläche sowie den Umfang eines Kreises mit dem Radius 5 (erzeugen Sie dafür eine Variable `r`). Speichern Sie die Ergebnisse in Variablen `a` bzw. `u` ab. Wie lauten die Werte beider Variablen?
+
+```{r}
+r <- 5
+a <- r**2 * pi
+u <- 2 * r * pi
+a
+u
+```
+
+
+### Übung 2
+Erstellen Sie einen Vektor `x` mit den Elementen 4, 18, -7, 16, 4, 29, 8 und -44. Geben Sie `x` am Bildschirm aus. Erstellen Sie danach einen Vektor `y`, welcher die quadrierten Elemente aus `x` enthält (nutzen Sie dazu die Eigenschaft, dass R Rechenoperationen elementweise durchführt). Geben Sie `y` am Bildschirm aus. Zum Schluss erstellen Sie einen Vektor `z`, indem Sie `x` und `y` aneinanderhängen. Geben Sie `z` am Bildschirm aus. Mit welchem Befehl können Sie die Anzahl der Elemente in `z` bestimmen?
+
+```{r}
+x <- c(4, 18, -7, 16, 4, 29, 8, -44)
+x
+y <- x**2
+y
+z <- c(x, y)
+z
+length(z)
+```
+
+
+### Übung 3
+Gegeben sei folgender Vektor:
+
+`x <- c(44, 23, -56, 98, 99, 32, 45, 19, 22)`
+
+Welche Elemente aus `x` sind gerade? Welche Elemente sind ungerade? Erstellen Sie zwei entsprechende logische Vektoren und geben Sie diese am Bildschirm aus. Geben Sie außerdem die entsprechenden Elemente von `x` aus.
+
+*Hinweis:* Gerade Zahlen ergeben einen Rest von 0 wenn man sie durch 2 dividiert, ungerade einen Rest von 1. Verwenden Sie daher den Operator `%%` für den Rest einer Division.
+
+```{r}
+x <- c(44, 23, -56, 98, 99, 32, 45, 19, 22)
+even <- x %% 2 == 0
+even
+odd <- x %% 2 != 0
+odd
+x[even]
+x[odd]
+```
+
+
+### Übung 4
+Erstellen Sie folgende Vektoren und geben Sie sie am Bildschirm aus:
+
+- Einen Vektor mit den ganzen Zahlen von 15 bis 40.
+- Einen Vektor mit den absteigenden Zahlen von 80 bis 60 in Dreierschritten.
+- Einen Vektor bestehend aus 77 Zahlen zwischen 14 und 39.
+
+```{r}
+15:40
+seq(80, 60, -3)
+seq(14, 39, length.out=77)
+```
+
+
+### Übung 5
+Erstellen Sie einen Zeichenketten-Vektor mit folgenden Einträgen: zuerst 15 mal `"Placebo"`, dann 15 mal `"Group 1"` und schließlich 15 mal `"Group 2"`.
+
+```{r}
+rep(c("Placebo", "Group 1", "Group 2"), each=15)
+```
+
+
+### Übung 6
+Erstellen Sie einen Vektor `k` mit den geraden Zahlen von 0 bis 40. Geben Sie dann durch Indizieren die folgenden Elemente dieses Vektors am Bildschirm aus:
+
+- Alle Elemente bis auf das 8. und 9. Element.
+- Die ersten fünf Elemente.
+- Die Elemente 2, 5 und 26 (fällt Ihnen hier etwas auf?).
+- Alle Elemente, die größer als 11 sind.
+
+```{r}
+k <- seq(0, 40, 2)
+k[-c(8, 9)]
+k[1:5]
+k[c(2, 5, 26)]  # Element 26 gibt es nicht -> NA
+k[k > 11]
+```
+
+
+### Übung 7
+Erstellen Sie folgenden Vektor:
+
+`t <- c(10, 20, NA, 30, 40)`
+
+Berechnen Sie dann mit der Funktion `mean` den Mittelwert von `t`. Was bewirkt der fehlende Wert `NA`? Sehen Sie in der Hilfe zum Befehl `mean` nach, wie Sie fehlende Werte bei der Berechnung ignorieren können und führen Sie diese Berechnung durch.
+
+```{r}
+t <- c(10, 20, NA, 30, 40)
+mean(t)
+mean(t, na.rm=TRUE)
+```
+
+
+### Übung 8
+Gegeben seien folgende Standardabweichungen von verschiedenen Variablen:
+
+`std <- c(1, 2.22, 11.3, 7.8, 3.4, 6)`
+
+Wie können Sie daraus die Varianzen berechnen? Wie können Sie daraus den Standardfehler berechnen?
+
+```{r}
+std <- c(1, 2.22, 11.3, 7.8, 3.4, 6)
+std**2  # Varianz
+std / sqrt(length(std))  # Standardfehler
+```
+

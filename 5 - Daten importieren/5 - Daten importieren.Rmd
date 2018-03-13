@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "15.-16.12.2017"
+date: "16.-17.2.2018"
 output:
   html_document:
     fig_caption: no
@@ -20,7 +20,7 @@ opts_chunk$set(comment=NA)
 Mit R kann man Daten in vielen unterschiedlichen Formaten importieren, beispielsweise aus Excel-Tabellen oder aus SPSS. Diese Formate sind allerdings proprietär und daher für das Abspeichern eigener Daten unter Umständen weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann (R-Scripts sind aus diesem Grund ebenfalls einfache Textdateien).
 
 ## Textdateien
-Daten in Textdateien werden sehr häufig mit Kommas voneinander getrennt - so kann man Werte aus verschiedenen Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben sehr häufig die Endung .csv (comma-separated values). Es gibt aber auch andere Möglichkeiten, die Werte voneinander zu trennen, z.B. mit Semikolons (Strichpunkte) oder Tabulatoren. Solche Dateien haben oft die Endungen .dat oder .tsv. Die Endungen sind aber eigentlich gar nicht relevant, denn im Kern handelt es sich bei allen Varianten um normale Textdateien.
+Werte in Textdateien werden sehr häufig mit Kommas voneinander getrennt - so kann man Werte aus verschiedenen Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben sehr häufig die Endung .csv (comma-separated values). Es gibt aber auch andere Möglichkeiten, die Werte voneinander zu trennen, z.B. mit Semikolons (Strichpunkte) oder Tabulatoren. Solche Dateien haben oft die Endungen .dat oder .tsv. Die Endungen sind aber eigentlich gar nicht relevant, denn im Kern handelt es sich bei allen Varianten um normale Textdateien.
 
 ### Importieren mit R-Bordmitteln (Base R)
 Daten, die in solchen Textdateien tabellarisch abgespeichert sind, können in R mit der Funktion `read.table` eingelesen werden. Bei dieser Funktion kann man sehr viele Argumente genau auf die einzulesende Datei abstimmen (z.B. das Trennzeichen, ob es eine Kopfzeile gibt, ob es Kommentare oder fehlende Werte gibt, usw.). Für Daten im CSV-Format (Datenwerte sind durch Kommas getrennt) gibt es eine Wrapper-Funktion `read.csv`, welche sinnvolle Standardwerte für diverse Argumente annimmt. Für Dateien im TSV-Format gibt es die Wrapper-Funktion `read.delim`.
@@ -39,13 +39,13 @@ Man kann versuchen, die Funktion `read.table` mit Standardargumenten aufzurufen 
 read.table("lecturer.dat")
 ```
 
-Das Ergebnis sieht gar nicht so falsch aus, nur die erste Zeile, die in der Datei die Variablennamen enthält, wurde fälschlicherweise als Datenpunkt erkannt. Dies können wir ändern, indem wir das zusätzliche Argument `header=TRUE` setzen:
+Das Ergebnis sieht gar nicht so falsch aus, nur die erste Zeile, die in der Datei die Variablennamen enthält, wurde fälschlicherweise als Datenzeile erkannt. Dies können wir ändern, indem wir das zusätzliche Argument `header=TRUE` setzen:
 
 ```{r}
 read.table("lecturer.dat", header=TRUE)
 ```
 
-Diesmal sieht das entstandene Data Frame korrekt aus - wir können es direkt einer Variablen zuweisen, um damit weiterarbeiten zu können:
+Diesmal sieht das entstandene Data Frame korrekt aus - wir können es direkt einer Variable zuweisen, um damit weiterarbeiten zu können:
 
 ```{r}
 df <- read.table("lecturer.dat", header=TRUE)
@@ -58,24 +58,24 @@ df <- read.table("lecturer.csv", header=TRUE, sep=",")
 df <- read.csv("lecturer.csv")
 ```
 
-Ein weiterer wichtiger Parameter solcher Dateien ist das verwendete Dezimaltrennzeichen. In der englischen Schreibweise werden Kommazahlen durch einen Punkt getrennt (z.B. 12.3, 3.1415). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. 12,3; 3,1415). Das Dezimaltrennzeichen kann in der Funktion `read.table` mit dem Argument `dec` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei der Funktion `read.csv`. Sollten die Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Datenwerte nicht auch durch Kommas getrennt sein - hier werden die Daten dann oft durch Semikolons getrennt. Für deutsche Zahlenformate setzt man daher die Argumente `sep=";"` und `dec=","` bzw. verwendet die spezialisierte Funktion `read.csv2`.
+Ein weiterer wichtiger Parameter solcher Dateien ist das verwendete Dezimaltrennzeichen. In der englischen Schreibweise werden Kommazahlen durch einen Punkt getrennt (z.B. 12.3, 3.1415). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. 12,3; 3,1415). Das Dezimaltrennzeichen kann in der Funktion `read.table` mit dem Argument `dec` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei der Funktion `read.csv`. Sollten die Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein - hier werden die Spalten dann oft durch Semikolons getrennt. Für deutsche Zahlenformate setzt man daher die Argumente `sep=";"` und `dec=","` bzw. verwendet die spezialisierte Funktion `read.csv2`.
 
 Wichtig: Unabhängig davon, welche Dezimaltrennzeichen in den Dateien verwendet werden, verwendet R *immer* einen *Punkt* als Dezimaltrennzeichen. Sobald die Daten korrekt eingelesen wurden und als Data Frame vorliegen, muss man sich an die englische Schreibweise halten.
 
 ### Importieren mit dem `readr`-Paket
 Das Tidyverse beinhaltet das Paket `readr`, welches Textdateien einlesen kann. Dies funktioniert oft besser und schneller als mit den Funktionen aus Base R. Die mit dem `readr`-Paket eingelesenen Daten stehen außerdem als Tibble zur Verfügung.
 
-Die Hauptfunktion zum Einlesen von generischen Textdateien mit `readr` ist `read_delim`. Für CSV-Dateien gibt es den spezialisierte Wrapper `read_csv`, für mit Tabulatoren getrennte Daten heißt die Funktion `read_tsv` (bzw. `read_table`). Die letztgenannten Funktionen rufen aber lediglich `read_delim` mit geeigneten Argumenten auf.
+Die Hauptfunktion zum Einlesen von generischen Textdateien mit `readr` ist `read_delim`. Für CSV-Dateien gibt es den spezialisierten Wrapper `read_csv`, für mit Tabulatoren getrennte Daten heißt die Funktion `read_tsv` (bzw. `read_table`). Die letztgenannten Funktionen rufen aber lediglich `read_delim` mit geeigneten Argumenten auf.
 
 Die vorigen Beispieldateien liest man mit `readr`-Funktionen wie folgt ein:
 
 ```{r message=FALSE}
 library(readr)
-df <- read_tsv("lecturer.dat")
 df <- read_delim("lecturer.dat", "\t")  # \t ist das Tabulator-Zeichen
+df <- read_tsv("lecturer.dat")
 
-df <- read_csv("lecturer.csv")
 df <- read_delim("lecturer.csv", ",")
+df <- read_csv("lecturer.csv")
 ```
 
 Die folgende Tabelle fasst die verschiedenen Funktionen aus Base R bzw. dem `readr`-Paket übersichtlich zusammen.
@@ -146,10 +146,10 @@ df$birth_date <- as.Date(df$birth_date, format="%m/%d/%Y")
 df
 ```
 
-In diesem Beispiel bedeutet der Formatstring `%m/%d/%Y`, dass die Werte in der Reihenfolge Monat/Tag/Jahr vorliegen und mit einem Schrägstrich getrennt sind (`%Y` steht hier für eine vierstellige Jahreszahl).
+In diesem Beispiel bedeutet das Argument `%m/%d/%Y`, dass die Werte in der Reihenfolge Monat/Tag/Jahr vorliegen und mit einem Schrägstrich getrennt sind (`%Y` steht hier für eine vierstellige Jahreszahl - Details dazu sind dem Hilfetext von `as.Date` zu entnehmen).
 
 ### Zeichenketten
-Die Spalte `name` wurde fälschlicherweise als Faktor interpretiert. Die Funktion `as.character` erzeugt daraus einen String-Vektor.
+Die Spalte `name` wird beim Einlesen mit Base-R-Funktionen als Faktor interpretiert. Die Funktion `as.character` erzeugt daraus einen Character-Vektor.
 ```{r}
 df$name <- as.character(df$name)
 ```
@@ -205,7 +205,7 @@ df_long
 
 Hier spezifiziert man im Argument `id.vars` die Variablen (Spalten), welche eine Messung eindeutig identifizieren. In unserem Fall ist das die Spalte `Person`. Das Argument `measure.vars` spezifiziert alle Variablen, die Messwerte enthalten - im Beispiel also die Spalten `Age`,  `Weight` und `Height`, welche man in einen Vektor kombiniert zusammen übergibt.
 
-Der zweite Fall, nämlich die Umwandlung vom Long-Format ins Wide-Format, wird durch die Funktion `dcast` gelöst:
+Der zweite Fall, nämlich die Umwandlung vom Long-Format ins Wide-Format, erfolgt durch die Funktion `dcast`:
 
 ```{r}
 df_wide <- dcast(df_long, Person ~ variable, value="value")
@@ -226,7 +226,7 @@ Laden Sie die Datei `wahl16.csv` von hier herunter:
 
 http://bit.ly/r_example_data
 
-In dieser Datei befinden sich die [Ergebnisse der Bundespräsidentenwahl 2016](http://wahl16.bmi.gv.at/1604-0.html) (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten). Laden Sie diese Daten in ein Data Frame oder Tibble namens `wahl16`und berechnen Sie die relative Gesamtanzahl an Stimmen für jeden Kandidaten (die Funktionen `colSums`, `rowSums` sowie `sum` könnten dabei hilfreich sein.
+In dieser Datei befinden sich die [Ergebnisse der Bundespräsidentenwahl 2016](http://wahl16.bmi.gv.at/1604-0.html) (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten). Laden Sie diese Daten in ein Data Frame oder Tibble namens `wahl16`und berechnen Sie die relative Gesamtanzahl an Stimmen für jeden Kandidaten (die Funktionen `colSums`, `rowSums` sowie `sum` könnten dabei hilfreich sein).
 
 ### Übung 3
 Das [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) ist eine der bekanntesten Websites, welche Datensätze zur freien Verwendung zur Verfügung stellt. Laden Sie für diese Übung den Datensatz [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption) als [.zip-Datei](http://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip) herunter und entpacken Sie die Datei im Arbeitsverzeichnis (wenn Sie nachfolgend die Funktion `read_delim` aus dem Paket `readr` verwenden, müssen Sie die Datei nicht entpacken sondern können direkt die .zip-Datei laden).
@@ -241,4 +241,4 @@ Führen Sie folgende Schritte durch:
 - Wie viele fehlende Werte gibt es insgesamt? Wie viele fehlende Werte gibt es pro Spalte?
 - Welche Spalten könnte man eventuell noch in einen passenderen Typ umwandeln (Sie müssen das aber nicht tatsächlich durchführen)?
 
-*Hinweis:* Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. In dieser Datei werden fehlende Werte durch `?` markiert. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read.table` bzw. `read_delim` sicher, dass diese fehlenden Werte richtig eingelesen werden.
+*Hinweis:* Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. In dieser Datei werden fehlende Werte durch `?` markiert. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read.table` bzw. `read_delim` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden).

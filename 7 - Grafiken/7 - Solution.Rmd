@@ -1,0 +1,78 @@
+---
+title: "Einführung in R"
+author: "Clemens Brunner"
+date: "16.-17.2.2018"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=110)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Grafiken
+
+## Übungen
+### Übung 1
+Laden Sie den in R integrierten Datensatz `iris` und erstellen Sie einen Scatterplot der Variablen `Sepal.Length` auf der x-Achse und `Petal.Length` auf der y-Achse. Stellen Sie die Punkte der drei Spezies in unterschiedlichen Farben dar. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
+
+```{r}
+library(ggplot2)
+qplot(Sepal.Length, Petal.Length, data=iris, color=Species)
+ggplot(iris, aes(Sepal.Length, Petal.Length, color=Species)) +
+    geom_point()
+```
+
+### Übung 2
+Verwenden Sie wieder den Datensatz `iris` und erstellen Sie eine Grafik, die einen Boxplot der Sepal Length für jede Species (also insgesamt drei Boxplots) zeigt.
+
+```{r}
+qplot(Species, Sepal.Length, data=iris, geom="boxplot")
+ggplot(iris, aes(Species, Sepal.Length)) + geom_boxplot()
+```
+
+
+### Übung 3
+Laden Sie den in R integrierten Datensatz `Orange` und stellen Sie die Abhängigkeit des Stammumfanges `circumference` (y-Achse) vom Alter `age` (x-Achse) grafisch dar. Stellen Sie die Daten als Punkte dar und verbinden Sie außerdem die Daten eines jeden Baumes (d.h. Sie sollten dann 5 Linien gleichzeitig darstellen, am besten in unterschiedlichen Farben indem Sie das Mapping `color=Tree` verwenden).
+
+```{r}
+qplot(age, circumference, data=Orange, color=Tree, geom=c("point", "line"))
+ggplot(Orange, aes(age, circumference, color=Tree)) + geom_point() + geom_line()
+```
+
+
+### Übung 4
+Verwenden Sie den Datensatz `mpg`, welcher automatisch mit `ggplot2` geladen wird. Wie hängt der Hubraum `displ` mit dem Kraftstoffverbrauch `hwy` zusammen? Beantworten Sie diese Frage mit einem Scatterplot und überlagerter Regressionsgerade.
+
+```{r warning=FALSE}
+qplot(displ, hwy, data=mpg, geom=c("point", "smooth"), method="lm")
+ggplot(mpg, aes(displ, hwy)) + geom_point() + geom_smooth(method="lm")
+```
+
+
+### Übung 5
+Verwenden Sie den Datensatz `mpg` und erstellen Sie einen Boxplot, in dem Sie den Kraftstoffverbrauch in Liter pro 100 Kilometer (l/100km) der Zylinderanzahl gegenüberstellen. *Hinweis:* Erstellen Sie eine neue Spalte `l100km` im Data Frame `mpg`, die den Kraftstoffverbrauch in l/100km aus der Spalte `hwy` (in Meilen pro Gallone, MPG) berechnet. Sie erhalten diesen Verbrauch mit folgender Formel:
+
+$$\text{Verbrauch (in l/100km)} = \frac{235}{\text{Verbrauch (in MPG)}}$$
+
+```{r}
+mpg$l100km <- 235 / mpg$hwy
+qplot(factor(cyl), l100km, data=mpg, geom="boxplot")
+ggplot(mpg, aes(factor(cyl), l100km)) + geom_boxplot()
+```
+
+
+### Übung 6
+Welches Problem hat die Grafik, die Sie in Übung 4 erstellt haben? Wie können Sie dieses Problem mit `ggplot2` umgehen? *Hinweis:* Sehen Sie sich die Werte der `displ`-Spalte an. In diesem Zusammenhang könnte `geom_jitter` hilfreich sein.
+
+Es gibt viele Datenpunkte mit denselben Werten - diese Überlagerung kann man in der Grafik nicht mehr sehen. Wenn man statt `geom_point` `geom_jitter` benutzt, dann werden die Datenpunkte leicht versetzt dargestellt und man sieht tatsächlich alle Datenpunkte (wenn auch nicht mehr an ihren wahren Positionen):
+
+```{r warning=FALSE}
+qplot(displ, hwy, data=mpg, geom=c("jitter", "smooth"), method="lm")
+ggplot(mpg, aes(displ, hwy)) + geom_jitter() + geom_smooth(method="lm")
+```
+
