@@ -108,7 +108,7 @@ Die Funktion `stat.desc` liefert bereits das Ergebnis des Shapiro-Wilk-Tests auf
 shapiro.test(df$income)
 ```
 
-Mit der `by`-Funktion kann man den Test auch getrennt für verschiedene Gruppen anwenden.
+Mit der `by`-Funktion kann man den Test auch getrennt auf verschiedene Gruppen anwenden.
 
 ```{r}
 by(df$income, df$job, shapiro.test)

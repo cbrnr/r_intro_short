@@ -285,7 +285,7 @@ is.nan(NA)
 Berechnen Sie die Fläche sowie den Umfang eines Kreises mit dem Radius 5 (erzeugen Sie dafür eine Variable `r`). Speichern Sie die Ergebnisse in Variablen `a` bzw. `u` ab. Wie lauten die Werte beider Variablen?
 
 ### Übung 2
-Erstellen Sie einen Vektor `x` mit den Elementen 4, 18, -7, 16, 4, 29, 8 und -44. Geben Sie `x` am Bildschirm aus. Erstellen Sie danach einen Vektor `y`, welcher die quadrierten Elemente aus `x` enthält (nutzen Sie dazu die Eigenschaft, dass R Rechenoperationen elementweise durchführt). Geben Sie `y` am Bildschirm aus. Zum Schluss erstellen Sie einen Vektor `z`, indem Sie `x` und `y` aneinanderhängen. Geben Sie `z` am Bildschirm aus. Mit welchem Befehl können Sie die Anzahl der Elemente in `z` bestimmen?
+Erstellen Sie einen Vektor `x` mit den Elementen 4, 18, -7, 16, 4, 29, 8 und -44. Geben Sie `x` am Bildschirm aus. Erstellen Sie danach einen Vektor `y`, welcher die quadrierten Elemente aus `x` enthält (nutzen Sie dazu die Eigenschaft, dass R Rechenoperationen elementweise durchführt). Geben Sie `y` am Bildschirm aus. Zum Schluss erstellen Sie einen Vektor `z`, indem Sie `x` und `y` aneinanderhängen. Geben Sie `z` am Bildschirm aus. Mit welcher Funktion können Sie die Anzahl der Elemente in `z` bestimmen?
 
 ### Übung 3
 Gegeben sei folgender Vektor:
@@ -326,4 +326,4 @@ Gegeben seien folgende Standardabweichungen von verschiedenen Variablen:
 
 `std <- c(1, 2.22, 11.3, 7.8, 3.4, 6)`
 
-Wie können Sie daraus die Varianzen berechnen? Wie können Sie daraus den Standardfehler berechnen?
+Wie können Sie daraus die Varianzen berechnen? Wie können Sie daraus die Standardfehler berechnen?

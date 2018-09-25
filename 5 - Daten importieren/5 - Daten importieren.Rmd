@@ -51,6 +51,12 @@ Diesmal sieht das entstandene Data Frame korrekt aus - wir können es direkt ein
 df <- read.table("lecturer.dat", header=TRUE)
 ```
 
+Für diese Datei hätten wir auch `read.delim` verwenden können, hier wird standardmäßig davon ausgegangen dass eine Kopfzeile in der Datei vorhanden ist:
+
+```{r}
+df <- read.delim("lecturer.dat")
+```
+
 Sehen wir uns als zweites Beispiel dieselben Daten an, die aber diesmal mit Kommas getrennt in einer .csv-Datei vorliegen. Um diese Datei einzulesen, können wir entweder die generische Funktion `read.table` mit entsprechendem `sep`-Argument verwenden oder die spezialisierte Funktion `read.csv`:
 
 ```{r}
@@ -80,14 +86,14 @@ df <- read_csv("lecturer.csv")
 
 Die folgende Tabelle fasst die verschiedenen Funktionen aus Base R bzw. dem `readr`-Paket übersichtlich zusammen.
 
-Dateiformat | Trennzeichen | Base R       | `readr`
-------------|--------------|--------------|-------------
-Generisch   | verschieden  | `read.table` | `read_delim`
-CSV         | `,`          | `read.csv`   | `read_csv`
-TSV/DAT     | Tabulator    | `read.delim` | `read_tsv` bzw. `read_table`
+Dateiformat | Trennzeichen     | Base R       | `readr`
+------------|------------------|--------------|-------------
+Generisch   | verschieden      | `read.table` | `read_delim`
+CSV         | `,`              | `read.csv`   | `read_csv`
+TSV/DAT     | Tabulator (`\t`) | `read.delim` | `read_tsv` bzw. `read_table`
 
 ## Daten aus SPSS
-Sollen bereits vorhandene SPSS-Daten (.sav) importiert werden, kann man dazu die Funktion `read_sav` aus dem Paket `haven` verwenden. Das Ergebnis ist ein Tibble (da `haven` Teil des Tidyverse ist). Das `haven`-Paket kann übrigens auch Daten auch SAS und Stata importieren.
+Sollen bereits vorhandene SPSS-Daten (.sav) importiert werden, kann man dazu die Funktion `read_sav` aus dem Paket `haven` verwenden. Das Ergebnis ist ein Tibble (da `haven` Teil des Tidyverse ist). Das `haven`-Paket kann übrigens auch Daten aus SAS und Stata importieren.
 
 ```{r, message=FALSE}
 library(haven)
@@ -103,7 +109,7 @@ data <- read_excel("lecturer.xlsx")
 ```
 
 ## Importieren mit RStudio
-Mit RStudio kann man Daten in vielen Formaten auch grafisch importieren. Praktischerweise bekommt man immer den dazugehörigen R-Code mitgeliefert, welcher die Daten korrekt importiert - diesen Code kann man dann in eigenen Scripts verwenden. Dazu klickt man in der *Files*-Ansicht rechts unten auf die gewünschte Datei und wählt *Import Dataset* aus. Alternativ kann man in der *Environment*-Ansicht rechts oben auf *Import Dataset* gefolgt vom gewünschten Format klicken. Es öffnet sich ein neues Fenster, in dem man eine Vorschau der zu importierenden Datei sieht. Es gibt hier auch die Möglichkeit, Optionen zu ändern - wie sich das auf die eingelesenen Daten auswirkt ist in der Vorschau unmittelbar ersichtlich. Der zugehörige Code befindet sich dann rechts unten. Im folgenden Bild sieht man diesen Dialog beispielhaft für eine zu importierende SPSS-Datei.
+Mit RStudio kann man Daten in vielen Formaten auch mit Hilfe der GUI importieren. Praktischerweise bekommt man immer den dazugehörigen R-Code mitgeliefert, welcher die Daten korrekt importiert - diesen Code kann man dann in eigenen Scripts verwenden. Dazu klickt man in der *Files*-Ansicht rechts unten auf die gewünschte Datei und wählt *Import Dataset* aus. Alternativ kann man in der *Environment*-Ansicht rechts oben auf *Import Dataset* gefolgt vom gewünschten Format klicken. Es öffnet sich ein neues Fenster, in dem man eine Vorschau der zu importierenden Datei sieht. Es gibt hier auch die Möglichkeit, Optionen zu ändern - wie sich das auf die eingelesenen Daten auswirkt ist in der Vorschau unmittelbar ersichtlich. Der zugehörige Code befindet sich dann rechts unten. Im folgenden Bild sieht man diesen Dialog beispielhaft für eine zu importierende SPSS-Datei.
 
 ```{r, fig.retina=NULL, echo=FALSE}
 knitr::include_graphics("import.png")

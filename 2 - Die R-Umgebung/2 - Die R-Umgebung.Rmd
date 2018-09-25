@@ -227,7 +227,7 @@ mean(x=tmp)
 
 ## Übungen
 ### Übung 1
-Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` - welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser beiden Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
+Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` - welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
 
 ### Übung 2
 Zeigen Sie die Hilfe zum Befehl `help` an. Welche zwei Möglichkeiten haben Sie dafür?

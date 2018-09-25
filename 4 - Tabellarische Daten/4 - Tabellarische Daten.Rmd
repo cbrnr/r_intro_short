@@ -78,7 +78,7 @@ m[m[, "A"] > 2,]  # Zeilen, in denen die Spalte A > 2 ist
 ```
 
 ### Zwang (Coercion)
-Wenn man jetzt z.B. eine neue Spalte vom Typ `character` hinzufügen möchte, dann funktioniert das mit einer Matrix nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Strings umgewandelt.
+Wenn man jetzt z.B. eine neue Spalte vom Typ `character` hinzufügen möchte, dann funktioniert das mit einer Matrix nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Zeichenketten umgewandelt.
 
 ```{r}
 subjects <- c("Hans", "Birgit", "Ferdinand", "Johanna")
@@ -101,7 +101,7 @@ Eine Matrix ist, wie man anhand der obigen Beispiele erkennt, eigentlich nur fü
 Data Frames sind ebenso wie Matrizen zweidimensionale Datenstrukturen (sie bestehen aus Zeilen und Spalten). Im Gegensatz zu Matrizen können Spalten aber unterschiedliche Datentypen beinhalten (z.B. kann eine Spalte numerisch sein, eine andere Spalte kann Zeichenketten beinhalten, und so weiter). Innerhalb einer Spalte müssen aber alle Werte homogen sein. Man kann sich die Spalten in einem Data Frame daher als Vektoren vorstellen.
 
 ### Erstellen von Data Frames
-Mit der Funktion `data.frame` kann man ein Data Frame aus Vektoren und/oder Matrizen erzeugen (die einzelnen Argumente werden wie mit `cbind` spaltenweise zusammengehängt):
+Mit der Funktion `data.frame` kann man ein Data Frame aus Vektoren und/oder Matrizen erzeugen (die einzelnen Argumente werden spaltenweise aneinandergehängt):
 ```{r}
 df <- data.frame(subjects, m)
 df
@@ -249,7 +249,7 @@ Erstellen Sie ein Data Frame `df` mit 10 Zeilen und 2 Spalten wie folgt:
 
 - Die erste Spalte soll `name` heißen und die Werte Ben, Emma, Luis, Mia, Paul, Hanna, Lukas, Sophia, Jonas und Emilia beinhalten.
 - Die zweite Spalte `gender` soll das Geschlecht der Personen beinhalten, d.h. entweder den Buchstaben `m` oder `f`.
-- Die dritte Spalte `value` soll 10 zufällige Zahlen zwischen 1 und 100 beinhalten.
+- Die dritte Spalte `value` soll 10 beliebige Zahlen zwischen 1 und 100 beinhalten.
 
 Geben Sie abschließend `df` am Bildschirm aus. Welche Datentypen haben die drei Spalten?
 
