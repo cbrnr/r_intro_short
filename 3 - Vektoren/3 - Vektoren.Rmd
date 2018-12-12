@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,14 +9,14 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
 
 # Vektoren
 ## Erstellen von Vektoren
-Der atomare Datentyp in R ist der Vektor. Ein Vektor besteht aus einem oder mehreren Elementen. Demnach ist also auch eine einfache Zahl in Wirklichkeit ein Vektor (mit einem Element). Ein Vektor mit mehreren Elementen wird mit dem Befehl `c` erzeugt (steht für combine oder concatenate).
+Der atomare (einfachste) Datentyp in R ist der Vektor. Ein Vektor besteht aus einem oder mehreren Elementen. Demnach ist also auch eine einfache Zahl in Wirklichkeit ein Vektor (mit einem Element). Ein Vektor mit mehreren Elementen wird mit der Funktion `c` erzeugt (steht für combine oder concatenate).
 
 ```{r}
 y <- c(1, 2, 3.1415, -100)
@@ -107,7 +107,7 @@ nchar('Hello!')
 ```
 
 ## Zwang (Coercion)
-Vektoren sind homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man einen Vektor mit Elementen unterschiedlichen Typs erstellt, wird der Vektor automatisch in einen Typ gezwungen, welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten umgewandelt (da Zeichenketten im allgemeinen nicht als Zahlen dargestellt werden können).
+Wie bereits erwähnt sind Vektoren homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man einen Vektor mit Elementen unterschiedlichen Typs erstellt, wird der Vektor automatisch in einen Typ gezwungen, welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten "gezwungen" (da Zeichenketten im allgemeinen nicht als Zahlen dargestellt werden können).
 
 ```{r}
 x <- c(1, 2.14, "5", 6)
@@ -166,7 +166,7 @@ Wenn zwei Vektoren unterschiedlich lang sind, dann wiederholt R die Werte des k�
 c(1, 2, 3, 4) * 2
 ```
 
-Der skalare Vektor 2 wird automatisch auf den Vektor `c(2, 2, 2, 2)` erweitert, daher entspricht die obige Operation eigentlich folgender Berechnung:
+Der skalare Vektor 2 wird automatisch auf den Vektor `c(2, 2, 2, 2)` erweitert, daher entspricht die obige Operation eigentlich folgender elementweiser Berechnung:
 
 ```{r}
 c(1, 2, 3, 4) * c(2, 2, 2, 2)
@@ -204,11 +204,12 @@ Die Funktion `rep` wiederholt Werte:
 rep(0, 90)
 ```
 
-Hier kann man auch die Bedeutung der Werte in eckigen Klammern erkennen, die vor jeder Ausgabezeile stehen: sie geben den Index des ersten Elements der Zeile an (also im Beispiel `[1]` für die erste Zeile und `[54]` für die zweite Zeile).
+Hier kann man auch die Bedeutung der Werte in eckigen Klammern erkennen, die vor jeder Ausgabezeile stehen: sie geben den Index des ersten Elements der Zeile an (also im Beispiel `[1]` für die erste Zeile und `[49]` für die zweite Zeile).
 
 ```{r}
 rep(c(0, 1, 2), times=10)
 rep(c(0, 1, 2), each=10)
+rep(c(0, 1, 2), times=c(10, 10, 10))  # gleichwertig mit each=10
 ```
 
 ## Indizieren
@@ -326,4 +327,12 @@ Gegeben seien folgende Standardabweichungen von verschiedenen Variablen:
 
 `std <- c(1, 2.22, 11.3, 7.8, 3.4, 6)`
 
-Wie können Sie daraus die Varianzen berechnen? Wie können Sie daraus die Standardfehler berechnen?
+Wie können Sie daraus die Varianzen berechnen?
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

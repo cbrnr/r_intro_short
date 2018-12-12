@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -17,7 +17,7 @@ opts_chunk$set(comment=NA)
 <style type="text/css">.table {width: 75%}</style>
 
 # Daten importieren
-Mit R kann man Daten in vielen unterschiedlichen Formaten importieren, beispielsweise aus Excel-Tabellen oder aus SPSS. Diese Formate sind allerdings proprietär und daher für das Abspeichern eigener Daten unter Umständen weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann (R-Scripts sind aus diesem Grund ebenfalls einfache Textdateien).
+Mit R kann man Daten aus vielen unterschiedlichen Formaten importieren, beispielsweise aus Excel-Tabellen oder aus SPSS. Diese Formate sind allerdings proprietär und daher für das Abspeichern eigener Daten unter Umständen weniger gut geeignet. Idealerweise speichert man Daten in einem offenen und möglichst einfach aufgebauten Format ab, welches man mit einer Vielzahl an (frei verfügbaren) Programmen öffnen kann. Ein Beispiel für ein einfaches Format ist eine Textdatei, die man mit jedem beliebigen Texteditor öffnen kann (R-Scripts sind aus diesem Grund ebenfalls einfache Textdateien).
 
 ## Textdateien
 Werte in Textdateien werden sehr häufig mit Kommas voneinander getrennt - so kann man Werte aus verschiedenen Spalten einer Tabelle darstellen. Solche speziell formatierten Textdateien haben sehr häufig die Endung .csv (comma-separated values). Es gibt aber auch andere Möglichkeiten, die Werte voneinander zu trennen, z.B. mit Semikolons (Strichpunkte) oder Tabulatoren. Solche Dateien haben oft die Endungen .dat oder .tsv. Die Endungen sind aber eigentlich gar nicht relevant, denn im Kern handelt es sich bei allen Varianten um normale Textdateien.
@@ -39,7 +39,7 @@ Man kann versuchen, die Funktion `read.table` mit Standardargumenten aufzurufen 
 read.table("lecturer.dat")
 ```
 
-Das Ergebnis sieht gar nicht so falsch aus, nur die erste Zeile, die in der Datei die Variablennamen enthält, wurde fälschlicherweise als Datenzeile erkannt. Dies können wir ändern, indem wir das zusätzliche Argument `header=TRUE` setzen:
+Das Ergebnis sieht gar nicht so falsch aus, nur die erste Zeile, die in der Datei die Variablennamen enthält, wurde fälschlicherweise als Datenzeile erkannt (und die Spaltennamen wurden automatisch auf generische Namen V1, V2, usw. gesetzt). Dies können wir ändern, indem wir das zusätzliche Argument `header=TRUE` setzen:
 
 ```{r}
 read.table("lecturer.dat", header=TRUE)
@@ -64,12 +64,12 @@ df <- read.table("lecturer.csv", header=TRUE, sep=",")
 df <- read.csv("lecturer.csv")
 ```
 
-Ein weiterer wichtiger Parameter solcher Dateien ist das verwendete Dezimaltrennzeichen. In der englischen Schreibweise werden Kommazahlen durch einen Punkt getrennt (z.B. 12.3, 3.1415). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. 12,3; 3,1415). Das Dezimaltrennzeichen kann in der Funktion `read.table` mit dem Argument `dec` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei der Funktion `read.csv`. Sollten die Zahlen jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein - hier werden die Spalten dann oft durch Semikolons getrennt. Für deutsche Zahlenformate setzt man daher die Argumente `sep=";"` und `dec=","` bzw. verwendet die spezialisierte Funktion `read.csv2`.
+Ein weiterer wichtiger Parameter solcher Dateien ist das verwendete Dezimaltrennzeichen. In der englischen Schreibweise werden Kommazahlen durch einen Punkt getrennt (z.B. 12.3, 3.1415). In der deutschen Schreibweise wird hingegen ein Komma verwendet (z.B. 12,3; 3,1415). Das Dezimaltrennzeichen kann in der Funktion `read.table` mit dem Argument `dec` festgelegt werden. Es ist standardmäßig auf einen Punkt gesetzt, ebenso bei der Funktion `read.csv`. Sollten die Zahlen in der Datei jedoch in der deutschen Schreibweise vorliegen, können die Spalten nicht auch durch Kommas getrennt sein - hier werden die Spalten dann oft durch Semikolons getrennt. Für deutsche Zahlenformate setzt man daher die Argumente `sep=";"` und `dec=","` bzw. verwendet die spezialisierte Funktion `read.csv2`.
 
 Wichtig: Unabhängig davon, welche Dezimaltrennzeichen in den Dateien verwendet werden, verwendet R *immer* einen *Punkt* als Dezimaltrennzeichen. Sobald die Daten korrekt eingelesen wurden und als Data Frame vorliegen, muss man sich an die englische Schreibweise halten.
 
 ### Importieren mit dem `readr`-Paket
-Das Tidyverse beinhaltet das Paket `readr`, welches Textdateien einlesen kann. Dies funktioniert oft besser und schneller als mit den Funktionen aus Base R. Die mit dem `readr`-Paket eingelesenen Daten stehen außerdem als Tibble zur Verfügung.
+Das Tidyverse beinhaltet das Paket `readr`, welches Textdateien einlesen kann. Dies funktioniert oft besser und schneller als mit den Funktionen aus Base R. Die mit dem `readr`-Paket eingelesenen Daten stehen außerdem als Tibble statt als Data Frame zur Verfügung.
 
 Die Hauptfunktion zum Einlesen von generischen Textdateien mit `readr` ist `read_delim`. Für CSV-Dateien gibt es den spezialisierten Wrapper `read_csv`, für mit Tabulatoren getrennte Daten heißt die Funktion `read_tsv` (bzw. `read_table`). Die letztgenannten Funktionen rufen aber lediglich `read_delim` mit geeigneten Argumenten auf.
 
@@ -129,7 +129,7 @@ str(df)
 
 Man erkennt, dass die numerischen Werte korrekt als Ganzzahlen erkannt wurden (Typ `int` in den Spalten 3 bis 7). Allerdings besitzt die Spalte 3 (`job`) lediglich zwei Werte, d.h. hier wäre eine kategorische Variable (ein Faktor) besser geeignet als eine numerische. Die ersten beiden Spalten wurden als Faktoren erkannt. Dies ist in unserem Beispiel nicht unbedingt gewünscht, und daher müssen wir diese beiden Spalten in passende Typen umwandeln.
 
-Bei Verwendung der Tidyverse-Funktionen ist die `name`-Spalte bereits im passenden Typ `character`, aber auch hier sollten die Spalten `birth_date` und `job` in geeignetere Typen umgewandelt werden:
+Bei Verwendung der Tidyverse-Funktionen hat die `name`-Spalte bereits den passenden Typ `character`, aber auch hier sollten die Spalten `birth_date` und `job` in geeignetere Typen umgewandelt werden:
 ```{r message=FALSE}
 read_csv("lecturer.csv")
 ```
@@ -198,28 +198,27 @@ Sue    | Height   | 174
 In R kann man zwischen den beiden Formaten hin- und herwechseln, d.h. wenn die Daten in einem Format vorliegen, kann man relativ einfach das andere Format produzieren. Die Daten von oben können wir in R wie folgt im Wide-Format eingeben:
 
 ```{r}
-df <- data.frame(Person=c("Bob", "Al", "Sue"), Age=c(32, 24, 64), Weight=c(98, 61, 87), Height=c(188, 176, 174))
+library(tibble)
+df <- tibble(Person=c("Bob", "Al", "Sue"), Age=c(32, 24, 64), Weight=c(98, 61, 87), Height=c(188, 176, 174))
 df
 ```
-Das Paket `reshape2` stellt Funktionen zum Konvertieren von Wide nach Long (`melt`) und von Long nach Wide (`dcast`) zur Verfügung. Sehen wir uns zuerst die erste Möglichkeit an, nämlich die Umwandlung vom Wide-Format ins Long-Format:
 
-```{r}
-library(reshape2)
-df_long <- melt(df, id.vars="Person", measure.vars=c("Age", "Weight", "Height"))
-df_long
+Das Umformen von Daten nimmt einen großen Stellenwert im Tidyverse ein, daher gibt es auch eine Menge an nützlichen Funktionen um Daten ins gewünschte Format zu bringen. Das Paket `tidyr` beinhaltet die Funktionen `gather` und `spread`, welche Data Frames von wide nach long bzw. von long nach wide umwandeln können. Das Beispiel von vorher könnte man mit diesen beiden Funktionen wie folgt schreiben:
+
+```{r message=FALSE}
+library(tidyr)
+(df_long <- gather(df, variable, value, -Person))
 ```
 
-Hier spezifiziert man im Argument `id.vars` die Variablen (Spalten), welche eine Messung eindeutig identifizieren. In unserem Fall ist das die Spalte `Person`. Das Argument `measure.vars` spezifiziert alle Variablen, die Messwerte enthalten - im Beispiel also die Spalten `Age`,  `Weight` und `Height`, welche man in einen Vektor kombiniert zusammen übergibt.
+Hier übergibt man zuerst die Daten im Wide-Format, gefolgt vom gewünschten Namen der Key-Spalte (Indikatorspalte) und vom gewünschten Namen der Value-Spalte (Wertespalte). Danach gibt man alle Spalten an, die man zusammenfassen möchte (in unserem Beispiel wählen wir alle Spalten bis auf die Person-Spalte aus).
 
-Der zweite Fall, nämlich die Umwandlung vom Long-Format ins Wide-Format, erfolgt durch die Funktion `dcast`:
+Der umgekehrte Weg wird mit `spread` beschritten; diese Funktion kann eine Spalte auf mehrere Spalten aufteilen:
 
 ```{r}
-df_wide <- dcast(df_long, Person ~ variable, value="value")
-df_wide
+(df_wide <- spread(df_long, variable, value))
 ```
-Hier übergibt man zuerst die Daten im Long-Format. Danach folgt eine Formel, welche die Umwandlungsregeln definiert. Auf der linken Seite der Formel (also links vom Tilde-Symbol) befinden sich alle Variablen, welche eine Messung eindeutig identifizieren (mehrere Variablen verbindet man mit dem `+`-Operator). Auf der rechten Seite der Formel (also rechts vom Tilde-Symbol) gibt man alle Variablen an, welche die Bezeichnungen der Messwerte beinhalten. Zu guter Letzt gibt man mit dem Argument `value` noch die Spalte an, welche die Messwerte beinhaltet.
 
-Das Umformen von Daten nimmt einen großen Stellenwert im Tidyverse ein, daher gibt es auch eine Menge an nützlichen Funktionen um Daten ins gewünschte Format zu bringen (vor allem mit den Paketen `tidyr` und `dplyr`). Eine Beschreibung dieser Pakete würde aber den Rahmen dieser Veranstaltung sprengen.
+Hier gibt man zunächst die Daten im Long-Format an, gefolgt vom Spaltennamen, welcher die Namen der neuen Spalten beinhaltet (Indikatorspalte). Schließlich gibt man als drittes Argument noch den Namen der Wertespalte an.
 
 ## Übungen
 ### Übung 1
@@ -248,3 +247,11 @@ Führen Sie folgende Schritte durch:
 - Welche Spalten könnte man eventuell noch in einen passenderen Typ umwandeln (Sie müssen das aber nicht tatsächlich durchführen)?
 
 *Hinweis:* Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. In dieser Datei werden fehlende Werte durch `?` markiert. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read.table` bzw. `read_delim` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden).
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

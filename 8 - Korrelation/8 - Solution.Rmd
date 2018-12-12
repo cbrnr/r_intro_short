@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -18,10 +18,6 @@ opts_chunk$set(comment=NA)
 
 ## Übungen
 ### Übung 1
-Für diese Übung werden Sie Daten aus folgendem Artikel verwenden und ausgewählte Ergebnisse selbst nachrechnen und überprüfen: T. Chamorro-Premuzic, A. Furnham, A. N. Christopher, J. Garwood, G. N. Martin. [Birds of a feather: Students' preferences for lecturers' personalities as predicted by their own personality and learning approaches](http://dx.doi.org/10.1016/j.paid.2007.10.032). Personality and Individual Differences, 44(4), 965-976, 2008.
-
-Tabelle 3 auf Seite 972 in diesem Artikel ist für uns interessant. Berechnen Sie selbst die Korrelationen zwischen den Persönlichkeitsmerkmalen N, E, O, A und C der Studenten und der Lehrenden mit den Daten in der Datei `birds.csv` (die Sie von http://bit.ly/r_example_data herunterladen können). Vergleichen Sie die von Ihnen berechneten 25 Werte mit den Werten aus der Tabelle. Stimmen Ihre Ergebnisse mit den publizierten Daten überein? Berechnen Sie sowohl Korrelationen als auch Signifikanzen und geben Sie etwaige Abweichungen zum Paper an.
-
 ```{r message=FALSE}
 library(readr)
 birds <- read_csv("birds.csv")
@@ -30,8 +26,6 @@ cor(birds[, -c(1, 2)], use="pairwise.complete.obs")[1:5, 6:10]
 
 
 ### Übung 2
-Verwenden Sie die Beispieldaten `mtcars` und analysieren Sie den Zusammenhang zwischen den Variablen `mpg`, `disp` und `hp`. Stellen Sie den Zusammenhang zwischen den Variablenpaaren grafisch dar, und berechnen Sie danach Pearson- und Spearman-Korrelationen!
-
 ```{r message=FALSE}
 library(GGally)
 cor(mtcars[, c(1, 3, 4)])
@@ -41,33 +35,42 @@ ggpairs(mtcars[, c(1, 3, 4)], diag=list(continuous="barDiag"))
 
 
 ### Übung 3
-In der Datei `pm10.csv` (die Sie von http://bit.ly/r_example_data herunterladen können) finden Sie die monatlichen Feinstaubwerte PM10 von zwei Messstationen in Graz im Zeitraum Februar 2006 bis Mai 2016. Führen Sie folgende Analysen durch:
-
-- Erstellen Sie eine Liniengrafik, in der Sie den Verlauf der PM10-Konzentration von beiden Messstationen über die Zeit darstellen.
-- Erstellen Sie einen Scatterplot, der den Zusammenhang zwischen den beiden Messstationen darstellt.
-
-Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Messstationen inklusive Konfidenzintervall und $p$-Wert.
-
-*Anmerkung 1:* Wandeln Sie die Spalte `Datum` nach dem Einlesen mittels `as.Date` in einen Datums-Typ um.
-
-*Anmerkung 2:* Für die Erstellung der ersten Grafik sollten Sie die Daten vorher ins Long-Format umwandeln:
-
-```{r eval=FALSE}
-library(reshape2)
-pm10_long <- melt(pm10, id.vars="Datum", variable.name="Ort", value.name="pm10")
-```
-
-Danach können Sie die Grafik mit der Variable `pm10_long` erstellen.
-
-*Anmerkung 3:* Wenn Sie die Funktion `cor` zur Berechnung der Korrelation zwischen den beiden Variablen verwenden möchten, können Sie fehlende Werte in jeder der beiden Variablen mit dem Argument `use="complete.obs"` ausschließen.
-
 ```{r message=FALSE,warning=FALSE}
-library(reshape2)
+library(tidyr)
 library(ggplot2)
 pm10 <- read_csv("pm10.csv")
 pm10$Datum <- as.Date(pm10$Datum, format="%d.%m.%y")
-pm10_long <- melt(pm10, id.vars="Datum", variable.name="Ort", value.name="pm10")
+pm10_long <- gather(pm10, key="Ort", value="pm10", -Datum)
 qplot(Datum, pm10, data=pm10_long, color=Ort, geom="line")
 qplot(Petersgasse, DonBosco, data=pm10, geom=c("point", "smooth"), method="lm")
 ```
 
+
+### Übung 4
+Durch Probieren mit verschiedenen Werten für $N$ erhält man $N = 62$ für $p < 0.05$. Dies bedeutet, dass eine Korrelation von $r = 0.25$ signfikant ist bei $N = 62$ oder mehr.
+```{r}
+r <- 0.25
+N <- 62
+alpha <- 0.05
+z <- atanh(r)
+se_z <- 1 / sqrt(N - 3)
+(p <- 2 * (1 - pnorm(z / se_z)))
+```
+
+Wiederum durch Probieren erhält man $N = 1538$ (oder mehr) damit $p < 0.05$. Man sieht, dass selbst eine sehr kleine Korrelation ab einer gewissen Stichprobengröße signifikant wird.
+```{r}
+r <- 0.05
+N <- 1538
+alpha <- 0.05
+z <- atanh(r)
+se_z <- 1 / sqrt(N - 3)
+(p <- 2 * (1 - pnorm(z / se_z)))
+```
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

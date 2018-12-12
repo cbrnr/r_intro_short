@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -58,8 +58,8 @@ Man erkennt, dass die Konfidenzintervalle stark überlappen, d.h. der Unterschie
 Wenn die beiden Gruppen abhängig wären (also beispielsweise aus einem Design mit Messwiederholung, in welchem jede der 12 Personen in beiden Gruppen war), dann bringt man die Daten zuerst am besten ins Wide-Format.
 
 ```{r message=FALSE}
-library(reshape2)
-spider_w <- dcast(cbind(id=rep(1:12), spider), id ~ Group)
+library(tidyr)
+spider_w <- spread(cbind(id=rep(1:12), spider), Group, Anxiety)
 spider_w$id <- NULL
 names(spider_w) <- c("picture", "real")
 spider_w <- as_tibble(spider_w)
@@ -232,3 +232,11 @@ Vergleichen Sie im `iris`-Datensatz, ob sich die vier Merkmale zwischen den Spez
 
 ### Übung 3
 Laden Sie den Datensatz `immer` aus dem Paket `MASS`. Berechnen Sie ein 99%-Konfidenzintervall für den Unterschied des durchschnittlichen Gerstenertrages zwischen den beiden Jahren. Ist dieser Unterschied signifikant?
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

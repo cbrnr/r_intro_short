@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -18,8 +18,6 @@ opts_chunk$set(comment=NA)
 
 ## Übungen
 ### Übung 1
-Vergleichen Sie im `iris`-Datensatz, ob sich die vier Merkmale zwischen den Spezies Virginica und Versicolor unterscheiden. Berichten Sie die relevanten Statistiken, Signifikanzen und Effektgrößen (Korrelationskoeffizient $r$) für jeden der vier Tests.
-
 ```{r}
 names(iris)
 t1 <- t.test(Sepal.Length ~ Species, subset(iris, Species != "setosa"))
@@ -53,18 +51,21 @@ r
 
 
 ### Übung 2
-Überprüfen Sie, ob sich die Anzahl der zusätzlichen Schlafzeit zwischen den beiden Gruppen im Datensatz `sleep` signifikant voneinander unterscheidet.
-
 ```{r}
 t.test(extra ~ group, data=sleep, paired=TRUE)
 ```
 
 
 ### Übung 3
-Laden Sie den Datensatz `immer` aus dem Paket `MASS`. Berechnen Sie ein 99%-Konfidenzintervall für den Unterschied des durchschnittlichen Gerstenertrages zwischen den beiden Jahren. Ist dieser Unterschied signifikant?
-
 ```{r}
 library(MASS)
 t.test(immer$Y1, immer$Y2, paired=TRUE, conf.level=0.99)
 ```
 
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

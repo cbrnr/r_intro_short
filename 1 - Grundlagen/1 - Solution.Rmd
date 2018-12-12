@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -18,8 +18,6 @@ opts_chunk$set(comment=NA)
 
 ## Übungen
 ### Übung 1
-Installieren Sie die neuesten Versionen von R und RStudio auf Ihrem Rechner. Starten Sie dann RStudio und suchen Sie nach einer Möglichkeit, die Versionsnummern sowohl von R als auch von RStudio anzuzeigen (dies ist wichtig, weil die erste Frage bei Problemen normalerweise ist: "Verwenden Sie die aktuellsten Versionen?").
-
 Nach der Installation von R und RStudio startet man RStudio, und die verwendete R-Version wird in der Console angezeigt. Die Versionsnummer von RStudio erfährt man, wenn man "About RStudio" im Menü "Help" aufruft.
 
 ```{r, fig.retina = NULL, echo=FALSE}
@@ -27,8 +25,6 @@ knitr::include_graphics("R_versions.png")
 ```
 
 ### Übung 2
-Berechnen Sie mit R das Ergebnis der Division $619 : 65$. Berechnen Sie außerdem das ganzzahlige Ergebnis und den Rest.
-
 ```{r}
 619 / 65
 619 %/% 65
@@ -37,17 +33,19 @@ Berechnen Sie mit R das Ergebnis der Division $619 : 65$. Berechnen Sie außerde
 
 
 ### Übung 3
-Gegeben seien folgende Messwerte: 11, 27, 15, 10, 32, 18, 25, 22, 29, 11. Berechnen Sie deren Mittelwert $\bar{x}$. Verwenden Sie dafür keine fertigen Funktionen, sondern nur Grundrechenarten.
-
 ```{r}
 (11 + 27 + 15 + 10 + 32 + 18 + 25 + 22 + 29 + 11) / 10
 ```
 
 ### Übung 4
-Berechnen Sie in R das Ergebnis des folgenden Ausdrucks (achten Sie auf die richtige Klammersetzung):
-
-$$\sqrt 2 \cdot \frac{(5^3 - 2) \cdot \sqrt{18}}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$
-
 ```{r}
 sqrt(2) * ((5**3 - 2) * sqrt(18)) / ((7/5 + 13.2) * 7**(2/3))
 ```
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,13 +9,13 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
 
 # Deskriptive Statistiken
-Wenn man die Daten im gewünschten Format in R geladen hat (d.h. wenn diese in einem Data Frame oder Tibble vorhanden sind, im gewünschten Wide- oder Long-Format vorliegen, und alle Variablen den passenden Datentyp haben), kann man mit der statistischen Analyse beginnen. Der erste Schritt ist meist, sich mittels desktriptiven Statistiken einen Überblick über die Daten zu verschaffen.
+Wenn man die Daten im gewünschten Format in R geladen hat (d.h. wenn diese in einem Data Frame oder Tibble vorhanden sind, im gewünschten Wide- oder Long-Format vorliegen, und alle Spalten den passenden Datentyp haben), kann man mit der statistischen Analyse beginnen. Der erste Schritt ist meist, sich mittels desktriptiven Statistiken einen Überblick über die Daten zu verschaffen.
 
 Als Beispiel lesen wir wieder die Daten aus der letzten Übung in ein Data Frame bzw. Tibble ein.
 
@@ -40,13 +40,13 @@ df$name <- NULL
 ```
 
 ## Zusammenfassende Beschreibungen
-Es gibt in R eine Reihe an Funktionen, welche zusammenfassende Statistiken einer Variable (bzw. eines Vektors) berechnen. Nützliche Funktionen sind z.B. `mean`, `sd`, `var`, `min`, `max`, `median`, `range` und `quantile`. Den Mittelwert einer Spalte von `df` kann man also wie folgt berechnen:
+Es gibt in R eine Reihe an Funktionen, welche zusammenfassende Statistiken eines Vektors berechnen. Nützliche Funktionen sind z.B. `mean`, `sd`, `var`, `min`, `max`, `median`, `range` und `quantile`. Den Mittelwert einer Spalte von `df` kann man also wie folgt berechnen:
 
 ```{r}
 mean(df$friends)
 ```
 
-Dies müsste man nun für jede interessierende Spalte wiederholen, was relativ mühsam wäre. Deswegen gibt es in R die Funktion `sapply`, welche eine Funktion auf jede Spalte eines Data Frames einzeln anwendet. Möchte man also den Mittelwert für jede numerische Spalte von `df` berechnen, kann man dies so tun:
+Dies müsste man nun für jede interessierende Spalte wiederholen, was relativ mühsam wäre. Deswegen gibt es in R die Funktion `sapply`, welche eine Funktion auf jede Spalte eines Data Frames einzeln anwendet. Möchte man also den Mittelwert für jede numerische Spalte von `df` (also alle Spalten bis auf die ersten beiden) berechnen, kann man dies so tun:
 
 ```{r}
 sapply(df[, -c(1, 2)], mean)
@@ -57,14 +57,14 @@ So kann man jede beliebige Funktion auf mehrere Spalten gleichzeitig anwenden.
 Es gibt aber auch spezielle Funktionen, welche mehrere statistische Kenngrößen für alle Spalten eines Data Frames berechnen. Im Folgenden gehen wir näher auf drei dieser Funktionen ein, nämlich `summary`, `describe` und `stat.desc`.
 
 ### Die Funktion `summary`
-Die Funktion `summary` liefert eine geeignete Zusammenfassung für jede Variable (Spalte) eines Data Frames (Tibbles). Numerische Variablen sowie Datumsvariablen werden mit sechs Werten beschrieben: Minimum, 1. Quartil, Median, 3. Quartil, Maximum sowie Mittelwert. Für Faktoren werden die Stufen sowie die Anzahl an Fällen pro Stufe aufgelistet.
+Die Funktion `summary` liefert eine geeignete Zusammenfassung für jede Spalte eines Data Frames (Tibbles). Numerische Spalten sowie Datumsspalten werden mit sechs Werten beschrieben: Minimum, 1. Quartil, Median, 3. Quartil, Maximum sowie Mittelwert. Für Faktoren werden die Stufen sowie die Anzahl an Fällen pro Stufe aufgelistet.
 
 ```{r}
 summary(df)
 ```
 
 ### Die Funktion `describe`
-Eine weitere Möglichkeit noch mehr statistische Kenngrößen für numerische Variablen auszugeben bietet die Funktion `describe` aus dem `psych`-Paket. Nicht-numerische Variablen werden hier nicht vernünftig zusammengefasst, deshalb sollte man der Funktion nur numerische Variablen übergeben.
+Eine weitere Möglichkeit noch mehr statistische Kenngrößen für numerische Spalten auszugeben bietet die Funktion `describe` aus dem `psych`-Paket. Nicht-numerische Spalten werden hier nicht vernünftig zusammengefasst, deshalb sollte man der Funktion nur numerische Spalten übergeben.
 
 ```{r}
 library(psych)
@@ -77,10 +77,10 @@ Man kann diese Funktion auch auf einzelne Gruppen separat anwenden. Im Beispiel 
 describeBy(df[, c("friends", "alcohol", "income", "neurotic")], df$job)
 ```
 
-Das erste Argument ist das zu beschreibende Data Frame, und das zweite Argument ist die Variable, nach der gruppiert werden soll.
+Das erste Argument ist das zu beschreibende Data Frame, und das zweite Argument ist die Spalte, nach der gruppiert werden soll.
 
 ### Die Funktion `stat.desc`
-Das Paket `pastecs` beinhaltet die Funktion `stat.desc` zur Beschreibung von Daten. Mit der Funktion `round` sollte man einstellen, wie viele Kommastellen ausgegeben werden sollen, da die Ausgabe der Funktion sonst relativ unübersichtlich ist. Wenn das Argument `norm` auf `TRUE` gesetzt wird, werden für alle Variablen Tests auf Normalverteilung durchgeführt. 
+Das Paket `pastecs` beinhaltet die Funktion `stat.desc` zur Beschreibung von Daten. Mit der Funktion `round` sollte man einstellen, wie viele Kommastellen ausgegeben werden sollen, da die Ausgabe der Funktion sonst relativ unübersichtlich ist. Wenn das Argument `norm` auf `TRUE` gesetzt wird, werden für alle Spalten Tests auf Normalverteilung durchgeführt. 
 
 ```{r message=FALSE}
 library(pastecs)
@@ -88,7 +88,7 @@ round(stat.desc(df[, c("friends", "alcohol", "income", "neurotic")], norm=TRUE),
 ```
 
 ### Gruppieren mit `by`
-Für die Funktion `stat.desc` gibt es keine direkte Variante für gruppierte Daten. Es gibt aber in R die Funktion `by`, welche beliebige Funktionen auf gruppierte Daten anwendet. Das erste Argument ist hier wie üblich der Datensatz, das zweite Argument ist die Gruppierungsvariable, und das dritte Argument ist die Funktion, die auf die gruppierten Daten angewendet werden soll.
+Für die Funktion `stat.desc` gibt es keine direkte Variante für gruppierte Daten. Es gibt aber in R die Funktion `by`, welche beliebige Funktionen auf gruppierte Daten anwendet. Das erste Argument ist hier wie üblich der Datensatz, das zweite Argument ist die Gruppierungsspalte, und das dritte Argument ist die Funktion, die auf die gruppierten Daten angewendet werden soll.
 
 ```{r}
 by(df[, c("friends", "alcohol", "income", "neurotic")], df$job, describe)
@@ -138,11 +138,11 @@ Der Levene-Test für die Spalte `conformity` gruppiert nach der Spalte `fcategor
 leveneTest(Moore$conformity, Moore$fcategory)
 ```
 
-In diesem Beispiel kann die Nullhypothese der Varianzgleichheit der Variable `conformity` in den Gruppen `fcategory` also nicht verworfen werden.
+In diesem Beispiel kann die Nullhypothese der Varianzgleichheit der Spalte `conformity` in den Gruppen `fcategory` also nicht verworfen werden.
 
 ## Übungen
 ### Übung 1
-Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maximum für die vier numerischen Variablen `Global_active_power`, `Global_reactive_power`, `Voltage` und `Global_intensity` aus dem Data Frame aus Übung 3 der vorigen Einheit ([Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption)).
+Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maximum für die vier numerischen Spalten `Global_active_power`, `Global_reactive_power`, `Voltage` und `Global_intensity` aus dem Data Frame aus Übung 3 der vorigen Einheit ([Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption)).
 
 - Berechnen Sie die Kenngrößen mit der Funktion `sapply`.
 - Berechnen Sie die obigen Kenngrößen mit der Funktion `summary`.
@@ -156,6 +156,13 @@ Einer der bekanntesten Datensätze im Bereich Machine Learning ist der Iris-Date
 
 - Wie viele Pflanzen gibt es in dem Datensatz?
 - Wie viele Merkmale wurden pro Pflanze erhoben?
-- Berechnen Sie deskriptive Statistiken aller Variablen und vergleichen Sie Ihre Ergebnisse vom Mittelwert, Standardabweichung, Minimum und Maximum mit der Beschreibung auf der [UCI Machine Learning Datenbank](http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.names). Gibt es Unterschiede?
+- Berechnen Sie deskriptive Statistiken aller Spalten und vergleichen Sie Ihre Ergebnisse vom Mittelwert, Standardabweichung, Minimum und Maximum mit der Beschreibung auf der [UCI Machine Learning Datenbank](http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.names). Gibt es Unterschiede?
 - Berechnen Sie die Mittelwerte der vier Merkmale getrennt für jede der drei Iris-Arten.
 
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

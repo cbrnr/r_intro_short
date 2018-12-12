@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -30,7 +30,7 @@ Pakete erweitern den Funktionsumfang von R. Von Haus aus wird R nur mit einer Ha
 
 Im CRAN gibt es tausende Pakete, und deswegen kann es mitunter schwierig sein, ein passendes bzw. das gesuchte Paket zu finden. Eine sehr praktische Übersicht gibt es auf [CRAN Task Views](https://cran.r-project.org/web/views/). Hier werden Pakete nach Anwendungsgebieten gruppiert dargestellt.
 
-Zur Paketverwaltung gibt es zwei Möglichkeiten: entweder man verwendet entsprechende Funktionen in den grafischen Oberflächen, oder man benutzt R-Befehle dafür (wobei die grafischen Oberflächen entsprechende R-Befehle im Hintergrund verwenden).
+Zur Paketverwaltung gibt es zwei Möglichkeiten: entweder man verwendet entsprechende GUI-Funktionen in RStudio, oder man benutzt R-Befehle dafür (wobei RStudio eigentlich nur entsprechende R-Befehle im Hintergrund verwendet).
 
 ### Paketverwaltung in RStudio
 RStudio bietet im Bereich *Packages* im Panel rechts unten eine Liste aller installierten Pakete. Hier ist auch ersichtlich, welche Pakete gerade aktiviert sind (durch Setzen/Entfernen des Häkchens vor einem Paket kann dieses aktiviert/deaktiviert werden). In dieser Ansicht kann man durch Klicken auf *Update* installierte Pakete aktualisieren. Neue Pakete installiert man durch Klicken auf *Install*. Wenn man in das Feld *Packages* die Anfangsbuchstaben des gesuchten Pakets eingibt, wird automatisch eine Liste aller passenden Pakete vorgeschlagen.
@@ -76,7 +76,7 @@ In dieser Veranstaltung werden wir einige Zusatzpakete verwenden, unter anderem:
 - `psych`
 - `car`
 - `pastecs`
-- `reshape2`
+- `tidyr`
 
 Ganz besonders zu empfehlen sind die Pakete aus dem sogenannten [Tidyverse](https://www.tidyverse.org/). Diese folgen der Philosophie von "tidy data" (d.h. Daten in einem speziellen "sauberen" Format) und können allesamt mit dem Meta-Paket `tidyverse` installiert werden.
 
@@ -84,7 +84,7 @@ Ganz besonders zu empfehlen sind die Pakete aus dem sogenannten [Tidyverse](http
 ### Scripts
 Befehle in der R-Console einzugeben ist praktisch, wenn man neue Dinge interaktiv ausprobieren möchte bzw. nur schnell Kleiningkeiten berechnen will. Möchte man eine aufwändigere Datenanalyse durchführen, dann sollte man die dafür notwendigen Befehle in einem sogenannten R-Script abspeichern. Dabei handelt es sich um eine Textdatei mit der Endung `.R`.
 
-In einem R-Script schreibt man prinzipiell einen Befehl pro Zeile. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach ausgeführt. Zeilen, die mit einem `#`-Zeichen beginnen, werden ignoriert - dies nutzt man, um Kommentare im Code hinzuzufügen. Beispiel:
+In ein R-Script schreibt man prinzipiell einen Befehl pro Zeile. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach von R ausgeführt. Zeilen, die mit einem `#`-Zeichen beginnen, werden ignoriert - dies nutzt man, um Kommentare im Code hinzuzufügen. Beispiel:
 
 ```{r}
 # compute sum of integers from 1 to 100
@@ -107,14 +107,16 @@ Das Arbeitsverzeichnis, also jenes Verzeichnis in dem die aktuelle R-Sitzung aus
 ```{r, eval=FALSE}
 getwd()
 ```
-Dieses sogenannte Arbeitsverzeichnis (Working Directory) ist wichtig, da R Dateien (wie z.B. Scripts) immer in diesem Verzeichnis sucht. Der Titel der R-Console in RStudio zeigt übrigens auch das aktuelle Arbeitsverzeichnis an. Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` anzeigen (RStudio zeigt diese rechts unten im Bereich *Files* an).
+Dieses sogenannte Arbeitsverzeichnis (Working Directory) ist wichtig, da R Dateien (wie z.B. Scripts oder Daten) immer in diesem Verzeichnis sucht. Der Titel der R-Console in RStudio zeigt übrigens auch das aktuelle Arbeitsverzeichnis an. Alle Dateien im aktuellen Arbeitsverzeichnis kann man mit `dir()` anzeigen (RStudio zeigt diese rechts unten im Bereich *Files* an).
 
-Der Befehl `setwd("path/to/working/directory")` setzt das aktuelle Arbeitsverzeichnis auf den angegebenen Wert (im Beispiel das fiktive Verzeichnis `path/to/working/directory`). In RStudio hat man aber zwei Alternativen, das Arbeitsverzeichnis auch mit der GUI zu setzen.
+Der Befehl `setwd("path/to/working/directory")` setzt das aktuelle Arbeitsverzeichnis auf den angegebenen Wert (im Beispiel das fiktive Verzeichnis `path/to/working/directory`)[^1]. In RStudio hat man aber zwei Alternativen, das Arbeitsverzeichnis auch in der GUI zu setzen.
 
 - Menü *Session* - *Set Working Directory* - *Choose Directory...*.
 - Navigieren zum gewünschten Verzeichnis im Bereich *Files* (rechts unten) und dann Klick auf *More* - *Set As Working Directory*.
 
 Bevor Sie ein Script ausführen, sollten Sie das Arbeitsverzeichnis korrekt setzten (meist auf das Verzeichnis, in dem das Script abgespeichert ist). Führen Sie dies allerdings *nicht* automatisiert im Script selbst durch, denn das Script soll auch auf anderen Umgebungen laufen, wo es Ihr spezifisches Verzeichnis vielleicht nicht gibt.
+
+[^1]: Achtung: Pfade sollten immer einen normalen Schrägstrich `/` als Trennzeichen verwenden und nicht den unter Windows üblichen verkehrten (Backslash) `\`.
 
 ### Workspace
 Alle selbst erstellten bzw. geladenen Objekte (Variablen und Daten) fasst man unter dem Begriff *Workspace* zusammen. Man kann ihn mit folgendem Befehl anzeigen:
@@ -139,7 +141,7 @@ n * (n + 1) / 2  # closed-form solution
 Man erkennt bereits in diesen wenigen Zeilen die grundlegende Syntax (Regeln) von R. Prinzipiell wird jeder Befehl in eine extra Zeile geschrieben. Kommentare, d.h. alle Zeichen ab dem `#`-Zeichen, werden nicht ausgeführt.
 
 #### Variablen
-Der Zuweisungsoperator lautet `<-`, damit kann man Werte Variablen zuweisen - z.B. wird mit `n <- 100` der Wert 100 der Variable `n` zugewiesen. Dies ist etwas gewöhnungsbedürftig, da die meisten Programmiersprachen dafür das Zeichen `=` verwenden. Achtung: R unterscheidet streng zwischen Groß- und Kleinschreibung, d.h. die Variable `A` ist nicht gleich der Variable `a`! Neben Buchstaben können auch Ziffern, Unterstriche und Punkte für Variablennamen verwendet werden.
+Der Zuweisungsoperator lautet `<-`, damit kann man Werte Variablen zuweisen - z.B. wird mit `n <- 100` der Wert 100 der Variable `n` zugewiesen. Dies ist etwas gewöhnungsbedürftig, da die meisten Programmiersprachen dafür das Zeichen `=` verwenden. Achtung: R unterscheidet streng zwischen Groß- und Kleinschreibung, d.h. die Variable `A` ist nicht gleich der Variable `a`! Neben Buchstaben können auch Ziffern, Unterstriche und sogar Punkte für Variablennamen verwendet werden.
 
 #### Funktionen
 Eine Funktion ist ein Mini-Programm, welches man durch Aufrufen ausführen kann. Im Beispielscript ist `sum` eine Funktion. Zum Aufrufen einer Funktion ist ein Klammerpaar `()` nach dem Funktionsnamen zwingend notwendig. Argumente für Funktionen (die man benötigt, wenn die Funktion zusätzliche Informationen braucht) werden innerhalb dieser Klammern angegeben. Mehrere Argumente werden mit einem `,` getrennt. Zum Beispiel wird mit dem Befehl `sum(x)` die Funktion `sum` mit dem Argument `x` aufgerufen. Es gibt auch Funktionen, die keine Argumente benötigen - das runde Klammernpaar ist aber trotzdem notwendig, um die Funktion auch aufzurufen (z.B. `library()` ruft die Funktion `library` ohne Argumente auf). Weitere Beispiele für Funktionsaufrufe ohne Argumente, die wir bereits kennengelernt haben, sind `search()`, `help()`, `getwd()`, `dir()` und `ls()`.
@@ -177,7 +179,7 @@ c(xm, mean(x, trim = 0.10))
 ```
 
 #### Beispiel
-Aufrufen kann man die Funktion mit entsprechenden Argumenten, indem man diese entweder in der richtigen Reihenfolge übergibt oder aber den Namen der Argumente und deren Werte explizit angibt. Sehen wir uns einige Beispiele für korrekte Aufrufe der Funktion `mean` an. Vorausgesetzt ist hier, dass es eine Variable `x` gibt, von deren Werten man den Mittelwert berechnen möchte.
+Aufrufen kann man die Funktion mit entsprechenden Argumenten, indem man diese entweder in der richtigen Reihenfolge übergibt oder aber den Namen der Argumente und deren Werte explizit angibt. Sehen wir uns einige Beispiele für korrekte Aufrufe der Funktion `mean` an. Vorausgesetzt ist hier, dass es eine Variable `x` gibt, von deren Werten man den Mittelwert berechnen möchte (`c` ist hier eine Funktion, die mehrere Elemente zu einem Vektor gruppiert - siehe nächste Einheit).
 
 ```{r}
 x <- c(-14, 2, 3, 4, 5, 6, 7, 28, 99)
@@ -206,7 +208,7 @@ mean(x=tmp)
 
 - [Discovering Statistics Using R](https://uk.sagepub.com/en-gb/eur/discovering-statistics-using-r/book236067)
 - [OpenIntro Statistics](https://www.openintro.org/stat/textbook.php?stat_book=os)
-- [Learning Statistics With R](http://www.compcogscisydney.com/learning-statistics-with-r.html)
+- [Learning Statistics With R](http://compcogscisydney.org/learning-statistics-with-r/)
 
 ### Tutorials und Dokumentation
 
@@ -219,8 +221,7 @@ mean(x=tmp)
 
 ### Online-Kurse
 
-- [Try R](http://tryr.codeschool.com/)
-- [Introduction to R Programming](https://www.edx.org/course/introduction-r-data-science-microsoft-dat204x-7)
+- [Introduction to R Programming](https://www.edx.org/course/introduction-to-r-for-data-science)
 - [R Programming](https://www.coursera.org/learn/r-programming)
 - [Master Statistics with R](https://www.coursera.org/specializations/statistics)
 - [Mastering Software Development in R](https://www.coursera.org/specializations/r)
@@ -245,3 +246,11 @@ Das fertige Script sollte also aus drei Zeilen bestehen (Sie könnten und sollte
 Installieren Sie das Paket `swirl`. Aktivieren Sie anschließend dieses Paket. Installieren Sie dann mit dem Befehl `install_from_swirl("Open Intro")` einen einführenden Kurs über statistische Grundbegriffe. Danach starten Sie das Lernprogramm mit der Funktion `swirl()`.
 
 Nach einigen Informationen über die Verwendung von `swirl` können Sie einen Kurs auswählen - wählen Sie "Open Intro". Es gibt nur eine Lektion namens "Overview of Statistics" - wählen Sie diese Lektion aus und schließen Sie diese Lektion komplett ab (die Dauer beträgt ungefähr 30 Minuten).
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

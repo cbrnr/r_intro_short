@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -18,15 +18,6 @@ opts_chunk$set(comment=NA)
 
 ## Übungen
 ### Übung 1
-Berechnen Sie statistische Kenngrößen wie Mittelwert, Median, Minimum und Maximum für die vier numerischen Variablen `Global_active_power`, `Global_reactive_power`, `Voltage` und `Global_intensity` aus dem Data Frame aus Übung 3 der vorigen Einheit ([Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption)).
-
-- Berechnen Sie die Kenngrößen mit der Funktion `sapply`.
-- Berechnen Sie die obigen Kenngrößen mit der Funktion `summary`.
-- Wie groß ist die gemessene mittlere Spannung `Voltage`?
-- Wie groß ist der Median der globalen Wirkleistung `Global_active_power`?
-- Sehen Sie sich die Ausgabe von `describe` aus dem Paket `psych` an.
-- Wenden Sie die Funktion `stat.desc` aus dem Paket `pastecs` auf die Daten an (runden Sie die Ergebnisse auf eine Nachkommastelle).
-
 ```{r message=FALSE}
 library(readr)
 library(psych)
@@ -45,13 +36,6 @@ round(stat.desc(df[, 3:9]), 1)
 
 
 ### Übung 2
-Einer der bekanntesten Datensätze im Bereich Machine Learning ist der Iris-Datensatz von R. A. Fisher. Er beschreibt drei verschiedene Spezies einer Iris-Pflanze. Die Daten sind standardmäßig in R im Data Frame `iris` verfügbar.
-
-- Wie viele Pflanzen gibt es in dem Datensatz?
-- Wie viele Merkmale wurden pro Pflanze erhoben?
-- Berechnen Sie deskriptive Statistiken aller Variablen und vergleichen Sie Ihre Ergebnisse vom Mittelwert, Standardabweichung, Minimum und Maximum mit der Beschreibung auf der [UCI Machine Learning Datenbank](http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.names). Gibt es Unterschiede?
-- Berechnen Sie die Mittelwerte der vier Merkmale getrennt für jede der drei Iris-Arten.
-
 ```{r}
 dim(iris)  # 150 Pflanzen, 5 Merkmale
 sapply(iris[, 1:4], mean)
@@ -61,3 +45,10 @@ sapply(iris[, 1:4], max)
 by(iris[, 1:4], iris$Species, summary)
 ```
 
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

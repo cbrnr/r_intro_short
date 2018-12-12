@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -39,13 +39,13 @@ Erstellen wir mit `qplot` einige beispielhafte Grafiken. Dazu verwenden wir den 
 airquality$date <- as.Date(paste(airquality$Month, airquality$Day, "1973"), format="%m %d %Y")
 ```
 
-Nun verwenden wir `qplot`, um das Datum auf der x-Achse und die Ozonwerte auf der y-Achse grafisch darzustellen. Diese beiden Variablen kann man direkt als Argumente übergeben.
+Nun verwenden wir `qplot`, um das Datum auf der x-Achse und die Ozonwerte auf der y-Achse grafisch darzustellen. Diese beiden Spalten kann man direkt als Argumente übergeben.
 
 ```{r, fig.height=4, fig.width=4, warning=FALSE}
 qplot(airquality$date, airquality$Ozone)
 ```
 
-Alternativ kann man, wenn sich die Variablen in einem Data Frame befinden, die Funktion auch wie folgt aufrufen:
+Alternativ kann man, wenn sich die Daten als Spalten in einem Data Frame befinden, die Funktion auch wie folgt aufrufen:
 
 ```{r, eval=FALSE}
 qplot(date, Ozone, data=airquality)
@@ -56,7 +56,7 @@ Mit dem zusätzlichen Argument `geom="line"` werden die Daten durch eine Linie v
 qplot(date, Ozone, data=airquality, geom="line")
 ```
 
-Dementsprechend kann man zwei beliebige Variablen gegeneinander auftragen und man erhält einen Scatterplot:
+Dementsprechend kann man zwei beliebige Spalten gegeneinander auftragen und man erhält einen Scatterplot:
 
 ```{r, fig.height=4, fig.width=4, warning=FALSE}
 qplot(Wind, Ozone, data=airquality)
@@ -68,7 +68,7 @@ Wenn man einen Faktor übergibt (und das `y`-Argument weglässt), erhält man ei
 qplot(factor(Month), data=airquality)
 ```
 
-Übergibt man eine numerische Variable für das erste Argument (und lässt das `y`-Argument weg), erhält man ein Histogramm:
+Übergibt man eine numerischen Vektor für das erste Argument (und lässt das `y`-Argument weg), erhält man ein Histogramm:
 
 ```{r, fig.height=4, fig.width=4, warning=FALSE}
 qplot(Ozone, data=airquality)
@@ -108,15 +108,15 @@ qplot(x=factor(Month), y=Temp, data=airquality, geom="boxplot",
 ## Die `ggplot`-Funktion
 Das eigentliche `ggplot2`-System wird durch die `qplot`-Funktion größtenteils versteckt. Stößt man mit `qplot` an die Grenzen, kann man mit der Grammar of Graphics das volle Potenzial von `ggplot2` nutzen - dazu verwendet man dann die `ggplot`-Funktion.
 
-Hier ist nun der Aufbau einer Grafik von Bedeutung - d.h. es ist wichtig zu wissen, dass sich eine Grafik aus mehreren Ebenen zusammensetzt. Man beginnt immer mit der Spezifikation der Grafik, d.h. man legt das Data Frame fest, aus dem die darzustellenden Variablen stammen (dies bedeutet, dass die Daten zwingend in einem Data Frame vorliegen müssen). Außerdem gibt man die Variablen aus diesem Data Frame an, die man plotten möchte.
+Hier ist nun der Aufbau einer Grafik von Bedeutung - d.h. es ist wichtig zu wissen, dass sich eine Grafik aus mehreren Ebenen zusammensetzt. Man beginnt immer mit der Spezifikation der Grafik, d.h. man legt das Data Frame fest, aus dem die darzustellenden Spalten stammen (dies bedeutet, dass die Daten zwingend in einem Data Frame vorliegen müssen). Außerdem gibt man die Spalten aus diesem Data Frame an, die man plotten möchte.
 
-Im ersten Schritt legen wir also das Data Frame und die Variablen fest:
+Im ersten Schritt legen wir also das Data Frame und die Spalten fest:
 
 ```{r, fig.height=3, fig.width=4, warning=FALSE}
 ggplot(airquality, aes(Wind, Ozone))
 ```
 
-Hier ist anzumerken, dass die darzustellenden Variablen innerhalb der Funktion `aes` angegeben werden müssen.
+Hier ist anzumerken, dass die darzustellenden Spalten innerhalb der Funktion `aes` angegeben werden müssen.
 
 Die eigentlichen Daten werden noch nicht dargestellt - dafür benötigt man eine neue Ebene mit den gewünschten Geoms. In unserem Beispiel möchten wir Punkte zeichnen, d.h. wir verwenden `geom_point` dafür und addieren diese zur ersten Ebene (der Zeilenumbruch ist hier nicht notwendig, erhöht aber die Übersicht):
 
@@ -215,9 +215,15 @@ ggplot(airquality, aes(factor(Month), Ozone)) +
     theme_minimal()
 ```
 
+Alternativ kann man mit der Funktion `theme_set` ein Theme auch global für alle Grafiken setzen. Alle Grafiken, die danach erzeugt werden, verwenden diesen Stil. Das folgende Beispiel setzt `theme_minimal` als Standard-Theme:
+
+```{r}
+theme_set(theme_minimal())
+```
+
 ## Übungen
 ### Übung 1
-Laden Sie den in R integrierten Datensatz `iris` und erstellen Sie einen Scatterplot der Variablen `Sepal.Length` auf der x-Achse und `Petal.Length` auf der y-Achse. Stellen Sie die Punkte der drei Spezies in unterschiedlichen Farben dar. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
+Laden Sie den in R integrierten Datensatz `iris` und erstellen Sie einen Scatterplot der Spalten `Sepal.Length` auf der x-Achse und `Petal.Length` auf der y-Achse. Stellen Sie die Punkte der drei Spezies in unterschiedlichen Farben dar. Beschriften Sie die Achsen mit aussagekräftigen Bezeichnungen.
 
 ### Übung 2
 Verwenden Sie wieder den Datensatz `iris` und erstellen Sie eine Grafik, die einen Boxplot der Sepal Length für jede Species (also insgesamt drei Boxplots) zeigt.
@@ -235,3 +241,11 @@ $$\text{Verbrauch (in l/100km)} = \frac{235}{\text{Verbrauch (in MPG)}}$$
 
 ### Übung 6
 Welches Problem hat die Grafik, die Sie in Übung 4 erstellt haben? Wie können Sie dieses Problem mit `ggplot2` umgehen? *Hinweis:* Sehen Sie sich die Werte der `displ`-Spalte an. In diesem Zusammenhang könnte `geom_jitter` hilfreich sein.
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

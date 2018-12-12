@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -251,10 +251,25 @@ Berechnen Sie abschließend die Pearson-Korrelation zwischen den Daten beider Me
 *Anmerkung 2:* Für die Erstellung der ersten Grafik sollten Sie die Daten vorher ins Long-Format umwandeln:
 
 ```{r eval=FALSE}
-library(reshape2)
-pm10_long <- melt(pm10, id.vars="Datum", variable.name="Ort", value.name="pm10")
+library(tidyr)
+pm10_long <- gather(pm10, key="Ort", value="pm10", -Datum)
 ```
 
 Danach können Sie die Grafik mit der Variable `pm10_long` erstellen.
 
 *Anmerkung 3:* Wenn Sie die Funktion `cor` zur Berechnung der Korrelation zwischen den beiden Variablen verwenden möchten, können Sie fehlende Werte in jeder der beiden Variablen mit dem Argument `use="complete.obs"` ausschließen.
+
+### Übung 4
+In dieser Einheit haben wir die Signifikanz einer Korrelation $r = 0.25$ bei einer Stichprobengröße von $N = 40$ berechnet. Diese war mit $p = 0.12$ nicht signifikant. Welche Stichprobengröße $N$ müssten Sie wählen, um ein auf $\alpha = 0.05$ signifikantes Ergebnis zu erhalten?
+
+Bei welcher Stichprobengröße wird sogar eine sehr kleine Korrelation von $r = 0.05$ signifikant?
+
+(Take-Home-Message dieser Übung: Der *p*-Wert allein sagt fast gar nichts über das Ergebnis aus!)
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

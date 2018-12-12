@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -19,7 +19,7 @@ Vektoren werden in R verwendet, um eindimensionale Daten abzubilden. Häufig sin
 
 ## Matrizen
 ### Zusammenhang mit Vektoren
-Matrizen sind eigentlich Vektoren mit einem speziellen Dimensionsattribut, welches man mit der Funktion `dim` abfragen und setzen kann.
+Matrizen sind lediglich Vektoren mit einem speziellen Dimensionsattribut, welches man mit der Funktion `dim` abfragen und setzen kann.
 ```{r}
 v <- 1:20
 v
@@ -65,7 +65,7 @@ m
 ```
 
 ### Indizieren
-Das Herausgreifen einzelner Elemente funktioniert im Prinzip wie bei Vektoren. Der Hauptunterschied ist, dass man bei Matrizen zwei Indizes angibt: der erste entspricht den Zeilen und der zweite entspricht den Spalten. Wenn der erste Index weggelassen wird, werden alle Zeilen herausgegriffen. Wenn der zweite Index weggelassen wird, werden alle Spalten herausgegriffen. Zu beachten ist jedoch, dass das zur Trennung beider Indizes verwendete Komma verwendet werden sollte - auch wenn ein Index weggelassen wird. Die folgenden Beispiele illustrieren dies anschaulich.
+Das Herausgreifen einzelner Elemente funktioniert im Prinzip wie bei Vektoren. Der Hauptunterschied ist, dass man bei Matrizen zwei Indizes innerhalb der eckigen Klammern angibt: der erste entspricht den Zeilen und der zweite entspricht den Spalten. Wenn der erste Index weggelassen wird, werden alle Zeilen herausgegriffen. Wenn der zweite Index weggelassen wird, werden alle Spalten herausgegriffen. Zu beachten ist jedoch, dass das zur Trennung beider Indizes verwendete Komma verwendet werden sollte - auch wenn ein Index weggelassen wird. Die folgenden Beispiele illustrieren dies anschaulich.
 
 ```{r}
 m[1, 4]  # 1. Zeile, 4. Spalte
@@ -78,7 +78,7 @@ m[m[, "A"] > 2,]  # Zeilen, in denen die Spalte A > 2 ist
 ```
 
 ### Zwang (Coercion)
-Wenn man jetzt z.B. eine neue Spalte vom Typ `character` hinzufügen möchte, dann funktioniert das mit einer Matrix nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Zeichenketten umgewandelt.
+Wenn man jetzt z.B. eine neue Spalte vom Typ `character` hinzufügen möchte, dann funktioniert das mit einer Matrix nicht wie gewünscht, denn die numerischen Elemente werden automatisch in Zeichenketten "gezwungen".
 
 ```{r}
 subjects <- c("Hans", "Birgit", "Ferdinand", "Johanna")
@@ -121,7 +121,7 @@ Oft möchte man ein Data Frame spaltenweise aus einzelnen Vektoren zusammensetze
 data.frame(x=1:5, id=c("X", "c1", "V", "RR", "7G"), value=c(12, 18, 19, 3, 8))
 ```
 
-Hier ist hervorzuheben, dass die Spaltennamen automatisch auf den Argumentnamen gesetzt werden.
+Hier ist hervorzuheben, dass die Spaltennamen automatisch auf die Argumentnamen gesetzt werden.
 
 ### Anzeigen von Data Frames
 Eine schnelle Übersicht über ein Data Frame bekommt man mit den Funktionen `str`, `head` und `tail`. Die Funktion `str` stellt die Struktur eines Objektes knapp zusammengefasst dar:
@@ -142,13 +142,13 @@ str(l)
 ```
 
 ### Indizieren
-Auf einzelne Spalten eines Data Frames kann man schnell mit `$` gefolgt vom Spaltennamen zugreifen:
+Auf einzelne Spalten eines Data Frames kann man mit `$` gefolgt vom Spaltennamen zugreifen:
 ```{r}
 df$patient
 df$rating
 ```
 
-Diese Schreibweise kann man auch anwenden, wenn man dem Data Frame eine neue Spalte hinzufügen will. Dazu gibt man einen Spaltennamen an, der noch nicht vorhanden ist:
+Diese Schreibweise kann man auch anwenden, wenn man dem Data Frame eine neue Spalte hinzufügen will. Dazu gibt man einen Spaltennamen an, der noch nicht vorhanden ist und weist diesem einen entsprechenden Vektor zu:
 ```{r}
 df$new <- c("yes", "no", "no", "yes")
 df
@@ -163,7 +163,7 @@ df$new <- NULL
 df
 ```
 
-Wir können auch einzelne Spalten in einen anderen Datentyp umwandeln - z.B. können wir die `patient`-Spalte vom Typ `factor` in den Typ `character` konvertieren, indem wir diese Spalte mit neuen Werten überschreiben:
+Wir können auch einzelne Spalten in einen anderen Datentyp umwandeln - z.B. können wir die `patient`-Spalte vom Typ `factor` in den Typ `character` konvertieren, indem wir diese Spalte mit neuen Werten überschreiben (R wertet immer zuerst die rechte Seite der Zuweisung aus und führt erst dann die Zuweisung durch):
 ```{r}
 df$patient <- as.character(df$patient)
 str(df)
@@ -209,7 +209,7 @@ Bevor man Tibbles verwenden kann, muss man entweder `tibble` oder `tidyverse` ak
 library(tibble)
 ```
 
-Mit dem Befehl `tibble` kann man nun ein neues Tibble erstellen, ganz analog zur Funktion `data.frame`.
+Mit dem Befehl `tibble` kann man nun ein neues Tibble erstellen, ganz analog zur Funktion `data.frame`:
 
 ```{r}
 t <- tibble(subjects=c("Hans", "Birgit", "Ferdinand", "Johanna"), A=1:4, B=5:8, C=9:12, D=13:16, E=17:20)
@@ -224,7 +224,7 @@ Bei längeren Tabellen zeigt sich ein weiterer Vorteil von Tibbles. Gibt man gro
 iris
 ```
 
-Diese Darstellung von allen Zeilen ist alles andere als übersichtlich, deswegen lässt man sich hier am besten eine Zusammenfassung mittels `str`, `head` oder `tail` ausgeben. Bei Tibbles ist das nicht notwendig. Die Funktion `as_tibble` wandelt vorhandene Data Frames in Tibbles um.
+Diese Darstellung von allen Zeilen ist alles andere als übersichtlich, deswegen lässt man sich hier am besten eine Zusammenfassung mittels `str`, `head` oder `tail` ausgeben. Bei Tibbles ist das nicht notwendig (die Funktion `as_tibble` wandelt vorhandene Data Frames in Tibbles um):
 
 ```{r}
 iris_tibble <- as_tibble(iris)
@@ -264,3 +264,11 @@ Erstellen Sie ein neues Data Frame `df_f`, welches die Zeilen aller weiblichen P
 
 ### Übung 7
 Wie können Sie im eben erstellten Data Frame `df_f` auf die erste Spalte `name` zugreifen? Geben Sie drei Möglichkeiten an!
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).

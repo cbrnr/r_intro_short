@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "16.-17.2.2018"
+date: "14.-15.12.2018"
 output:
   html_document:
     fig_caption: no
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
-options(width=110)
+options(width=100)
 library(knitr)
 opts_chunk$set(comment=NA)
 ```
@@ -18,10 +18,6 @@ opts_chunk$set(comment=NA)
 
 ## Übungen
 ### Übung 1
-Sehen Sie sich die Hilfe zur Funktion `read.table` an. Welches Argument setzt das Dezimaltrennzeichen? Welches Argument enthält das Trennzeichen der Spalten?
-
-Beantworten Sie diese Fragen auch für die Funktion `read_delim` aus dem `readr`-Paket!
-
 ```{r}
 ?read.table
 library(readr)
@@ -34,12 +30,6 @@ In `read_delim` ist das Dezimaltrennzeichen mit dem Argument `locale` zu ändern
 
 
 ### Übung 2
-Laden Sie die Datei `wahl16.csv` von hier herunter:
-
-http://bit.ly/r_example_data
-
-In dieser Datei befinden sich die [Ergebnisse der Bundespräsidentenwahl 2016](http://wahl16.bmi.gv.at/1604-0.html) (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten). Laden Sie diese Daten in ein Data Frame oder Tibble namens `wahl16`und berechnen Sie die relative Gesamtanzahl an Stimmen für jeden Kandidaten (die Funktionen `colSums`, `rowSums` sowie `sum` könnten dabei hilfreich sein).
-
 ```{r message=FALSE}
 # library(readr) wurde bereits in Übung 1 durchgeführt
 wahl16 <- read_csv("wahl16.csv")
@@ -48,20 +38,6 @@ colSums(wahl16[, -1]) / sum(wahl16[, -1]) * 100  # in Prozent
 
 
 ### Übung 3
-Das [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) ist eine der bekanntesten Websites, welche Datensätze zur freien Verwendung zur Verfügung stellt. Laden Sie für diese Übung den Datensatz [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption) als [.zip-Datei](http://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip) herunter und entpacken Sie die Datei im Arbeitsverzeichnis (wenn Sie nachfolgend die Funktion `read_delim` aus dem Paket `readr` verwenden, müssen Sie die Datei nicht entpacken sondern können direkt die .zip-Datei laden).
-
-Diese Datei beinhaltet die minütliche elektrische Leistungsaufnahme eines Haushalts in einem Zeitraum von fast vier Jahren. Insgesamt gibt es über 2 Millionen Messpunkte und 9 Variablen, welche durch Strichpunkte voneinander `;` getrennt sind. Fehlende Werte sind mit einem Fragezeichen `?` codiert.
-
-Führen Sie folgende Schritte durch:
-
-- Lesen Sie die Daten in ein Data Frame oder Tibble namens `df` ein.
-- Sehen Sie sich die ersten paar Zeilen und die Struktur der Daten an.
-- Wie viele Zeilen und Spalten hat das Data Frame?
-- Wie viele fehlende Werte gibt es insgesamt? Wie viele fehlende Werte gibt es pro Spalte?
-- Welche Spalten könnte man eventuell noch in einen passenderen Typ umwandeln (Sie müssen das aber nicht tatsächlich durchführen)?
-
-*Hinweis:* Es ist wichtig, dass R beim Einlesen der Daten fehlende Werte korrekt erkennt. In dieser Datei werden fehlende Werte durch `?` markiert. Stellen Sie durch Setzen des entsprechenden Argumentes der Funktion `read.table` bzw. `read_delim` sicher, dass diese fehlenden Werte richtig eingelesen werden (und somit korrekt als `NA` interpretiert werden).
-
 ```{r message=FALSE}
 df <- read_delim("household_power_consumption.zip", ";", na="?")
 df
@@ -71,3 +47,11 @@ summary(df)  # zeigt auch die fehlenden Werte pro Spalte an
 ```
 
 Die Spalte `Date` könnte noch mit der Funktion `as.Date` in einen passenderen Typ konvertiert werden.
+
+---
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("cc_license.png")
+```
+
+Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).
