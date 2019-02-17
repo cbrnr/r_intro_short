@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "14.-15.12.2018"
+date: "14.-15.2.2019"
 output:
   html_document:
     fig_caption: no
@@ -80,14 +80,14 @@ x < 1
 class(x < 1)
 ```
 
-In R gibt es folgende Vergleichsoperatoren: `>`, `>=`, `<`, `<=`, `==` und `!=`. Vergleiche können mit `|` (oder) und `&` (und) verknüpft und mit `!` negiert werden. Gruppierungen durch Klammersetzung ist ebenfalls möglich.
+In R gibt es folgende Vergleichsoperatoren: `>`, `>=`, `<`, `<=`, `==` (ist gleich) und `!=` (ist ungleich). Vergleiche können mit `|` (oder) und `&` (und) verknüpft und mit `!` negiert werden. Gruppierungen durch Klammersetzung ist ebenfalls möglich.
 ```{r}
 (3 > 5) & (4 == 4)
 (TRUE == TRUE) | (TRUE == FALSE)
 ((111 >= 111) | !(TRUE)) & ((4 + 1) == 5)
 ```
 
-Achtung: Der Gleichheitsoperator lautet `==` (also zwei Gleichheitszeichen) und nicht `=`!
+Achtung: Der Gleichheitsoperator lautet `==` (also zwei Gleichheitszeichen)!
 
 ### Zeichenkettenvektoren
 Zeichenkettenvektoren bestehen aus einzelnen Zeichenketten (`character`), welche in Anführungszeichen gesetzt werden. Es können sowohl einfache `'` als auch doppelte `"` Anführungszeichen verwendet werden. Eine Zeichenkette kann aus Buchstaben, Ziffern und Sonderzeichen bestehen.
@@ -102,12 +102,12 @@ class("Hello!")
 Die Funktion `length` gibt wie erwartet die Länge des Vektors aus und nicht die Anzahl der Zeichen einer Zeichenkette. Dafür kann man die Funktion `nchar` verwenden.
 
 ```{r}
-length('Hello!')
-nchar('Hello!')
+length(c('Hello', 'world!'))
+nchar(c('Hello', 'world!'))
 ```
 
 ## Zwang (Coercion)
-Wie bereits erwähnt sind Vektoren homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man einen Vektor mit Elementen unterschiedlichen Typs erstellt, wird der Vektor automatisch in einen Typ gezwungen, welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten "gezwungen" (da Zeichenketten im allgemeinen nicht als Zahlen dargestellt werden können).
+Wie bereits erwähnt sind Vektoren homogene Datentypen, d.h. sie enthalten nur Elemente desselben Typs. Wenn man einen Vektor mit Elementen unterschiedlichen Typs erstellt, wird der Vektor automatisch in einen Typ gezwungen, welcher alle Elemente abbilden kann. Wenn man also Zahlen mit Zeichenketten mischt, werden alle Elemente in Zeichenketten "gezwungen" (da Zeichenketten im Allgemeinen nicht als Zahlen dargestellt werden können).
 
 ```{r}
 x <- c(1, 2.14, "5", 6)
@@ -132,21 +132,6 @@ as.numeric(c("1", "2.12", "66"))
 Wenn das nicht geht, wird eine Warnung ausgegeben und `NA` (steht für "Not Available", also fehlender Wert) für das Element, welches sich nicht umwandeln lässt, angenommen:
 ```{r}
 as.numeric(c("1", "2.12", "X"))
-```
-
-## Überprüfung des Typs
-Wie erwähnt kann man mit `class` den Typ eines Vektors herausfinden. Mit folgenden verwandten Funktionen kann man überprüfen, ob es sich bei einem Vektor um einen bestimmten Typ handelt:
-
-- `is.numeric`
-- `is.integer`
-- `is.logical`
-- `is.character`
-
-```{r}
-is.numeric(c("1", "2.12", "66"))
-is.numeric(c(1, 2, 3))
-is.character("4")
-is.character(4)
 ```
 
 ## Rechnen mit Vektoren
@@ -268,10 +253,16 @@ vect
 ```
 Mit der Funktion `is.na` können die fehlenden Werte bestimmt werden. So kann man einfach alle Werte aus einem Vektor extrahieren, die nicht `NA` sind.
 ```{r}
-is.na(vect)
-!is.na(vect)
+is.na(vect)  # alle fehlenden Werte
+```
+
+Mit dem `!` kann man einen logischen Vektor invertieren, d.h. alle `TRUE` werden `FALSE` und umgekehrt.
+
+```{r}
+!is.na(vect)  # alle nicht fehlenden Werte
 vect[!is.na(vect)]
 ```
+
 Es gibt noch einen weiteren speziellen Typ für nicht definierte Ausdrücke namens `NaN` (not a number). Dieser Wert ist automatisch `NA`; umgekehrt ist aber `NA` nicht automatisch `NaN`.
 ```{r}
 0 / 0
@@ -283,10 +274,10 @@ is.nan(NA)
 
 ## Übungen
 ### Übung 1
-Berechnen Sie die Fläche sowie den Umfang eines Kreises mit dem Radius 5 (erzeugen Sie dafür eine Variable `r`). Speichern Sie die Ergebnisse in Variablen `a` bzw. `u` ab. Wie lauten die Werte beider Variablen?
+Berechnen Sie die Fläche sowie den Umfang eines Kreises mit dem Radius 5 (erzeugen Sie dafür eine Variable `r`). Speichern Sie die Ergebnisse in den Variablen `a` bzw. `u` ab. Wie lauten die Werte der beiden Variablen?
 
 ### Übung 2
-Erstellen Sie einen Vektor `x` mit den Elementen 4, 18, -7, 16, 4, 29, 8 und -44. Geben Sie `x` am Bildschirm aus. Erstellen Sie danach einen Vektor `y`, welcher die quadrierten Elemente aus `x` enthält (nutzen Sie dazu die Eigenschaft, dass R Rechenoperationen elementweise durchführt). Geben Sie `y` am Bildschirm aus. Zum Schluss erstellen Sie einen Vektor `z`, indem Sie `x` und `y` aneinanderhängen. Geben Sie `z` am Bildschirm aus. Mit welcher Funktion können Sie die Anzahl der Elemente in `z` bestimmen?
+Erstellen Sie einen Vektor `x` mit den Elementen 4, 18, -7, 16, 4, 29, 8 und -44. Erstellen Sie danach einen Vektor `y`, welcher die quadrierten Elemente aus `x` enthält (nutzen Sie dazu die Eigenschaft, dass R Rechenoperationen elementweise durchführt). Zum Schluss erstellen Sie einen Vektor `z`, indem Sie `x` und `y` aneinanderhängen. Mit welcher Funktion können Sie die Anzahl der Elemente in `z` bestimmen?
 
 ### Übung 3
 Gegeben sei folgender Vektor:
@@ -298,7 +289,7 @@ Welche Elemente aus `x` sind gerade? Welche Elemente sind ungerade? Erstellen Si
 *Hinweis:* Gerade Zahlen ergeben einen Rest von 0 wenn man sie durch 2 dividiert, ungerade einen Rest von 1. Verwenden Sie daher den Operator `%%` für den Rest einer Division.
 
 ### Übung 4
-Erstellen Sie folgende Vektoren und geben Sie sie am Bildschirm aus:
+Erstellen Sie folgende Vektoren:
 
 - Einen Vektor mit den ganzen Zahlen von 15 bis 40.
 - Einen Vektor mit den absteigenden Zahlen von 80 bis 60 in Dreierschritten.

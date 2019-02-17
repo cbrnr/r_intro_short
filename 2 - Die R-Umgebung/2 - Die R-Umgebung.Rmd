@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "14.-15.12.2018"
+date: "14.-15.2.2019"
 output:
   html_document:
     fig_caption: no
@@ -170,7 +170,7 @@ Gleich danach folgen diese beiden Zeilen für die Verwendung der Standardmethode
 
 Hier erkennt man, dass die Funktion ein Argument `x` erwartet. Dieses Argument ist verpflichtend, d.h. wenn man es nicht angibt bekommt man eine Fehlermeldung (probieren Sie es in der Console aus, indem Sie `mean()` eintippen). Dies sieht man am Hilfetext, weil kein Standardwert für `x` ersichtlich ist. Im Gegensatz dazu sind die nächsten beiden Argumente `trim` und `na.rm` optional, d.h. man muss sie nicht angeben, denn in diesem Fall werden deren Standardwerte verwendet (`trim` hat den Wert `0` und `na.rm` hat den Wert `FALSE` falls nicht anders angegeben).
 
-Die Bedeutung der Argumente wird im Abschnitt *Arguments* genau beschrieben. Der Wert, der von der Funktion berechnet und zurückgegeben wird, wird im Abschnitt *Value* beschrieben. Danach folgen Literaturhinweise, verwandte Funktionen und schließlich ein paar Beispiele. Diese Beispiele kann man meistens einfach kopieren und in der Konsole auführen:
+Die Bedeutung der Argumente wird im Abschnitt *Arguments* genau beschrieben. Der Wert, der von der Funktion berechnet und zurückgegeben wird, wird im Abschnitt *Value* beschrieben. Danach folgen Literaturhinweise, verwandte Funktionen und schließlich ein paar Beispiele. Diese Beispiele kann man meistens einfach kopieren und in der Console auführen:
 
 ```{r}
 x <- c(0:10, 50)
@@ -221,7 +221,7 @@ mean(x=tmp)
 
 ### Online-Kurse
 
-- [Introduction to R Programming](https://www.edx.org/course/introduction-to-r-for-data-science)
+- [Introduction to R for Data Science](https://www.edx.org/course/introduction-r-data-science-3)
 - [R Programming](https://www.coursera.org/learn/r-programming)
 - [Master Statistics with R](https://www.coursera.org/specializations/statistics)
 - [Mastering Software Development in R](https://www.coursera.org/specializations/r)

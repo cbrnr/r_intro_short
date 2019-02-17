@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "14.-15.12.2018"
+date: "14.-15.2.2019"
 output:
   html_document:
     fig_caption: no
@@ -59,7 +59,7 @@ Im Laufe dieser Veranstaltung werden wir auf die einzelnen Bestandteile dieses C
 
 ## Installation
 ### R
-Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" - "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 3.5.1).
+Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" - "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 3.5.2).
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("R_logo.png")

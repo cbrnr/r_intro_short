@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "14.-15.12.2018"
+date: "14.-15.2.2019"
 output:
   html_document:
     fig_caption: no
@@ -68,7 +68,7 @@ Wenn man einen Faktor übergibt (und das `y`-Argument weglässt), erhält man ei
 qplot(factor(Month), data=airquality)
 ```
 
-Übergibt man eine numerischen Vektor für das erste Argument (und lässt das `y`-Argument weg), erhält man ein Histogramm:
+Übergibt man einen numerischen Vektor für das erste Argument (und lässt das `y`-Argument weg), erhält man ein Histogramm:
 
 ```{r, fig.height=4, fig.width=4, warning=FALSE}
 qplot(Ozone, data=airquality)
@@ -108,7 +108,7 @@ qplot(x=factor(Month), y=Temp, data=airquality, geom="boxplot",
 ## Die `ggplot`-Funktion
 Das eigentliche `ggplot2`-System wird durch die `qplot`-Funktion größtenteils versteckt. Stößt man mit `qplot` an die Grenzen, kann man mit der Grammar of Graphics das volle Potenzial von `ggplot2` nutzen - dazu verwendet man dann die `ggplot`-Funktion.
 
-Hier ist nun der Aufbau einer Grafik von Bedeutung - d.h. es ist wichtig zu wissen, dass sich eine Grafik aus mehreren Ebenen zusammensetzt. Man beginnt immer mit der Spezifikation der Grafik, d.h. man legt das Data Frame fest, aus dem die darzustellenden Spalten stammen (dies bedeutet, dass die Daten zwingend in einem Data Frame vorliegen müssen). Außerdem gibt man die Spalten aus diesem Data Frame an, die man plotten möchte.
+Hier ist nun der Aufbau einer Grafik von Bedeutung - d.h. es ist wichtig zu wissen, dass sich eine Grafik aus mehreren Ebenen zusammensetzt. Man beginnt immer mit der Spezifikation der Grafik, d.h. man legt das Data Frame fest, aus dem die darzustellenden Spalten stammen. Außerdem gibt man die Spalten aus diesem Data Frame an, die man plotten möchte.
 
 Im ersten Schritt legen wir also das Data Frame und die Spalten fest:
 

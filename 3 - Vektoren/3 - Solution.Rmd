@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "14.-15.12.2018"
+date: "14.-15.2.2019"
 output:
   html_document:
     fig_caption: no
@@ -20,21 +20,16 @@ opts_chunk$set(comment=NA)
 ### Übung 1
 ```{r}
 r <- 5
-a <- r**2 * pi
-u <- 2 * r * pi
-a
-u
+(a <- r**2 * pi)
+(u <- 2 * r * pi)
 ```
 
 
 ### Übung 2
 ```{r}
-x <- c(4, 18, -7, 16, 4, 29, 8, -44)
-x
-y <- x**2
-y
-z <- c(x, y)
-z
+(x <- c(4, 18, -7, 16, 4, 29, 8, -44))
+(y <- x**2)
+(z <- c(x, y))
 length(z)
 ```
 
@@ -42,10 +37,8 @@ length(z)
 ### Übung 3
 ```{r}
 x <- c(44, 23, -56, 98, 99, 32, 45, 19, 22)
-even <- x %% 2 == 0
-even
-odd <- x %% 2 != 0
-odd
+(even <- x %% 2 == 0)
+(odd <- x %% 2 != 0)
 x[even]
 x[odd]
 ```

@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "14.-15.12.2018"
+date: "14.-15.2.2019"
 output:
   html_document:
     fig_caption: no
@@ -33,7 +33,7 @@ file.show("lecturer.dat")
 
 Alternativ kann man die Datei auch in einem beliebigen Texteditor öffnen. Man erkennt, dass bei dieser konkreten Datei die einzelnen Spalten nicht durch sichtbare Zeichen wie Kommas oder Semikolons getrennt sind. Offensichtlich sind die Spalten durch Tabulatoren getrennt, denn diese Zeichen sind (so wie auch Leerzeichen) in der Ausgabe nicht sichtbar. Weiters ist eine Kopfzeile mit den Variablennamen vorhanden.
 
-Man kann versuchen, die Funktion `read.table` mit Standardargumenten aufzurufen und dann Argumente so lange anpassen, bis die Daten korrekt eingelesen werden:
+Man kann versuchen, die Funktion `read.table` mit Standardargumenten aufzurufen und dann Argumente so lange anzupassen, bis die Daten korrekt eingelesen werden:
 
 ```{r}
 read.table("lecturer.dat")
@@ -210,7 +210,7 @@ library(tidyr)
 (df_long <- gather(df, variable, value, -Person))
 ```
 
-Hier übergibt man zuerst die Daten im Wide-Format, gefolgt vom gewünschten Namen der Key-Spalte (Indikatorspalte) und vom gewünschten Namen der Value-Spalte (Wertespalte). Danach gibt man alle Spalten an, die man zusammenfassen möchte (in unserem Beispiel wählen wir alle Spalten bis auf die Person-Spalte aus).
+Hier übergibt man zuerst die Daten im Wide-Format, gefolgt vom gewünschten Namen der Key-Spalte (Indikatorspalte) und vom gewünschten Namen der Value-Spalte (Wertespalte). Danach gibt man alle Spalten an, die man zusammenfassen möchte (in unserem Beispiel wählen wir alle Spalten bis auf die `Person`-Spalte aus).
 
 Der umgekehrte Weg wird mit `spread` beschritten; diese Funktion kann eine Spalte auf mehrere Spalten aufteilen:
 
@@ -231,7 +231,7 @@ Laden Sie die Datei `wahl16.csv` von hier herunter:
 
 http://bit.ly/r_example_data
 
-In dieser Datei befinden sich die [Ergebnisse der Bundespräsidentenwahl 2016](http://wahl16.bmi.gv.at/1604-0.html) (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten). Laden Sie diese Daten in ein Data Frame oder Tibble namens `wahl16`und berechnen Sie die relative Gesamtanzahl an Stimmen für jeden Kandidaten (die Funktionen `colSums`, `rowSums` sowie `sum` könnten dabei hilfreich sein).
+In dieser Datei befinden sich die [Ergebnisse der Bundespräsidentenwahl 2016](http://wahl16.bmi.gv.at/1604-0.html) (und zwar nach dem ersten Wahlgang mit den sechs ursprünglichen Kandidaten). Laden Sie diese Daten in ein Data Frame oder Tibble namens `wahl16`und berechnen Sie die relative Gesamtanzahl an Stimmen für alle Kandidaten (die Funktionen `colSums`, `rowSums` sowie `sum` könnten dabei hilfreich sein).
 
 ### Übung 3
 Das [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/) ist eine der bekanntesten Websites, welche Datensätze zur freien Verwendung zur Verfügung stellt. Laden Sie für diese Übung den Datensatz [Individual Household Electric Power Consumption](http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption) als [.zip-Datei](http://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip) herunter und entpacken Sie die Datei im Arbeitsverzeichnis (wenn Sie nachfolgend die Funktion `read_delim` aus dem Paket `readr` verwenden, müssen Sie die Datei nicht entpacken sondern können direkt die .zip-Datei laden).

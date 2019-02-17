@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
 author: "Clemens Brunner"
-date: "14.-15.12.2018"
+date: "14.-15.2.2019"
 output:
   html_document:
     fig_caption: no
@@ -245,7 +245,7 @@ Beantworten Sie folgende Fragen zur Matrix `r` aus Übung 1:
 - Wie lautet der Mittelwert der Elemente in den Zeilen 3-7 und Spalten 4-6?
 
 ### Übung 3
-Erstellen Sie ein Data Frame `df` mit 10 Zeilen und 2 Spalten wie folgt:
+Erstellen Sie ein Data Frame `df` mit 10 Zeilen und 3 Spalten wie folgt:
 
 - Die erste Spalte soll `name` heißen und die Werte Ben, Emma, Luis, Mia, Paul, Hanna, Lukas, Sophia, Jonas und Emilia beinhalten.
 - Die zweite Spalte `gender` soll das Geschlecht der Personen beinhalten, d.h. entweder den Buchstaben `m` oder `f`.
@@ -257,7 +257,7 @@ Geben Sie abschließend `df` am Bildschirm aus. Welche Datentypen haben die drei
 Erstellen Sie ein Tibble mit den Spalten wie in Übung 3 beschrieben (verwenden Sie dazu die Funktion `tibble` aus dem Paket `tibble`). Speichern Sie dieses Tibble in der Variable `tf` ab und geben Sie es am Bildschirm aus. Unterscheiden sich die Spaltentypen des Tibbles von jenen des Data Frames?
 
 ### Übung 5
-Wandeln Sie das in Übung 3 erstelle Data Frame `df` in ein Tibble um.
+Wandeln Sie das in Übung 3 erstellte Data Frame `df` in ein Tibble um.
 
 ### Übung 6
 Erstellen Sie ein neues Data Frame `df_f`, welches die Zeilen aller weiblichen Personen aus `df` enthält, und geben Sie dieses am Bildschirm aus. *Hinweis:* Verwenden Sie für die notwendige Vergleichsoperation in der Funktion `subset` oder in den eckigen Indizierungsklammern den richtigen Vergleichsoperator `==` (und nicht `=`).
