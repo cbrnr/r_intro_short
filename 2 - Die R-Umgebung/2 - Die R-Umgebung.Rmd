@@ -84,7 +84,13 @@ Ganz besonders zu empfehlen sind die Pakete aus dem sogenannten [Tidyverse](http
 ### Scripts
 Befehle in der R-Console einzugeben ist praktisch, wenn man neue Dinge interaktiv ausprobieren möchte bzw. nur schnell Kleiningkeiten berechnen will. Möchte man eine aufwändigere Datenanalyse durchführen, dann sollte man die dafür notwendigen Befehle in einem sogenannten R-Script abspeichern. Dabei handelt es sich um eine Textdatei mit der Endung `.R`.
 
-In ein R-Script schreibt man prinzipiell einen Befehl pro Zeile. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach von R ausgeführt. Zeilen, die mit einem `#`-Zeichen beginnen, werden ignoriert - dies nutzt man, um Kommentare im Code hinzuzufügen. Beispiel:
+In jeder Zeile eines R-Scripts befindet sich meist genau ein R-Befehl. Wenn man das Script ausführt, werden alle Zeilen vom Anfang bis zum Ende der Reihe nach ausgeführt. In RStudio kann man ein gesamtes Script durch Klicken auf die Schaltfläche "Source" (bzw. "Source with Echo") ausführen. Möchte man nur die aktuelle Zeile bzw. die markierten Zeilen ausführen, kann man dies durch Klicken auf die Schaltfläche "Run" tun.
+
+```{r, fig.retina = NULL, echo=FALSE}
+knitr::include_graphics("rstudio_run_code.png")
+```
+
+Zeilen, die mit einem `#`-Zeichen beginnen, werden ignoriert - dies nutzt man, um Kommentare im Code hinzuzufügen. Beispiel:
 
 ```{r}
 # compute sum of integers from 1 to 100
