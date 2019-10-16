@@ -67,7 +67,7 @@ se_z <- 1 / sqrt(N - 3)
 (p <- 2 * (1 - pnorm(z / se_z)))
 ```
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
