@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
   html_document:
     fig_caption: no
@@ -62,7 +62,7 @@ qplot(displ, hwy, data=mpg, geom=c("jitter", "smooth"), method="lm")
 ggplot(mpg, aes(displ, hwy)) + geom_jitter() + geom_smooth(method="lm")
 ```
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")

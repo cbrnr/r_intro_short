@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
   html_document:
     fig_caption: no
@@ -242,7 +242,7 @@ $$\text{Verbrauch (in l/100km)} = \frac{235}{\text{Verbrauch (in MPG)}}$$
 ### Übung 6
 Welches Problem hat die Grafik, die Sie in Übung 4 erstellt haben? Wie können Sie dieses Problem mit `ggplot2` umgehen? *Hinweis:* Sehen Sie sich die Werte der `displ`-Spalte an. In diesem Zusammenhang könnte `geom_jitter` hilfreich sein.
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
