@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
   html_document:
     fig_caption: no
@@ -233,7 +233,7 @@ Vergleichen Sie im `iris`-Datensatz, ob sich die vier Merkmale zwischen den Spez
 ### Übung 3
 Laden Sie den Datensatz `immer` aus dem Paket `MASS`. Berechnen Sie ein 99%-Konfidenzintervall für den Unterschied des durchschnittlichen Gerstenertrages zwischen den beiden Jahren. Ist dieser Unterschied signifikant?
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
