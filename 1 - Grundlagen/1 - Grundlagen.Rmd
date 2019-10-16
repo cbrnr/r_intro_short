@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
   html_document:
     fig_caption: no
@@ -59,14 +59,14 @@ Im Laufe dieser Veranstaltung werden wir auf die einzelnen Bestandteile dieses C
 
 ## Installation
 ### R
-Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" - "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 3.5.2).
+Alle relevanten Informationen zur Installation von R sind auf der [offiziellen Website](https://www.r-project.org/) zu finden. Hier finden sich detaillierte Anleitungen für jede unterstützte Plattform. Der Download-Link befindet sich in der linken Spalte ganz oben unter "Download" - "CRAN". Es ist sinnvoll, stets mit der aktuellsten Version von R zu arbeiten (bei der Erstellung dieses Dokuments war dies Version 3.6.1).
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("R_logo.png")
 ```
 
 ### RStudio
-R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche (GUI[^1]). Obwohl man mit der mitgelieferten GUI relativ komfortabel arbeiten kann (vor allem unter macOS), hat sich dennoch die alternative Oberfläche [RStudio](https://www.rstudio.com/) als De-Facto-Standard durchgesetzt. RStudio ist eine reine GUI, d.h. es wird eine installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 1.1.463).
+R ist modular aufgebaut und besteht aus einem Kern sowie einer grafischen Oberfläche (GUI[^1]). Obwohl man mit der mitgelieferten GUI relativ komfortabel arbeiten kann (vor allem unter macOS), hat sich dennoch die alternative Oberfläche [RStudio](https://www.rstudio.com/) als De-Facto-Standard durchgesetzt. RStudio ist eine reine GUI, d.h. es wird eine installierte R-Umgebung vorausgesetzt. Auch hier ist es ratsam, stets die aktuellste Version zu verwenden (bei der Erstellung dieses Dokuments war dies Version 1.2.5001).
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("RStudio_logo.png")
@@ -145,8 +145,6 @@ Gegeben seien folgende Messwerte: 11, 27, 15, 10, 32, 18, 25, 22, 29, 11. Berech
 Berechnen Sie in R das Ergebnis des folgenden Ausdrucks (achten Sie auf die richtige Klammersetzung):
 
 $$\sqrt 2 \cdot \frac{(5^3 - 2) \cdot \sqrt{18}}{\left(\frac{7}{5} + 13.2 \right) \cdot 7^\frac{2}{3}}$$
-
----
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
