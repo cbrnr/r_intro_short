@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
   html_document:
     fig_caption: no
@@ -83,7 +83,7 @@ df_f[, "name"]
 df_f[, 1]
 ```
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")

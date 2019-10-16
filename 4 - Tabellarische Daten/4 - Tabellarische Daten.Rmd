@@ -1,11 +1,11 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
+  pdf_document: default
   html_document:
     fig_caption: no
-  pdf_document: default
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
@@ -265,7 +265,7 @@ Erstellen Sie ein neues Data Frame `df_f`, welches die Zeilen aller weiblichen P
 ### Übung 7
 Wie können Sie im eben erstellten Data Frame `df_f` auf die erste Spalte `name` zugreifen? Geben Sie drei Möglichkeiten an!
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
