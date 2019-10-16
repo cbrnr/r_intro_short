@@ -1,11 +1,11 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
+  pdf_document: default
   html_document:
     fig_caption: no
-  pdf_document: default
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
@@ -320,7 +320,7 @@ Gegeben seien folgende Standardabweichungen von verschiedenen Variablen:
 
 Wie können Sie daraus die Varianzen berechnen?
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
