@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
   html_document:
     fig_caption: no
@@ -19,19 +19,15 @@ opts_chunk$set(comment=NA)
 ## Übungen
 ### Übung 1
 ```{r}
-?read.table
 library(readr)
 ?read_delim
 ```
-
-In `read.table` setzt das Argument `dec` das Dezimaltrennzeichen. Das Spaltentrennzeichen wird durch das Argument `sep` festgelegt.
 
 In `read_delim` ist das Dezimaltrennzeichen mit dem Argument `locale` zu ändern. Dies ist etwas umständlicher, da man nicht direkt das gewünschte Dezimaltrennzeichen übergeben kann, sondern dies in einen Funktionsaufruf verpacken muss. Will man beispielsweise ein Komma als Dezimaltrennzeichen, setzt man das Argument so: `locale=locale(decimal_mark=",")`. Das Spaltentrennzeichen wird bei `read_delim` mit dem zweiten Argument `delim` festgelegt.
 
 
 ### Übung 2
 ```{r message=FALSE}
-# library(readr) wurde bereits in Übung 1 durchgeführt
 wahl16 <- read_csv("wahl16.csv")
 colSums(wahl16[, -1]) / sum(wahl16[, -1]) * 100  # in Prozent
 ```
@@ -48,7 +44,7 @@ summary(df)  # zeigt auch die fehlenden Werte pro Spalte an
 
 Die Spalte `Date` könnte noch mit der Funktion `as.Date` in einen passenderen Typ konvertiert werden.
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
