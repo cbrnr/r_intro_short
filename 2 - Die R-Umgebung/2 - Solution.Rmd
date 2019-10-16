@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
   html_document:
     fig_caption: no
@@ -18,10 +18,10 @@ opts_chunk$set(comment=NA)
 
 ## Übungen
 ### Übung 1
-Man installiert Pakete mit `install.packages`, d.h. für die drei Pakete sind folgende Befehle auszuführen: `install.packages("tidyverse")`, `install.packages("Hmisc")` und `install.packages("psych")`. Anschließend kann man mit `library` die gewünschten Pakete aktivieren, also hier:
+Man installiert Pakete mit `install.packages`, d.h. für die drei Pakete sind folgende Befehle auszuführen: `install.packages("readr")`, `install.packages("Hmisc")` und `install.packages("psych")`. Anschließend kann man mit `library` die gewünschten Pakete aktivieren:
 
 ```{r eval=FALSE}
-library(tidyverse)
+library(readr)
 library(Hmisc)
 library(psych)
 ```
@@ -29,7 +29,7 @@ library(psych)
 Die Versionsnummern von Paketen kann man entweder der Packages-Liste in RStudio entnehmen (standardmäßig im Bereich rechts unten), oder man verwendet die Funktion `packageVersion` dafür:
 
 ```{r}
-packageVersion("tidyverse")
+packageVersion("readr")
 packageVersion("Hmisc")
 packageVersion("psych")
 ```
@@ -57,7 +57,6 @@ install_from_swirl("Open Intro")
 swirl()
 ```
 
----
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")

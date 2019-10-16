@@ -1,11 +1,11 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
+  pdf_document: default
   html_document:
     fig_caption: no
-  pdf_document: default
 ---
 
 ```{r set-options, echo=FALSE, cache=FALSE}
@@ -234,7 +234,7 @@ mean(x=tmp)
 
 ## Übungen
 ### Übung 1
-Installieren Sie die Pakete `tidyverse`, `Hmisc` und `psych` - welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
+Installieren Sie die Pakete `readr`, `Hmisc` und `psych` - welche R-Befehle verwenden Sie dafür? Nennen Sie die Versionsnummern dieser Pakete. Mit welchen Befehlen können Sie die installierten Pakete anschließend aktivieren?
 
 ### Übung 2
 Zeigen Sie die Hilfe zum Befehl `help` an. Welche zwei Möglichkeiten haben Sie dafür?
@@ -253,7 +253,7 @@ Installieren Sie das Paket `swirl`. Aktivieren Sie anschließend dieses Paket. I
 
 Nach einigen Informationen über die Verwendung von `swirl` können Sie einen Kurs auswählen - wählen Sie "Open Intro". Es gibt nur eine Lektion namens "Overview of Statistics" - wählen Sie diese Lektion aus und schließen Sie diese Lektion komplett ab (die Dauer beträgt ungefähr 30 Minuten).
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
