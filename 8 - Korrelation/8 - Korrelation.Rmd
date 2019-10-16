@@ -1,7 +1,7 @@
 ---
 title: "Einführung in R"
-author: "Clemens Brunner"
-date: "14.-15.2.2019"
+author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
+date: "18.-19.10.2019"
 output:
   html_document:
     fig_caption: no
@@ -266,7 +266,7 @@ Bei welcher Stichprobengröße wird sogar eine sehr kleine Korrelation von $r = 
 
 (Take-Home-Message dieser Übung: Der *p*-Wert allein sagt fast gar nichts über das Ergebnis aus!)
 
----
+
 
 ```{r, fig.retina = NULL, echo=FALSE}
 knitr::include_graphics("cc_license.png")
