@@ -1,0 +1,63 @@
+---
+title: "Introduction to R"
+author: "2 &ndash; R Environment (Solutions)"
+date: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at), December 2020"
+output:
+  html_document:
+    fig_caption: no
+  pdf_document: default
+---
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width=100)
+library(knitr)
+opts_chunk$set(comment=NA)
+```
+
+# Exercise 1
+We install packages with `install.packages`:
+
+```{r eval=FALSE}
+install.packages("readr")
+install.packages("Hmisc")
+install.packages("psych")
+```
+
+Afterwards, we can activate these packages:
+
+```{r eval=FALSE}
+library(readr)
+library(Hmisc)
+library(psych)
+```
+
+Package versions are shown in the *Packages* panel (bottom right region in RStudio); the corresponding R function is `packageVersion`:
+
+```{r}
+packageVersion("readr")
+packageVersion("Hmisc")
+packageVersion("psych")
+```
+
+The easiest way to uninstall a package is to click on the gray "X" in the *Packages* panel; the corresponding R function is `remove.packages`.
+
+# Exercise 2
+```{r}
+help(help)
+?help
+```
+
+# Exercise 3
+```{r eval=FALSE}
+# Exercise 3
+
+library(psych)
+
+m <- (45 + 66 + 37 + 54 + 17 + 22) / 6
+```
+
+# Exercise 4
+When we call `mean(1, 2, 3)`, we pass three arguments. These get assigned by position to `x`, `trim`, and `na.rm`. We could also write this function call as `mean(x=1, trim=2, na.rm=3)`. That's why the function computes the mean of 1 (and although the other two arguments do not make sense, R does not complain).
+
+---
+[![](cc_license.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)

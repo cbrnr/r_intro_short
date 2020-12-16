@@ -18,7 +18,7 @@ opts_chunk$set(comment=NA)
 The R console automatically displays the R version (along with other messages). To determine the RStudio version, open "Help" &ndash; "About RStudio".
 
 ```{r, fig.retina = NULL, echo=FALSE}
-knitr::include_graphics("R_versions.png")
+knitr::include_graphics("r_versions.png")
 ```
 
 # Exercise 2
