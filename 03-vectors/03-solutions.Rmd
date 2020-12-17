@@ -1,7 +1,7 @@
 ---
-title: "Einführung in R"
-author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
-date: "18.-19.10.2019"
+title: "Introduction to R"
+author: "3 &ndash; Vectors (Solutions)"
+date: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at), December 2020"
 output:
   html_document:
     fig_caption: no
@@ -14,18 +14,14 @@ library(knitr)
 opts_chunk$set(comment=NA)
 ```
 
-# Vektoren
-
-## Übungen
-### Übung 1
+# Exercise 1
 ```{r}
-r <- 5
-(a <- r**2 * pi)
-(u <- 2 * r * pi)
+radius <- 5
+(area <- radius**2 * pi)
+(circumference <- 2 * radius * pi)
 ```
 
-
-### Übung 2
+# Exercise 2
 ```{r}
 (x <- c(4, 18, -7, 16, 4, 29, 8, -44))
 (y <- x**2)
@@ -33,59 +29,46 @@ r <- 5
 length(z)
 ```
 
-
-### Übung 3
+# Exercise 3
 ```{r}
 x <- c(44, 23, -56, 98, 99, 32, 45, 19, 22)
-(even <- x %% 2 == 0)
-(odd <- x %% 2 != 0)
-x[even]
-x[odd]
+x[x %% 2 == 0]
+x[x %% 2 != 0]
 ```
 
-
-### Übung 4
+# Exercise 4
 ```{r}
 15:40
 seq(80, 60, -3)
 seq(14, 39, length.out=77)
 ```
 
-
-### Übung 5
+# Exercise 5
 ```{r}
-rep(c("Placebo", "Group 1", "Group 2"), each=15)
+rep(c("placebo", "group 1", "group 2"), each=15)
 ```
 
-
-### Übung 6
+# Exercise 6
 ```{r}
 k <- seq(0, 40, 2)
 k[-c(8, 9)]
 k[1:5]
-k[c(2, 5, 26)]  # Element 26 gibt es nicht -> NA
+k[c(2, 5, 26)]  # element 26 doesn't exist -> NA
 k[k > 11]
 ```
 
-
-### Übung 7
+# Exercise 7
 ```{r}
 t <- c(10, 20, NA, 30, 40)
 mean(t)
 mean(t, na.rm=TRUE)
 ```
 
-
-### Übung 8
+# Exercise 8
 ```{r}
 std <- c(1, 2.22, 11.3, 7.8, 3.4, 6)
-std**2  # Varianzen
+std**2
 ```
 
-
-
-```{r, fig.retina = NULL, echo=FALSE}
-knitr::include_graphics("cc_license.png")
-```
-
-Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+---
+[![](cc_license.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
