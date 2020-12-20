@@ -1,7 +1,7 @@
 ---
-title: "Einführung in R"
-author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
-date: "18.-19.10.2019"
+title: "Introduction to R"
+author: "4 &ndash; Tables (Solutions)"
+date: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at), December 2020"
 output:
   html_document:
     fig_caption: no
@@ -14,22 +14,17 @@ library(knitr)
 opts_chunk$set(comment=NA)
 ```
 
-# Tabellarische Daten
-
-## Übungen
-### Übung 1
+# Exercise 1
 ```{r}
 u <- 50:99
 v <- 0:-49
 dim(u) <- c(10, 5)
 dim(v) <- c(10, 5)
-r <- cbind(u, v)
-r
+(r <- cbind(u, v))
 class(r)
 ```
 
-
-### Übung 2
+# Exercise 2
 ```{r}
 dim(r)
 length(r)
@@ -39,54 +34,35 @@ colMeans(r)
 mean(r[3:7, 4:6])
 ```
 
-
-### Übung 3
+# Exercise 3
 ```{r}
-df <- data.frame(name=c("Ben", "Emma", "Luis", "Mia", "Paul", "Hanna", "Lukas", "Sophia", "Jonas", "Emilia"),
+df <- data.frame(name=c("Ben", "Emma", "Frank", "Mia", "Paul", "Hannah", "Lucas", "Sophia", "Jonathan", "Emily"),
                  gender=rep(c("m", "f"), 5),
-                 value=c(54, 2, 99, 86, 64, 21, 46, 71, 8, 17))
+                 age=c(54, 12, 90, 16, 64, 21, 46, 71, 18, 37))
 df
 str(df)
 ```
 
-
-### Übung 4
-```{r}
-library(tibble)
-tf <- tibble(name=c("Ben", "Emma", "Luis", "Mia", "Paul", "Hanna", "Lukas", "Sophia", "Jonas", "Emilia"),
-             gender=rep(c("m", "f"), 5),
-             value=c(54, 2, 99, 86, 64, 21, 46, 71, 8, 17))
-tf
-```
-
-Die ersten zwei Spalten sind nicht wie bei `df` vom Typ `factor`, sondern vom Typ `character`.
-
-### Übung 5
-```{r}
-df1 <- as_tibble(df)
-```
-
-
-### Übung 6
+# Exercise 5
 ```{r}
 df_f <- df[df$gender == "f",]
-# oder:
 df_f <- subset(df, gender == "f")
 df_f
 ```
 
-
-### Übung 7
+# Exercise 6
 ```{r}
 df_f$name
 df_f[, "name"]
 df_f[, 1]
 ```
 
-
-
-```{r, fig.retina = NULL, echo=FALSE}
-knitr::include_graphics("cc_license.png")
+# Exercise 7
+```{r}
+mtcars1 <- mtcars[mtcars$mpg > 25,]
+dim(mtcars)
+dim(mtcars1)
 ```
 
-Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+---
+[![](cc_license.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)

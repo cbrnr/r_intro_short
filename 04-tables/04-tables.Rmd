@@ -233,37 +233,32 @@ iris_tibble
 
 # Exercises
 ## Exercise 1
-Erstellen Sie einen Vektor `u` mit den ganzen Zahlen von 50 bis 99 und einen Vektor `v` mit den ganzen Zahlen von 0 bis -49. Wandeln Sie dann beide Vektoren in Matrizen mit jeweils 10 Zeilen um. Fügen Sie anschließend `u` und `v` (in dieser Reihenfolge) spaltenweise zusammen und speichern Sie das Ergebnis in der Variable `r` ab. Geben Sie dann `r` am Bildschirm aus. Welche Klasse hat das Objekt `r`?
+Create a vector `u` consisting of integers from 50 to 99 and a vector `v` with integers from 0 to -49 (in descending order). Next, convert both `u` and `v` into two matrices with 10 rows each. Finally, create a new variable `r` containing both `u` and `v` concatenated horizontally (columnwise).
 
 ## Exercise 2
-Beantworten Sie folgende Fragen zur Matrix `r` aus Übung 1:
+Answer the following questions about the matrix `r` from Exercise 1:
 
-- Welche Dimension hat `r`?
-- Wie viele Elemente beinhaltet `r` insgesamt?
-- Wie lautet das Element in der 7. Zeile und 9. Spalte?
-- Wie lauten die Zeilenmittelwerte bzw. die Spaltenmittelwerte?
-- Wie lautet der Mittelwert der Elemente in den Zeilen 3-7 und Spalten 4-6?
+- What are the dimensions of `r`?
+- How many elements does `r` have in total?
+- What is the element in row 7 and column 9?
+- What are the row and column means?
+- What is the mean of elements in rows 3&ndash;7 and columns 4&ndash;6?
 
 ## Exercise 3
-Erstellen Sie ein Data Frame `df` mit 10 Zeilen und 3 Spalten wie folgt:
+Create a data frame or tibble `df` with 10 rows and 3 columns with the following contents:
 
-- Die erste Spalte soll `name` heißen und die Werte Ben, Emma, Luis, Mia, Paul, Hanna, Lukas, Sophia, Jonas und Emilia beinhalten.
-- Die zweite Spalte `gender` soll das Geschlecht der Personen beinhalten, d.h. entweder den Buchstaben `m` oder `f`.
-- Die dritte Spalte `value` soll 10 beliebige Zahlen zwischen 1 und 100 beinhalten.
-
-Geben Sie abschließend `df` am Bildschirm aus. Welche Datentypen haben die drei Spalten?
+- The first column `name` contains the names Ben, Emma, Frank, Mia, Paul, Hannah, Lucas, Sophia, Jonathan, and Emily.
+- The second column `gender` contains the gender of each person (i.e. `m` or `f`).
+- The third column `age` contains the age of each person (a number between 10 and 90).
 
 ## Exercise 4
-Erstellen Sie ein Tibble mit den Spalten wie in Übung 3 beschrieben (verwenden Sie dazu die Funktion `tibble` aus dem Paket `tibble`). Speichern Sie dieses Tibble in der Variable `tf` ab und geben Sie es am Bildschirm aus. Unterscheiden sich die Spaltentypen des Tibbles von jenen des Data Frames?
-
-## Exercise 5
-Wandeln Sie das in Übung 3 erstellte Data Frame `df` in ein Tibble um.
-
-## Exercise 6
 Erstellen Sie ein neues Data Frame `df_f`, welches die Zeilen aller weiblichen Personen aus `df` enthält, und geben Sie dieses am Bildschirm aus. *Hinweis:* Verwenden Sie für die notwendige Vergleichsoperation in der Funktion `subset` oder in den eckigen Indizierungsklammern den richtigen Vergleichsoperator `==` (und nicht `=`).
 
-## Exercise 7
+## Exercise 5
 Wie können Sie im eben erstellten Data Frame `df_f` auf die erste Spalte `name` zugreifen? Geben Sie drei Möglichkeiten an!
+
+## Exercise 6
+Create a data frame `mtcars1` based on the built-in dataset `mtcars`; `mtcars1` should only contain those rows of `mtcars` with values in column `mpg` greater than 25. Determine the number of rows for `mtcars` and `mtcars1`?
 
 ---
 [![](cc_license.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
