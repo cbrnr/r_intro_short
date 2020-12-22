@@ -1,7 +1,7 @@
 ---
-title: "Einführung in R"
-author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
-date: "18.-19.10.2019"
+title: "Introduction to R"
+author: "6 &ndash; Descriptive statistics (Solutions)"
+date: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at), December 2020"
 output:
   html_document:
     fig_caption: no
@@ -14,10 +14,7 @@ library(knitr)
 opts_chunk$set(comment=NA)
 ```
 
-# Deskriptive Statistiken
-
-## Übungen
-### Übung 1
+# Exercise 1
 ```{r message=FALSE}
 library(readr)
 library(psych)
@@ -34,8 +31,7 @@ describe(df[, 3:9])
 round(stat.desc(df[, 3:9]), 1)
 ```
 
-
-### Übung 2
+# Exercise 2
 ```{r}
 dim(iris)  # 150 Pflanzen, 5 Merkmale
 sapply(iris[, 1:4], mean)
@@ -45,10 +41,5 @@ sapply(iris[, 1:4], max)
 by(iris[, 1:4], iris$Species, summary)
 ```
 
-
-
-```{r, fig.retina = NULL, echo=FALSE}
-knitr::include_graphics("cc_license.png")
-```
-
-Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+---
+[![](cc_license.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)

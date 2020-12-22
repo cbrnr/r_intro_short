@@ -1,7 +1,7 @@
 ---
-title: "Einführung in R"
-author: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at)"
-date: "18.-19.10.2019"
+title: "Introduction to R"
+author: "5 &ndash; Import data (Solutions)"
+date: "[Clemens Brunner](mailto:clemens.brunner@uni-graz.at), December 2020"
 output:
   html_document:
     fig_caption: no
@@ -14,10 +14,7 @@ library(knitr)
 opts_chunk$set(comment=NA)
 ```
 
-# Daten importieren
-
-## Übungen
-### Übung 1
+# Exercise 1
 ```{r}
 library(readr)
 ?read_delim
@@ -25,15 +22,13 @@ library(readr)
 
 In `read_delim` ist das Dezimaltrennzeichen mit dem Argument `locale` zu ändern. Dies ist etwas umständlicher, da man nicht direkt das gewünschte Dezimaltrennzeichen übergeben kann, sondern dies in einen Funktionsaufruf verpacken muss. Will man beispielsweise ein Komma als Dezimaltrennzeichen, setzt man das Argument so: `locale=locale(decimal_mark=",")`. Das Spaltentrennzeichen wird bei `read_delim` mit dem zweiten Argument `delim` festgelegt.
 
-
-### Übung 2
+# Exercise 2
 ```{r message=FALSE}
 wahl16 <- read_csv("wahl16.csv")
-colSums(wahl16[, -1]) / sum(wahl16[, -1]) * 100  # in Prozent
+colSums(wahl16[, -1]) / sum(wahl16[, -1]) * 100
 ```
 
-
-### Übung 3
+# Exercise 3
 ```{r message=FALSE}
 df <- read_delim("household_power_consumption.zip", ";", na="?")
 df
@@ -44,10 +39,5 @@ summary(df)  # zeigt auch die fehlenden Werte pro Spalte an
 
 Die Spalte `Date` könnte noch mit der Funktion `as.Date` in einen passenderen Typ konvertiert werden.
 
-
-
-```{r, fig.retina = NULL, echo=FALSE}
-knitr::include_graphics("cc_license.png")
-```
-
-Diese Unterlagen sind lizenziert unter einer [Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+---
+[![](cc_license.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
